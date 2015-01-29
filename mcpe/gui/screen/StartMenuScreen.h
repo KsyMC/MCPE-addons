@@ -10,7 +10,6 @@ namespace Touch {
 	class StartMenuScreen : public Screen {
 	public:
 		static int currentSplash;
-		static Touch::TButton *_optionSMButton;
 
 		// Size : 496
 		Touch::TButton _playButton;				// 200
