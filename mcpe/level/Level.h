@@ -58,6 +58,7 @@ public:
 	void setTime(long);
 	void setNightMode(bool);
 	void setDayCycleActive(bool);
+    void setDefaultSpawn(const TilePos &);
 };
 
 #endif
