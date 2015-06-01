@@ -1,13 +1,12 @@
 #pragma once
 
-#include "minecraftpe/client/gui/Button.h"
+#include "Button.h"
 
-class BlankButton : public Button {
-public:
-	// Size : 120
-
+// Size : 168
+class BlankButton : public Button
+{
 public:
 	BlankButton(int);
-	BlankButton(int, int, int, int);
+	BlankButton(int, int, int, int, int);
 	virtual ~BlankButton();
 };

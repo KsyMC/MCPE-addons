@@ -1,6 +1,7 @@
 #pragma once
 
-class Tag {
+class Tag
+{
 public:
 	virtual ~Tag();
 };

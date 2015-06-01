@@ -1,6 +1,7 @@
 #pragma once
 
-class LightLayer {
+class LightLayer
+{
 public:
 	static const LightLayer Block;
 	static const LightLayer Sky;

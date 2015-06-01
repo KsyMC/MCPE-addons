@@ -2,7 +2,8 @@
 
 class Packet;
 
-class MinecraftPackets {
+class MinecraftPackets
+{
 public:
 	static Packet *createPacket(int);
 };

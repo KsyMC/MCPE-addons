@@ -1,11 +1,14 @@
 #pragma once
 
+#include "EntityRendererId.h"
+
 class Vec3;
 class MinecraftClient;
 class EntityRenderer;
 class Entity;
 
-class EntityRenderDispatcher {
+class EntityRenderDispatcher
+{
 public:
 	static EntityRenderDispatcher *instance;
 

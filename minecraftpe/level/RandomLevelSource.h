@@ -2,7 +2,8 @@
 
 class LevelChunk;
 
-class RandomLevelSource {
+class RandomLevelSource
+{
 public:
 	void prepareHeights(int, int, LevelChunk *);
 };

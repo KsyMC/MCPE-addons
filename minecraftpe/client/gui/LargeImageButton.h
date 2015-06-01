@@ -2,13 +2,9 @@
 
 #include "ImageButton.h"
 
-class MinecraftClient;
-class ImageDef;
-
-class LargeImageButton : public ImageButton {
-public:
-	// Size : 196
-
+// Size : 196
+class LargeImageButton : public ImageButton
+{
 public:
 	LargeImageButton(const std::string &);
 	LargeImageButton(const std::string &, ImageDef &);

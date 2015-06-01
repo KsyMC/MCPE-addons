@@ -2,13 +2,11 @@
 
 #include "LargeImageButton.h"
 
-class MinecraftClient;
 class Textures;
 
-class ImageWithBackground : public LargeImageButton {
-public:
-	// Size : 196
-
+// Size : 244
+class ImageWithBackground : public LargeImageButton
+{
 public:
 	ImageWithBackground(int);
 	virtual ~ImageWithBackground();

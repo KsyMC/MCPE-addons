@@ -1,20 +1,25 @@
 #pragma once
 
-#include "minecraftpe/client/gui/Button.h"
+#include "Button.h"
 
-namespace Touch {
-class TButton : public Button {
+namespace Touch
+{
+
+// Size : 176
+class TButton : public Button
+{
 public:
-	// Size : 128
-	void *_ninepathLayer1;		// 120
-	void *_ninepathLayer2;		// 124
+	NinePatchLayer *_ninepathLayer1;		// 168
+	NinePatchLayer *_ninepathLayer2;		// 172
 
 public:
-	TButton(int, int, int, int, int, const std::string &);
+	TButton(int, int, int, int, int, const std::string &, MinecraftClient *, bool);
 	TButton(int, int, int, const std::string &, MinecraftClient *);
 	TButton(int, const std::string &, MinecraftClient *, bool);
 	virtual ~TButton();
 	virtual void renderBg(MinecraftClient *, int, int);
 	void init(MinecraftClient *);
+	void init(MinecraftClient *, const std::string &, const IntRectangle &, const IntRectangle &, int, int, int, int);
 };
+
 }

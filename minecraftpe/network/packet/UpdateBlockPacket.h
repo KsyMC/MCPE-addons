@@ -1,19 +1,19 @@
 #pragma once
 
-#include "minecraftpe/network/Packet.h"
-#include "minecraftpe/tile/TilePos.h"
+#include "..\Packet.h"
+#include "..\..\util\TilePos.h"
 
-class Vec3;
-
-class UpdateBlockPacket : public Packet {
+class UpdateBlockPacket : public Packet
+{
 public:
-	TilePos _pos;			// 12
-	unsigned char _id;		// 24
-	unsigned char _damage;	// 25
+	TilePos pos;			// 12
+	unsigned char id;		// 24
+	unsigned char damage;	// 25
 
 public:
 	virtual ~UpdateBlockPacket();
-	virtual void write(RakNet::BitStream *);
+	virtual int getId() const;
+	virtual void write(RakNet::BitStream *) const;
 	virtual void read(RakNet::BitStream *);
-	virtual void handle(const RakNet::RakNetGUID &, NetEventCallback *);
+	virtual void handle(const RakNet::RakNetGUID &, NetEventCallback *) const;
 };

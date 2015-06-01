@@ -1,6 +1,11 @@
 #pragma once
 
-class TextureAtlasTextureItem {
+#include <string>
+#include <vector>
+#include "TextureUVCoordinateSet.h"
+
+class TextureAtlasTextureItem
+{
 public:
 	TextureAtlasTextureItem();
 	TextureAtlasTextureItem(const TextureAtlasTextureItem &);

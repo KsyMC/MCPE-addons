@@ -1,9 +1,9 @@
 #pragma once
 
-#include "minecraftpe/tileentity/TileEntity.h"
-#include "minecraftpe/inventory/FillingContainer.h"
+#include "TileEntity.h"
 
-class SignTileEntity : public TileEntity, public FillingContainer {
+class SignTileEntity : public TileEntity, public FillingContainer
+{
 public:
 	SignTileEntity();
 	virtual ~SignTileEntity();

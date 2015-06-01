@@ -1,8 +1,9 @@
 #pragma once
 
-#include "minecraftpe/AppPlatformListener.h"
+#include "..\AppPlatformListener.h"
 
-class RenderMaterialGroup : public AppPlatformListener {
+class RenderMaterialGroup : public AppPlatformListener
+{
 public:
 	RenderMaterialGroup();
 	~RenderMaterialGroup();

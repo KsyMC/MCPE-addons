@@ -1,24 +1,25 @@
 #pragma once
 
-#include "minecraftpe/util/Color.h"
-#include "minecraftpe/client/gui/GuiComponent.h"
+#include <string>
+#include "GuiComponent.h"
+#include "..\..\util\Color.h"
 
 class MinecraftClient;
-class IntRectangle;
+class NinePatchLayer;
 
-class GuiElement : public GuiComponent {
+// Size : 108
+class GuiElement : public GuiComponent
+{
 public:
-	// Size : 108
-	bool _isActive;		// 64
-	bool _isVisible;	// 65
-	char filler1[2];	// 66
-	int _x;				// 68
-	int _y;				// 72
-	int _width;			// 76
-	int _height;		// 80
-	Color _color;		// 84
-	void *_ninepatch;	// 100
-	bool _isSelected;	// 104
+	bool isActive;					// 64
+	bool isVisible;					// 65
+	int x;							// 68
+	int y;							// 72
+	int width;						// 76
+	int height;						// 80
+	Color color;					// 84
+	NinePatchLayer *ninePatchLayer;	// 100
+	bool isSelected;				// 104
 
 public:
 	GuiElement(bool, bool, int, int, int, int);
@@ -29,17 +30,19 @@ public:
 	virtual void setupPositions();
 	virtual void mouseClicked(MinecraftClient *, int, int, int);
 	virtual void mouseReleased(MinecraftClient *, int, int, int);
-	virtual void focusuedMouseClicked(MinecraftClient *, int, int, int);
-	virtual void focusuedMouseReleased(MinecraftClient *, int, int, int);
+	virtual void focusedMouseClicked(MinecraftClient *, int, int, int);
+	virtual void focusedMouseReleased(MinecraftClient *, int, int, int);
 	virtual void keyPressed(MinecraftClient *, int);
-	virtual void keyboardNewChar(MinecraftClient *, std::string, bool);
-	virtual bool backPressed(MinecraftClient *, bool);
+	virtual void keyboardNewChar(MinecraftClient *, const std::string &, bool);
+	virtual void backPressed(MinecraftClient *, bool);
 	virtual void pointInside(int, int);
-	virtual bool suppressOtherGUI();
+	virtual void suppressOtherGUI();
 	virtual void setTextboxText(const std::string &);
-	virtual void drawSelected();
+	virtual void handleControllerDirectionHeld(int, Controller::StickDirection);
+	virtual void drawSelected(int);
 	virtual void drawSliderSelected();
 	virtual void onSelectedChanged();
+	virtual void hasChildren() const;
 	void clearBackground();
 	bool isSelected();
 	void setBackground(const Color &);

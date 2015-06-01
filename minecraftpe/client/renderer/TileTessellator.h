@@ -1,14 +1,15 @@
 #pragma once
 
-#include "minecraftpe/AABB.h"
-#include "minecraftpe/client/renderer/texture/TextureUVCoordinateSet.h"
+#include "texture\TextureUVCoordinateSet.h"
+#include "..\..\util\AABB.h"
 
 class Tile;
 class TileSource;
 class Tessellator;
 class TilePos;
 
-class TileTessellator {
+class TileTessellator
+{
 public:
 	char filler1[4];				// 0
 	TileSource *_tileSource;		// 4

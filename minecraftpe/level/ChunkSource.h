@@ -1,6 +1,7 @@
 #pragma once
 
-class ChunkSource {
+class ChunkSource
+{
 public:
 	ChunkSource(ChunkSource *, bool);
 };

@@ -1,13 +1,9 @@
 #pragma once
 
-#include "minecraftpe/client/gui/Screen.h"
+#include "Screen.h"
 
-class Button;
-namespace Controller {
-class StickDirection;
-}
-
-class ConfirmScreen : public Screen {
+class ConfirmScreen : public Screen
+{
 public:
 	// Size : 232
 	char filler1[32];	// 200

@@ -2,11 +2,13 @@
 
 #include "IRakNetInstance.h"
 
-class RakNetInstance : public IRakNetInstance {
+// Size : 72
+class RakNetInstance : public IRakNetInstance
+{
 public:
-	// Size 1096
 	//void **vtable;			// 0
 	RakNet::RakPeer *_RakPeer;	// 4
+	char filler1[64];			// 8
 
 public:
 	RakNetInstance();

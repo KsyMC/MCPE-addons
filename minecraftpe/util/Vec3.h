@@ -2,7 +2,8 @@
 
 class TilePos;
 
-class Vec3 {
+class Vec3
+{
 public:
 	static const Vec3 MAX;
 	static const Vec3 MIN;
@@ -16,9 +17,9 @@ public:
 	static const Vec3 ZERO;
 
 public:
-	float _x;	// 0
-	float _y;	// 4
-	float _z;	// 8
+	float x;	// 0
+	float y;	// 4
+	float z;	// 8
 
 public:
 	Vec3(const TilePos &);

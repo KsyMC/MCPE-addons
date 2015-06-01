@@ -1,17 +1,15 @@
 #pragma once
 
-#include "minecraftpe/client/gui/GuiElement.h"
+#include "GuiElement.h"
 
-class Button : public GuiElement {
+// Size : 168
+class Button : public GuiElement
+{
 public:
-	// Size : 120
-	std::string _text;			// 108
-	int _buttonId;				// 112
-	bool _toggle;				// 116
-	bool _isPressed;			// 117
-	bool _isOverrideRendering;	// 118
+	char filler1[60];	// 108
 
-	Button(int, int, int, int, int, const std::string &);
+public:
+	Button(int, int, int, int, int, const std::string &, bool);
 	Button(int, int, int, const std::string &);
 	Button(int, const std::string &, bool);
 	virtual ~Button();
@@ -20,10 +18,10 @@ public:
 	virtual bool clicked(MinecraftClient *, int, int);
 	virtual void released(int, int);
 	virtual void setPressed();
+	virtual void setMsg(const std::string &);
 	virtual void getYImage(bool);
 	virtual void renderBg(MinecraftClient *, int, int);
 	virtual void renderFace(MinecraftClient *, int, int);
-	void setMsg(const std::string &);
 	void setOverrideScreenRendering(bool);
 	void isOveridingScreenRendering(void);
 	bool isInside(int, int);

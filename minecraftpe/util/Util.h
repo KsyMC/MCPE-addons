@@ -1,6 +1,9 @@
 #pragma once
 
-class Util {
+#include <string>
+
+class Util
+{
 public:
 	static std::string EMPTY_STRING;
 

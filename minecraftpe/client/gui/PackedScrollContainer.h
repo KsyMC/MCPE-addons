@@ -1,10 +1,11 @@
 #pragma once
 
-#include "minecraftpe/client/gui/GuiElementContainer.h"
+#include "GuiElementContainer.h"
 
-class PackedScrollContainer : public GuiElementContainer {
+// Size : 148
+class PackedScrollContainer : public GuiElementContainer
+{
 public:
-	// Size : 148
 	char filler1[20];	// 128
 
 public:
@@ -13,6 +14,6 @@ public:
 	virtual void tick(MinecraftClient *);
 	virtual void render(MinecraftClient *, int, int);
 	virtual void setupPositions();
-	virtual void mouseClicked();
+	virtual void mouseClicked(MinecraftClient *, int, int, int);
 	virtual void setTextboxText(const std::string &);
 };

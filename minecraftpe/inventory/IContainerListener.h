@@ -3,7 +3,8 @@
 class ItemInstance;
 class BaseContainerMenu;
 
-class IContainerListener {
+class IContainerListener
+{
 public:
 	virtual ~IContainerListener();
 	virtual void refreshContainer(BaseContainerMenu *, const std::vector<ItemInstance> &);

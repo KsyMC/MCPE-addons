@@ -1,6 +1,9 @@
 #pragma once
 
-class TextureUVCoordinateSet {
+#include "TextureFile.h"
+
+class TextureUVCoordinateSet
+{
 public:
 	// Size : 32
 	float startX;		// 0
@@ -10,6 +13,7 @@ public:
 	float width;		// 16
 	float height;		// 20
 	int i1;				// 24
+	char filler1[4];	// 28
 	TextureFile type;	// 28
 
 public:

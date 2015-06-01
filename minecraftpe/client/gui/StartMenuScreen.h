@@ -1,21 +1,23 @@
 #pragma once
 
-#include "minecraftpe/client/gui/Screen.h"
-#include "minecraftpe/client/gui/TButton.h"
+#include "Screen.h"
+#include "TButton.h"
 
 class ImageWithBackground;
 
-namespace Touch {
-class StartMenuScreen : public Screen {
+namespace Touch
+{
+
+// Size : 592
+class StartMenuScreen : public Screen
+{
 public:
 	static int currentSplash;
 
 public:
-	// Size : 496
-	Touch::TButton _playButton;			// 200
-	Touch::TButton _realmButton;		// 328
-	ImageWithBackground *_optionButton;	// 456
-	char filler1[36];					// 460
+	Touch::TButton playButton;			// 200
+	Touch::TButton realmButton;			// 376
+	ImageWithBackground *optionButton;	// 552
 
 public:
 	StartMenuScreen();
@@ -23,10 +25,11 @@ public:
 	virtual void render(int, int, float);
 	virtual void init();
 	virtual void setupPositions();
-	virtual bool handleBackEvent(bool);
+	virtual void handleBackEvent(bool);
 	virtual void tick();
-	virtual bool isInGameScreen();
+	virtual void isInGameScreen();
 	virtual void buttonClicked(Button *);
 	virtual void controllerDirectionChanged(int, Controller::StickDirection);
 };
+
 }

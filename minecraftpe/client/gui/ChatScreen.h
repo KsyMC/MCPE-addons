@@ -1,10 +1,13 @@
 #pragma once
 
-#include "minecraftpe/client/gui/Screen.h"
+#include <deque>
+#include "Screen.h"
 
 class ImageWithBackground;
 
-class ChatScreen : public Screen {
+// Size : 244
+class ChatScreen : public Screen
+{
 public:
 	static std::deque<std::string> sentMessages;
 
@@ -32,4 +35,9 @@ public:
 	virtual void keyPressed(int);
 	virtual void keyboardNewChar(const std::string &, bool);
 	void sendChatMessage();
+	void drawChatMessages(int);
+	void guiMessagesUpdated();
+	void updateGuiMessages();
+	void updateKeyboardVisibility();
+	void updateToggleKeyboardButton();
 };

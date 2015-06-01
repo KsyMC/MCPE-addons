@@ -1,15 +1,21 @@
 #pragma once
 
-#include "minecraftpe/client/gui/GuiElement.h"
+#include "GuiElement.h"
 
 class NinePatchDescription;
 class Textures;
 class Tessellator;
 
-class NinePatchLayer : public GuiElement {
+// Size : 508
+class NinePatchLayer : public GuiElement
+{
 public:
 	NinePatchLayer(const NinePatchDescription &, const std::string &, Textures *, float, float);
 	virtual ~NinePatchLayer();
+	void buildQuad(int);
 	void draw(Tessellator &, float, float);
+	void exclude(int);
+	void getPatchInfo(int, int, float &, float &, float &, float &);
+	void setExcluded(int);
 	void setSize(float, float);
 };

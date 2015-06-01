@@ -1,15 +1,21 @@
 #pragma once
 
-namespace RakNet {
-class RakNetGUID;
-class RakPeer;
-class AddressOrGUID;
-class RakNetStatistics;
+#include <string>
+#include <vector>
+
+namespace RakNet
+{
+	class RakNetGUID;
+	class RakPeer;
+	class AddressOrGUID;
+	class RakNetStatistics;
 }
+
 class Packet;
 class NetEventCallback;
 
-class IRakNetInstance {
+class IRakNetInstance
+{
 public:
 	virtual ~IRakNetInstance();
 	virtual void host(std::string const &, int, int);

@@ -1,22 +1,28 @@
 #pragma once
 
-#include "minecraftpe/level/Level.h"
+#include "Level.h"
 
-class MultiPlayerLevel : public Level {
+class LevelSettings;
+
+// Size : 3004
+class MultiPlayerLevel : public Level
+{
 public:
-	class ResetInfo {
+	class ResetInfo
+	{
 	public:
 		ResetInfo(int, int, int, int, int);
 	};
 
 public:
-	// Size : 3072
-
-public:
-	MultiPlayerLevel(Minecraft &, const std::string &, const LevelSettings &);
+	MultiPlayerLevel(SoundPlayer &, const std::string &, const LevelSettings &);
 	virtual ~MultiPlayerLevel();
-	virtual void addEntity(Entity *);
+	virtual void addEntity(std::unique_ptr<Entity>);
 	virtual void tick();
 	virtual void directTickEntities();
-	void putEntity(int, Entity *);
+	void addToTickNextTick(int, int, int, int, int);
+	void disconnect();
+	Entity *getEntity(EntityUniqueID, bool);
+	void putEntity(EntityUniqueID, std::unique_ptr<Entity>);
+	void tickPendingTicks(bool);
 };

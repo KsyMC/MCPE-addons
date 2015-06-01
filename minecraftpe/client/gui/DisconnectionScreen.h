@@ -1,25 +1,20 @@
 #pragma once
 
-#include "minecraftpe/client/gui/Screen.h"
+#include "Screen.h"
 
-namespace Touch {
-class TButton;
-}
-
-class DisconnectionScreen : public Screen {
+// Size : 208
+class DisconnectionScreen : public Screen
+{
 public:
-	// Size : 208
 	std::string _text;			// 200
 	Touch::TButton *_okButton;	// 204
 
 public:
-	DisconnectionScreen(std::string text) {
-		_text = text;
-		_okButton = NULL;
-	}
+	DisconnectionScreen(const std::string &);
 	virtual ~DisconnectionScreen();
 	virtual void render(int, int, float);
 	virtual void init();
+	virtual bool handleBackEvent(bool);
 	virtual bool isInGameScreen();
 	virtual void buttonClicked(Button *);
 };

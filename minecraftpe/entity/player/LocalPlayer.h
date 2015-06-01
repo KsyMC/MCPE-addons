@@ -1,56 +1,67 @@
 #pragma once
 
-#include "minecraftpe/inventory/IContainerListener.h"
-#include "minecraftpe/entity/player/Player.h"
+#include "Player.h"
+#include "..\..\inventory\IContainerListener.h"
 
 class MinecraftClient;
-class BaseContainerMenu;
 class User;
+class Boat;
 
-class LocalPlayer : public Player, public IContainerListener {
+// Size : 3648
+class LocalPlayer : public Player, public IContainerListener
+{
 public:
-	// Size : 3624
-	//void **vtable;			// 3396
-	char filler1[44];			// 3400
-	MinecraftClient *_client;	// 3444
+	//void **vtable;			// 3432
+	MinecraftClient *_client;	// 3480
 
 public:
-	LocalPlayer(MinecraftClient *, Level &, User *, bool);
+	LocalPlayer(MinecraftClient *, Level &, User *, bool, const RakNet::RakNetGUID &);
 	virtual ~LocalPlayer();
-	virtual void reset();
 	virtual void setPos(float, float, float);
 	virtual void setPos(const Vec3 &);
 	virtual void move(float, float, float);
 	virtual void normalTick();
 	virtual void rideTick();
-	virtual void ride(Entity *);
-	virtual bool isSneaking();
-	virtual void causeFallDamage(float);
-	virtual void readAdditionalSaveData(CompoundTag *);
+	virtual void startRiding(Entity &);
+	virtual void outOfWorld();
+	virtual void readAdditionalSaveData(const CompoundTag *);
 	virtual void addAdditionalSaveData(CompoundTag *);
-	virtual void actuallyHurt(int);
+	virtual void stopRiding(bool);
+	virtual void actuallyHurt(int, const EntityDamageSource &);
 	virtual void aiStep();
 	virtual void swing();
 	virtual void updateAi();
-	virtual void tickWorld(void */*const Tick &*/); // TODO Tick
+	virtual void tickWorld(const Tick &);
 	virtual void respawn();
-	virtual void take(Entity *, int);
 	virtual void drop(const ItemInstance *, bool);
-	virtual void startCrafting(int, int, int, int);
+	virtual void startCrafting(int);
 	virtual void startStonecutting(int, int, int);
 	virtual void openContainer(ChestTileEntity *);
 	virtual void openFurnace(FurnaceTileEntity *);
+	virtual void displayChatMessage(const std::string &, const std::string &);
 	virtual void displayClientMessage(const std::string &);
+	virtual void displayLocalizableMessage(const std::string &, const std::vector<std::string> &);
 	virtual void animateRespawn();
 	virtual void startSleepInBed(int, int, int);
 	virtual void stopSleepInBed(bool, bool);
 	virtual void openTextEdit(TileEntity *);
-	virtual bool isLocalPlayer();
+	virtual void isLocalPlayer();
+	virtual void stopLoading();
 	virtual void closeContainer();
-	virtual void onViewDistanceChanged(int);
 	virtual void refreshContainer(BaseContainerMenu *, const std::vector<ItemInstance> &);
 	virtual void slotChanged(BaseContainerMenu *, int, const ItemInstance &, bool);
 	void _init();
+	void _input();
+	void _makeBoatInputHolder(Boat &);
+	void _setRideInputFor(Entity &);
 	void calculateFlight(float, float, float);
-	void releaseAllKeys();
+	float getFieldOfViewModifier();
+	std::string getGameModeString();
+	float getPreloadingProgress();
+	void hurtTo(int);
+	void isSolidTile(int, int, int);
+	void onViewDistanceChanged(int);
+	void sendGameSessionHeartBoat(bool);
+	void sendPosition();
+	void updateArmorTypeHash();
 };

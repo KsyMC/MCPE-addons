@@ -1,6 +1,7 @@
 #pragma once
 
-class IntRectangle {
+class IntRectangle
+{
 public:
 	int x;		// 0
 	int y;		// 4

@@ -1,10 +1,11 @@
 #pragma once
 
-#include "minecraftpe/tile/Tile.h"
+#include "Tile.h"
 
 class Color;
 
-class HeavyTile : public Tile {
+class HeavyTile : public Tile
+{
 public:
 	HeavyTile(int, const std::string &, const Material *);
 	virtual ~HeavyTile();

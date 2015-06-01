@@ -1,6 +1,9 @@
 #pragma once
 
-class EntityShaderManager {
+class EntityShaderManager
+{
 public:
 	EntityShaderManager();
+	virtual ~EntityShaderManager();
+	virtual void getOverlayColor(Entity &, float) const;
 };

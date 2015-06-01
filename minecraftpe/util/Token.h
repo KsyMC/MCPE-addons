@@ -1,11 +1,17 @@
 #pragma once
 
-class Token {
+#include <string>
+
+// Size : 16
+class Token
+{
 public:
-	enum Type {};
+	enum Type
+	{
+
+	};
 
 public:
-	// Size : 16
 	char filler1[8];	// 0
 	Token::Type _type;	// 8
 	char filler2[4];	// 12

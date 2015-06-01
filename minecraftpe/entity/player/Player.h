@@ -1,129 +1,144 @@
 #pragma once
 
-#include "minecraftpe/entity/Mob.h"
-#include "minecraftpe/raknet/RakNetTypes.h"
+#include <memory>
+#include "..\monster\Mob.h"
+#include "..\..\Abilities.h"
+#include "..\item\ItemEntity.h"
+#include "..\..\..\raknet\RakNetTypes.h"
 
-class Tile;
-class TileEntity;
-class LevelChunk;
+class PacketSender;
 class Inventory;
+class SkinInfo;
+class Tick;
 class ChestTileEntity;
 class FurnaceTileEntity;
-class ItemEntity;
+class TileEntity;
+class Packet;
+class LevelChunk;
+class Tile;
 class ChunkSource;
-class TilePos;
 
-class Player : public Mob {
+// Size : 3432
+class Player : public Mob
+{
 public:
 	static float DEFAULT_WALK_SPEED;
 	static float DEFAULT_FLY_SPEED;
 
 public:
-	// Size : 3396
 	char filler1[2832];				// 332
-	std::string _playerName;		// 3164
+	std::string playerName;			// 3164
 	char filler2[16];				// 3168
-	RakNet::RakNetGUID _playerGUID;	// 3184
+	Abilities abilities;			// 3196
 	char filler3[12];				// 3200
-	Inventory *_inventory;			// 3212
+	Inventory *inventory;			// 3244
 	char filler4[180];				// 3216
+	SkinInfo *skinInfo;				// 3304
+	RakNet::RakNetGUID rakNetGUID;	// 3336
+	PacketSender *packetSender;		// 3408
 
 public:
-	Player(Level &, bool);
+	Player(Level &, PacketSender &, bool, const RakNet::RakNetGUID &);
 	virtual ~Player();
-	virtual void reset();
 	virtual void remove();
 	virtual void normalTick();
 	virtual void rideTick();
-	virtual float getRidingHeight();
-	virtual void ride(Entity *);
-	virtual bool isInWall();
-	virtual float getHeadHeight();
-	virtual bool isPushable();
-	virtual bool isShootable();
-	virtual bool isCreativeModeAllowed();
-	virtual void hurt(Entity *, int);
+	virtual void getRidingHeight();
+	virtual void isInWall();
+	virtual void getHeadHeight() const;
+	virtual void isImmobile();
+	virtual void isPushable();
+	virtual void isShootable();
+	virtual void isCreativeModeAllowed();
+	virtual void hurt(EntityDamageSource &, int);
 	virtual void handleEntityEvent(char);
 	virtual void awardKillScore(Entity *, int);
-	virtual int getEntityTypeId() const;
-	virtual void readAdditionalSaveData(CompoundTag *);
+	virtual void getEntityTypeId() const;
+	virtual void readAdditionalSaveData(const CompoundTag *);
 	virtual void addAdditionalSaveData(CompoundTag *);
-	virtual void die(Entity *);
-	virtual bool isSleeping();
-	virtual float getBaseSpeed();
-	virtual int getMaxHealth();
-	virtual float getArmorValue();
+	virtual void die(EntityDamageSource &);
+	virtual void isSleeping();
+	virtual void getBaseSpeed();
+	virtual void getMaxHealth();
+	virtual void getArmorValue();
 	virtual void travel(float, float);
 	virtual void aiStep();
-	virtual Item *getCarriedItem();
-	virtual int getUseItemDuration();
-	virtual bool isImmobile();
+	virtual void getCarriedItem();
+	virtual void getItemUseDuration();
 	virtual void updateAi();
-	virtual float getWalkingSpeedModifier();
+	virtual void getWalkingSpeedModifier();
 	virtual void hurtArmor(int);
-	virtual bool useNewAi();
-	virtual void tickWorld(void */*const Tick &*/); // TODO Tick
+	virtual void useNewAi();
+	virtual void tickWorld(const Tick &);
 	virtual void moveView();
+	virtual void setName(const std::string &);
 	virtual void respawn();
-	virtual bool hasResource(int);
+	virtual void hasResource(int);
 	virtual void completeUsingItem();
-	virtual void take(Entity *, int);
 	virtual void drop(const ItemInstance *);
 	virtual void drop(const ItemInstance *, bool);
-	virtual void startCrafting(int, int, int, int);
+	virtual void startCrafting(int);
 	virtual void startStonecutting(int, int, int);
 	virtual void startDestroying();
 	virtual void stopDestroying();
 	virtual void openContainer(ChestTileEntity *);
 	virtual void openFurnace(FurnaceTileEntity *);
+	virtual void displayChatMessage(const std::string &, const std::string &);
 	virtual void displayClientMessage(const std::string &);
+	virtual void displayLocalizableMessage(const std::string &, const std::vector<std::string> &);
 	virtual void animateRespawn();
 	virtual void startSleepInBed(int, int, int);
 	virtual void stopSleepInBed(bool, bool);
-	virtual void *getSleepTimer(); // TODO return Timer
+	virtual void getSleepTimer();
 	virtual void openTextEdit(TileEntity *);
-	virtual bool isLocalPlayer();
+	virtual void isLocalPlayer();
+	virtual void stopLoading();
 	virtual void closeContainer();
-	virtual void onViewDistanceChanged(int);
 	void _init();
-	void _findNearBlockToStandOn(const Vec3 &);
-	void _fixSpawnPosition(const Vec3 &);
-	void _getTopStandingPosition(const TilePos &);
+	void addBatchPacket(Packet *);
 	void animateRespawn(Player *, Level *);
-	int getScore();
-	bool checkBed();
+	void attack(Entity *);
 	bool canUseCarriedItemWhileMoving();
-	bool canDestroy(Tile *);
-	void updateTeleportDestPos();
-	void touch(Entity *);
-	void interact(Entity *);
-	void tileEntityDestroyed(int);
+	bool checkBed();
+	bool checkSpawnPosition(LevelChunk &);
+	void destroyRegin();
+	void getArmor(int);
+	std::string getArmorTypeHash();
 	float getDestroySpeed(Tile *);
+	void getItemInUse();
+	void getItemInUseDuration();
+	int getLoadedChunksCount();
+	int getScore();
 	ItemInstance *getSelectedItem();
-	Item *getTicksUsingItem();
-	Item *getUseItem();
-	void startUsingItem(ItemInstance, int);
-	void stopUsingItem();
-	void releaseUsingItem();
-	bool isUsingItem();
+	SkinInfo *getSkin() const;
+	float getSleepRotation();
+	void *getSpawnPosition();
+	void *getStandingPositionOnBlock(const TilePos &);
+	void *getTicksUsingItem();
+	float getViewRadius() const;
+	void *hasRespawnPosition() const;
+	void interact(Entity *);
 	bool isHurt();
 	bool isSleepingLongEnough();
-	std::string getArmorTypeHash();
-	void spawnEatParticles(const ItemInstance *, int);
-	void setRespawnPosition(const TilePos &);
-	void settTeleportDestPos(const Vec3 &);
-	void setDefaultHeadHeight();
-	void setBedOffset(int);
-	void setArmor(int, const ItemInstance *);
-	void setAllPlayersSleeping();
-	float getSleepRotation();
-	void resetPos(bool);
-	void reallyDrop(ItemEntity *);
+	bool isUsingItem();
 	void prepareRegion(ChunkSource &);
-	void onChunkRemoved(LevelChunk &);
-	float getViewRadius() const;
-	void *hasRespawnPosition() const; // TODO return Position
-	void *getStandingPositionOnBlock(const TilePos &); // TODO return Position
-	void *getSpawnPosition(); // TODO return Position
-	void *findStandUpPosition(Entity *); // TODO return Position
+	void reallyDrop(std::unique_ptr<ItemEntity>);
+	bool recheckSpawnPosition();
+	void releaseUsingItem();
+	void resetPos(bool);
+	void sendInventory();
+	void setAllPlayersSleeping();
+	void setArmor(int, const ItemInstance *);
+	void setBedOffset(int);
+	void setDefaultHeadHeight();
+	void setRespawnPosition(const TilePos &);
+	void setSkin(bool, const std::string &);
+	void settTeleportDestPos(const Vec3 &);
+	void spawnEatParticles(const ItemInstance *, int);
+	void stopUsingItem();
+	void take(Entity *, int);
+	void tileEntityDestroyed(int);
+	void touch(Entity *);
+	void updateTeleportDestPos();
+	void useItem(ItemInstance &);
 };

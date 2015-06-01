@@ -1,18 +1,19 @@
 #pragma once
 
-#include "minecraftpe/ItemInstance.h"
-#include "minecraftpe/network/Packet.h"
+#include "..\Packet.h"
+#include "..\..\util\ItemInstance.h"
 
-class ContainerSetSlotPacket : public Packet {
+// Size : 36
+class ContainerSetSlotPacket : public Packet
+{
 public:
-	// Size : 36
 	// TODO 					// 12
-	ItemInstance _itemInstance;	// 16
+	ItemInstance itemInstance;	// 16
 
 public:
 	virtual ~ContainerSetSlotPacket();
-	virtual void write(RakNet::BitStream *);
+	virtual int getId() const;
+	virtual void write(RakNet::BitStream *) const;
 	virtual void read(RakNet::BitStream *);
-	virtual void handle(const RakNet::RakNetGUID &, NetEventCallback *);
-
+	virtual void handle(const RakNet::RakNetGUID &, NetEventCallback *) const;
 };

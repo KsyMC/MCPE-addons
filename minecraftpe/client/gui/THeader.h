@@ -1,13 +1,17 @@
 #pragma once
 
-#include "minecraftpe/client/gui/Button.h"
+#include "Button.h"
 
-namespace Touch {
-class THeader : public Button {
+namespace Touch
+{
+
+// Size : 172
+class THeader : public Button
+{
 public:
-	// Size : 124
-	char filler1[4];	// 120
+	char filler1[4];	// 168
 
+public:
 	THeader(int, int, int, int, int, const std::string &);
 	THeader(int, int, int, const std::string &);
 	THeader(int, const std::string &);
@@ -15,4 +19,5 @@ public:
 	virtual void render(MinecraftClient *, int, int);
 	virtual void renderBg(MinecraftClient *, int, int);
 };
+
 }

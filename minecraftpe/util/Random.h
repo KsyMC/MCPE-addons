@@ -1,6 +1,8 @@
 #pragma once
 
-class Random {
+class Random
+{
+public:
 	Random();
 	int genrand_int32();
 };

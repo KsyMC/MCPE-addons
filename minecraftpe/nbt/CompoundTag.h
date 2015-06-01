@@ -1,8 +1,9 @@
 #pragma once
 
-#include "minecraftpe/nbt/Tag.h"
+#include "Tag.h"
 
-class CompoundTag : public Tag {
+class CompoundTag : public Tag
+{
 public:
 
 };

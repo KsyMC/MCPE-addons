@@ -1,14 +1,12 @@
 #pragma once
 
-#include "minecraftpe/tile/Tile.h"
+#include "Tile.h"
 
 class TileEntity;
 
-class EntityTile : public Tile {
-public:
-	// Size : 140
-
-
+// Size : 140
+class EntityTile : public Tile
+{
 public:
 	EntityTile(int, const Material *);
 	EntityTile(int, const std::string &, const Material *);

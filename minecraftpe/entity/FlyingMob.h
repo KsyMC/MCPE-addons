@@ -1,8 +1,14 @@
 #pragma once
 
-#include "minecraftpe/entity/Mob.h"
+#include "monster\Mob.h"
 
-class FlyingMob : public Mob {
+// Size : 3178
+class FlyingMob : public Mob
+{
 public:
 	FlyingMob(TileSource &);
+	virtual ~FlyingMob();
+	virtual void causeFallDamage(float);
+	virtual void onLadder();
+	virtual void travel(float, float);
 };

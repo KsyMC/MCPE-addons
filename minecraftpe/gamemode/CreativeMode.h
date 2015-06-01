@@ -1,14 +1,17 @@
 #pragma once
 
-#include "minecraftpe/gamemode/GameMode.h"
+#include "GameMode.h"
 
-class CreativeMode : public GameMode {
+// Size : 32
+class CreativeMode : public GameMode
+{
 public:
-	CreativeMode(Minecraft *);
+	CreativeMode(PacketSender &, Level &, Vibration &);
 	virtual ~CreativeMode();
 	virtual void startDestroyBlock(Player *, int, int, int, signed char);
-	virtual void countinueDestoryBlock(Player *, int, int, int, signed char);
-	virtual bool isCreativeType();
+	virtual void continueDestroyBlock(Player *, int, int, int, signed char);
+	virtual void getPickRange();
+	virtual void isCreativeType();
 	virtual void initAbilities(Abilities &);
 	virtual void releaseUsingItem(Player *);
 };

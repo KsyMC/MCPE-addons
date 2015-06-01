@@ -4,13 +4,14 @@ class TilePos;
 class Vec3;
 class Entity;
 
-class ChunkPos {
+class ChunkPos
+{
 public:
 	static ChunkPos INVALID;
 
 public:
-	int _x;		// 0
-	int _z;		// 4
+	int x;	// 0
+	int z;	// 4
 
 public:
 	ChunkPos(const TilePos &);

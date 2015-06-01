@@ -1,8 +1,26 @@
 #pragma once
 
-#include "minecraftpe/entity/PathfinderMob.h"
+#include "PathfinderMob.h"
 
-class AgableMob : public PathfinderMob {
+// Size : 3216
+class AgableMob : public PathfinderMob
+{
+public:
+	int age;	// 3204
+
 public:
 	AgableMob(TileSource &);
+	virtual ~AgableMob();
+	virtual void getShadowRadius() const;
+	virtual void setSize(float, float);
+	virtual void readAdditionalSaveData(const CompoundTag *);
+	virtual void addAdditionalSaveData(CompoundTag *);
+	virtual void aiStep();
+	virtual void isBaby() const;
+	int getAge();
+	bool getAnimalFlag(int);
+	void internalSetSize(float);
+	void setAge(int);
+	void setAnimalFlag(int, bool);
+	void updateSize(bool);
 };

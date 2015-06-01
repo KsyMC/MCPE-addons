@@ -1,22 +1,24 @@
 #pragma once
 
-#include "minecraftpe/network/Packet.h"
+#include "..\Packet.h"
 
-class MovePlayerPacket : public Packet {
+// Size : 44
+class MovePlayerPacket : public Packet
+{
 public:
-	// Size : 44
-	uint _eid; 		// 12
-	float _x;		// 16
-	float _y;		// 20
-	float _z;		// 24
-	float _bodyYaw;	// 28
-	float _pitch;	// 32
-	float _yaw;		// 36
-	bool _teleport;	// 40
+	uint eid; 		// 12
+	float x;		// 16
+	float y;		// 20
+	float z;		// 24
+	float bodyYaw;	// 28
+	float pitch;	// 32
+	float yaw;		// 36
+	bool teleport;	// 40
 
 public:
 	virtual ~MovePlayerPacket();
-	virtual void write(RakNet::BitStream *);
+	virtual int getId() const;
+	virtual void write(RakNet::BitStream *) const;
 	virtual void read(RakNet::BitStream *);
-	virtual void handle(const RakNet::RakNetGUID &, NetEventCallback *);
+	virtual void handle(const RakNet::RakNetGUID &, NetEventCallback *) const;
 };

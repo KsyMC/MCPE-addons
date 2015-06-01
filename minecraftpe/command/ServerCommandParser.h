@@ -1,13 +1,19 @@
 #pragma once
 
+#include <string>
+#include <vector>
+#include <functional>
+#include "..\util\Token.h"
+
 class Minecraft;
-class Token;
 class GuiMessage;
 class Player;
 
-class ServerCommandParser {
+class ServerCommandParser
+{
 public:
-	class Command {
+	class Command
+	{
 	public:
 		Command(const std::function<std::string (const std::vector<Token> &)> &, const std::string &);
 		void checkParameters(const std::vector<Token> &);

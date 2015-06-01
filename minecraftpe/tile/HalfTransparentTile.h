@@ -1,11 +1,12 @@
 #pragma once
 
-#include "minecraftpe/tile/Tile.h"
+#include "Tile.h"
 
-class HalfTransparentTile : public Tile {
+// Size : 144
+class HalfTransparentTile : public Tile
+{
 public:
-	// Size : 144
-	bool b1;			// 140
+	bool b1;	// 140
 
 public:
 	HalfTransparentTile(int id, const Material *material) : Tile(id, material), b1(true) {};

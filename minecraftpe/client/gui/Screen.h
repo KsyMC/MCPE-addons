@@ -1,35 +1,42 @@
 #pragma once
 
-#include "minecraftpe/client/gui/GuiComponent.h"
+#include <vector>
+#include "GuiComponent.h"
+
+namespace Touch
+{
+	class TButton;
+}
+namespace Controller
+{
+	class StickDirection;
+}
 
 class MinecraftClient;
+class IntRectangle;
 class Button;
 class TextBox;
 class GuiElement;
-class Font;
-namespace Controller {
-class StickDirection;
-}
-class IntRectangle;
-class MojangConnectionStatus;
 class MCOEvent;
+class MojangConnectionStatus;
 
-class Screen : public GuiComponent {
+// Size : 200
+class Screen : public GuiComponent
+{
 public:
-	// Size : 200
-	int _width;							// 64
-	int _height;						// 68
+	int width;							// 64
+	int height;							// 68
 	char filler1[4];					// 72
-	MinecraftClient *_minecraftClient;	// 76
-	std::vector<Button *> _vecBtn;		// 80
-	std::vector<TextBox *> _vecTextB;	// 92
-	std::vector<Button *> _vecBtn2;		// 104
-	std::vector<GuiElement *> _vecGuiE;	// 116
-	std::vector<GuiElement *> _vecGui2E;// 128
+	MinecraftClient *minecraftClient;	// 76
+	std::vector<Button *> vecBtn;		// 80
+	std::vector<TextBox *> vecTextB;	// 92
+	std::vector<Button *> vecBtn2;		// 104
+	std::vector<GuiElement *> vecGuiE;	// 116
+	std::vector<GuiElement *> vecGui2E;	// 128
 	char filler5[12];					// 140
-	Font *_font;						// 152
+	Font *font;							// 152
 	char filler6[32];					// 156
-	MaterialPtr _ui_cubemap;			// 188
+	MaterialPtr ui_cubemap;				// 188
 
 public:
 	Screen();
@@ -42,23 +49,23 @@ public:
 	virtual void keyboardEvent();
 	virtual void keyboardTextEvent();
 	virtual void controllerEvent();
-	virtual bool handleBackEvent(bool);
+	virtual void handleBackEvent(bool);
 	virtual void tick();
 	virtual void removed();
 	virtual void renderBackground(int);
 	virtual void renderDirtBackground();
 	virtual void renderMenuBackground(float);
-	virtual bool renderGameBehind();
+	virtual void renderGameBehind();
 	virtual void hasClippingArea(IntRectangle &);
-	virtual bool isPauseScreen();
-	virtual bool isErrorScreen();
-	virtual bool isInGameScreen();
+	virtual void isPauseScreen();
+	virtual void isErrorScreen();
+	virtual void isInGameScreen();
 	virtual void closeOnPlayerHurt();
 	virtual void confirmResult(bool, int);
 	virtual void lostFocus();
 	virtual void toGUICoordinate(int &, int &);
 	virtual void feedMCOEvent(MCOEvent);
-	virtual bool supppressedBySubWindow();
+	virtual void supppressedBySubWindow();
 	virtual void onTextBoxUpdated(int);
 	virtual void onMojangConnectorStatus(MojangConnectionStatus);
 	virtual void setTextboxText(const std::string &);
@@ -73,7 +80,7 @@ public:
 	virtual void keyPressed(int);
 	virtual void keyboardNewChar(const std::string &, bool);
 	virtual void shouldSendAllKeyStates();
-	void init(MinecraftClient &, int, int);
+	void _init(MinecraftClient &, int, int);
 	void getCursorMoveThrottle();
 	void getPassGuiEvents();
 	void processControllerDirection(int);
@@ -81,4 +88,5 @@ public:
 	void setSize(int, int);
 	void tabNext();
 	void tabPrev();
+	void renderProgressBar(float) const;
 };

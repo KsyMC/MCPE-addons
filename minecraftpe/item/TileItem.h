@@ -1,10 +1,12 @@
 #pragma once
 
-#include "minecraftpe/item/Item.h"
+#include "Item.h"
+#include "..\client\renderer\texture\TextureUVCoordinateSet.h"
 
-class TileItem : public Item {
+// Size : 80
+class TileItem : public Item
+{
 public:
-	// Size : 80
 	char filler1[4];	// 76
 
 public:
@@ -13,7 +15,6 @@ public:
 	virtual TextureUVCoordinateSet getIcon(int, int, bool) const;
 	virtual float getIconYOffset() const;
 	virtual bool useOn(ItemInstance *, Player *, int, int, int, signed char, float, float, float);
-	virtual std::string getDescriptionId() const;
-	virtual std::string getDescriptionId(const ItemInstance *) const;
-	virtual bool isEmissive(int);
+	virtual std::string getName(const ItemInstance *) const;
+	virtual bool isEmissive(int) const;
 };

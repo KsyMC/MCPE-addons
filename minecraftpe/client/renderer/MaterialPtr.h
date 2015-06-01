@@ -1,8 +1,11 @@
 #pragma once
 
+#include <string>
+
 class RenderMaterialGroup;
 
-class MaterialPtr {
+class MaterialPtr
+{
 public:
 	char filler1[12];	// 0
 

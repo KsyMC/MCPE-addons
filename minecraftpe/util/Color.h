@@ -1,6 +1,7 @@
 #pragma once
 
-class Color {
+class Color
+{
 public:
 	static const Color BLACK;
 	static const Color BLUE;
@@ -18,10 +19,10 @@ public:
 	static const Color SHADE_WEST_EAST;
 
 public:
-	float _red;		// 0
-	float _green;	// 4
-	float _blue;	// 8
-	float _alpha;	// 12
+	float red;		// 0
+	float green;	// 4
+	float blue;		// 8
+	float alpha;	// 12
 
 public:
 	static Color *fromHSB(float, float, float);

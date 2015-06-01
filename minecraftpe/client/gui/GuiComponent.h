@@ -1,13 +1,15 @@
 #pragma once
 
-#include "minecraftpe/client/gui/ScreenRenderer.h"
+#include "..\renderer\ScreenRenderer.h"
 
-class GuiComponent {
+// Size : 64
+class GuiComponent
+{
 public:
-	// Size : 64
 	//void **vtable;				// 0
 	ScreenRenderer _screenRenderer;	// 4
 
+public:
 	GuiComponent();
 	virtual ~GuiComponent();
 };

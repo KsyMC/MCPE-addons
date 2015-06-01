@@ -1,25 +1,34 @@
 #pragma once
 
-#include "minecraftpe/tile/TileID.h"
-#include "minecraftpe/tileentity/TileEntityTypeEnum.h"
-#include "minecraftpe/client/renderer/texture/TextureUVCoordinateSet.h"
-#include "minecraftpe/client/renderer/texture/TextureAtlasTextureItem.h"
+#include <string>
+#include "..\tileentity\TileEntityType.h"
+#include "..\client\renderer\texture\TextureUVCoordinateSet.h"
+#include "..\client\renderer\texture\TextureAtlasTextureItem.h"
+#include "..\util\TileID.h"
+#include "..\util\AABB.h"
 
-class TileSource;
-class AABB;
-class Random;
-class Player;
-class ItemInstance;
-class Entity;
-class Mob;
 class TextureAtlas;
 class Material;
-class Vec3;
+class TileSource;
+class Random;
+class Player;
 class TilePos;
+class Entity;
+class Vec3;
+class Mob;
+class ItemInstance;
 
-class Tile {
+class Brightness
+{
+	float brightness;
+};
+
+// Size : 140
+class Tile
+{
 public:
-	class SoundType {
+	class SoundType
+	{
 		SoundType(const std::string &, float, float);
 		~SoundType();
 	};
@@ -48,16 +57,15 @@ public:
 	static const char *TILE_DESCRIPTION_PREFIX;
 
 public:
-	// Size : 140
 	//void **vtable;		// 0
 	char filler1[64];		// 4
-	unsigned char _id;		// 68
+	unsigned char id;		// 68
 	char filler2[12];		// 72
-	int _rendererId;		// 84
+	int rendererId;			// 84
 	char filler3[4];		// 88
-	TileEntityType _type;	// 92
+	TileEntityType type;	// 92
 	char filler4[28];		// 96
-	int _category;			// 124
+	int category;			// 124
 	char filler5[12];		// 128
 
 public:
@@ -66,18 +74,17 @@ public:
 	Tile(int, std::string, const Material *);
 	virtual ~Tile();
 	virtual void onFertilized(TileSource *, int, int, int);
-	virtual AABB *getShape(TileSource *, int, int, int, AABB &, bool);
+	virtual void getShape(TileSource *, int, int, int, AABB &, bool);
 	virtual void getShape(unsigned char, AABB &, bool);
 	virtual void isObstructingChests(TileSource *, int, int, int);
 	virtual void shouldRenderFace(TileSource *, int, int, int, signed char, const AABB &) const;
-	virtual TextureUVCoordinateSet *getTexture(signed char);
-	virtual TextureUVCoordinateSet *getTexture(signed char, int);
-	virtual TextureUVCoordinateSet *getTexture(TileSource *, int, int, int, signed char);
+	virtual void getTexture(signed char);
+	virtual void getTexture(signed char, int);
+	virtual void getTexture(TileSource *, int, int, int, signed char);
 	virtual void getTessellatedUVs();
 	virtual void getCarriedTexture(signed char, int);
-	virtual AABB *getAABB(TileSource *, int, int, int, AABB &, int, bool, int);
-	virtual void addAABBs(TileSource *, int, int, int, AABB const *, std::vector<AABB> &);
-	virtual void getTileAABB(TileSource *, int, int, int, AABB &);
+	virtual void getAABB(TileSource *, int, int, int, AABB &, int, bool, int);
+	virtual void addAABBs(TileSource *, int, int, int, const AABB *, std::vector<AABB> &);
 	virtual void isPathfindable(TileSource *, int, int, int);
 	virtual void mayPick();
 	virtual void mayPick(int, bool);
@@ -93,8 +100,8 @@ public:
 	virtual void onRemove(TileSource *, int, int, int);
 	virtual void getSecondPart(TileSource &, const TilePos &, TilePos &);
 	virtual void onGraphicsModeChanged(bool, bool);
-	virtual int getResource(int, Random *);
-	virtual int getResourceCount(Random *);
+	virtual void getResource(int, Random *);
+	virtual void getResourceCount(Random *);
 	virtual void getDestroyProgress(Player *);
 	virtual void spawnResources(TileSource *, int, int, int, int, float);
 	virtual void spawnBurnResources(TileSource *, float, float, float);
@@ -117,18 +124,15 @@ public:
 	virtual void entityInside(TileSource *, int, int, int, Entity *);
 	virtual void playerDestroy(Player *, int, int, int, int);
 	virtual void canSurvive(TileSource *, int, int, int);
-	virtual void getName() const;
-	virtual void getDescriptionId() const;
-	virtual void getDescriptionId(const ItemInstance *) const;
-	virtual void getTypeDescriptionId(int);
-	virtual void setDescriptionId(const std::string &);
+	virtual void setNameId(const std::string &);
+	virtual void getName(const ItemInstance *) const;
 	virtual void triggerEvent(TileSource *, int, int, int, int, int);
 	virtual void getTextureNum(int);
 	virtual void getMobToSpawn(TileSource &, const TilePos &) const;
 	virtual void getIconYOffset() const;
 	virtual void setShape(float, float, float, float, float, float);
 	virtual void setSoundType(const Tile::SoundType &);
-	virtual void setLightBlock(int);
+	virtual void setLightBlock(Brightness);
 	virtual void setLightEmission(float);
 	virtual void setExplodeable(float);
 	virtual void setDestroyTime(float);

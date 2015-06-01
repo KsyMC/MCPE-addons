@@ -1,10 +1,11 @@
 #pragma once
 
-#include "minecraftpe/MemoryTracker.h"
+#include "..\MemoryTracker.h"
 
 class Color;
 
-class Tessellator : public MemoryTracker {
+class Tessellator : public MemoryTracker
+{
 public:
 	static Tessellator instance;
 

@@ -1,8 +1,26 @@
 #pragma once
 
-#include "minecraftpe/entity/PathfinderMob.h"
+#include "..\PathfinderMob.h"
 
-class Monster : public PathfinderMob {
+// Size : 3224
+class Monster : public PathfinderMob
+{
 public:
 	Monster(TileSource &);
+	virtual ~Monster();
+	virtual void normalTick();
+	virtual void isSurfaceMob() const;
+	virtual void hurt(EntityDamageSource &, int);
+	virtual void readAdditionalSaveData(const CompoundTag *);
+	virtual void addAdditionalSaveData(CompoundTag*);
+	virtual void aiStep();
+	virtual void canSpawn();
+	virtual void shouldDespawn() const;
+	virtual void doHurtTarget(Entity *);
+	virtual void getWalkTargetValue(const TilePos &);
+	virtual void findAttackTarget();
+	virtual void checkHurtTarget(Entity *, float);
+	virtual void getAttackDamage(Entity *);
+	virtual void getAttackTime();
+	void setNightly();
 };

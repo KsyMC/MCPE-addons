@@ -1,35 +1,39 @@
 #pragma once
 
-#include "minecraftpe/inventory/IContainerListener.h"
-#include "minecraftpe/entity/player/Player.h"
+#include "Player.h"
+#include "..\..\inventory\IContainerListener.h"
 
-class Minecraft;
-
-class ServerPlayer : public Player, public IContainerListener {
+// Size : 3464
+class ServerPlayer : public Player, public IContainerListener
+{
 public:
-	// Size : 3416
-	//void **vtable;		// 3396
-	Minecraft *_minecarft;	// 3400
+	//void **vtable;		// 3432
+	int containerCount;		// 3456
 
 public:
-	ServerPlayer(Minecraft *, Level &);
+	ServerPlayer(Level &, PacketSender &, bool, const RakNet::RakNetGUID &, std::function<void(ServerPlayer &)>);
 	virtual ~ServerPlayer();
 	virtual void normalTick();
-	virtual void ride(Entity *);
-	virtual void die(Entity *);
+	virtual void knockback(Entity *, int, float, float);
 	virtual void aiStep();
 	virtual void hurtArmor(int);
-	virtual void tickWorld(void */*const Tick &*/); // TODO Tick
-	virtual bool hasResource(int);
-	virtual void completeUsingItem();
-	virtual void take(Entity *, int);
+	virtual void onEffectAdded(const MobEffectInstance &);
+	virtual void onEffectUpdated(const MobEffectInstance &);
+	virtual void onEffectRemoved(const MobEffectInstance &);
+	virtual void tickWorld(const Tick &);
+	virtual void hasResource(int);
 	virtual void openContainer(ChestTileEntity *);
 	virtual void openFurnace(FurnaceTileEntity *);
+	virtual void displayChatMessage(const std::string &, const std::string &);
 	virtual void displayClientMessage(const std::string &);
+	virtual void displayLocalizableMessage(const std::string &, const std::vector<std::string> &);
 	virtual void stopSleepInBed(bool, bool);
 	virtual void closeContainer();
 	virtual void setContainerData(BaseContainerMenu *, int, int);
 	virtual void slotChanged(BaseContainerMenu *, int, const ItemInstance &, bool);
 	virtual void refreshContainer(BaseContainerMenu *, const std::vector<ItemInstance> &);
 	void disconnect();
+	void doCloseContainer();
+	void nextContainerCounter();
+	void setPlayerInput(float, float, bool, bool);
 };
