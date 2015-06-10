@@ -1,15 +1,15 @@
 #pragma once
 
 #include <unordered_set>
-#include <memory>
-#include <string>
 #include "TileSourceListener.h"
 #include "LevelStorage.h"
 #include "ParticleType.h"
 #include "..\entity\Entity.h"
 #include "..\client\AppPlatformListener.h"
+#include "..\util\Random.h"
 
 class Player;
+class Random;
 class MobFactory;
 class SoundPlayer;
 class TileSource;
@@ -25,6 +25,7 @@ class LevelData;
 class EntityUniqueID;
 class LevelListener;
 class LevelEvent;
+class LevelSettings;
 typedef int StorageVersion;
 
 enum GeneratorType
@@ -37,7 +38,9 @@ class Level : public TileSourceListener, public AppPlatformListener
 {
 public:
 	//void **vtable;						// 4
-	std::unordered_set<Player *> players;	// 60
+	//std::unordered_set<Player *> players;	// 60
+	char filler1[88];						// 8
+	Random random;							// 96
 	MobFactory *mobFactory;					// 2908
 
 public:
@@ -71,7 +74,6 @@ public:
 	void _saveSomeDirtyChunks();
 	void _syncTime(long);
 	void _updateLightRamp();
-	void addEntity(std::unique_ptr<Entity>);
 	void addListener(LevelListener *);
 	bool addParticle(ParticleType, const Vec3 &, const Vec3 &, int);
 	void animateTick(Entity *);
@@ -144,6 +146,5 @@ public:
 	void tickEntities();
 	void tickTemporaryPointers();;
 	void updateLights();
-	void updateSleepingPlayerList();
 	void upgradeStorageVersion(StorageVersion);
 };

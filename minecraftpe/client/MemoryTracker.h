@@ -9,4 +9,6 @@ public:
 
 public:
 	MemoryTracker(const std::string &, MemoryTracker *);
+	virtual ~MemoryTracker();
+	virtual void getStats() const = 0;
 };

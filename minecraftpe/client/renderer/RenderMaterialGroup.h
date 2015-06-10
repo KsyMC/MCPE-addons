@@ -6,5 +6,7 @@ class RenderMaterialGroup : public AppPlatformListener
 {
 public:
 	RenderMaterialGroup();
-	~RenderMaterialGroup();
+	virtual void ~RenderMaterialGroup();
+	virtual void onAppSuspended();
+	virtual void onAppResumed();
 };

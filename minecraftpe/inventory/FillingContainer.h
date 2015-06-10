@@ -11,16 +11,16 @@ class FillingContainer : public Container
 {
 public:
 	FillingContainer(int, int, int, bool);
-	virtual void ~FillingContainer();
-	virtual void getItem(int) const;
+	virtual ~FillingContainer();
+	virtual ItemInstance *getItem(int) const;
 	virtual void setItem(int, ItemInstance *);
 	virtual void removeItem(int, int);
-	virtual void getName() const;
-	virtual void getMaxStackSize() const;
+	virtual std::string getName() const;
+	virtual int getMaxStackSize() const;
 	virtual void startOpen(Player &);
 	virtual void stopOpen(Player &);
 	virtual void add(ItemInstance *);
-	virtual void canAdd(const ItemInstance *) const;
+	virtual bool canAdd(const ItemInstance *) const;
 	virtual void clearSlot(int);
 	virtual void doDrop(ItemInstance *, bool);
 	void addItem(ItemInstance *);

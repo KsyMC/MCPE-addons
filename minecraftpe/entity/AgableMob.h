@@ -7,6 +7,7 @@ class AgableMob : public PathfinderMob
 {
 public:
 	int age;	// 3204
+	char filler1[8]; // 3208
 
 public:
 	AgableMob(TileSource &);

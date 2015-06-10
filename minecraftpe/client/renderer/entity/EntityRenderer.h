@@ -3,19 +3,20 @@
 #include <string>
 #include "EntityShaderManager.h"
 
-class EntityRendererDispatcher;
-class Entity;
-class Vec3;
 class EntityRenderDispatcher;
+class Vec3;
+class Vec2;
 class Font;
 
+// Size : 68
 class EntityRenderer : public EntityShaderManager
 {
 public:
-	static EntityRendererDispatcher *entityRenderDispatcher;
+	static EntityRenderDispatcher *entityRenderDispatcher;
 
 public:
-	//void **vtable;	// 0
+	bool wtf;				// 52
+	MaterialPtr name_tag;	// 56
 
 public:
 	EntityRenderer();

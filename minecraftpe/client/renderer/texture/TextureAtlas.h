@@ -1,10 +1,11 @@
 #pragma once
 
-#include "minecraftpe/json/json.h"
+#include "../json/json.h"
 
 class MinecraftClient;
 
-class TextureAtlas {
+class TextureAtlas
+{
 public:
 	TextureAtlas(const std::string &, TextureFile);
 	void _parseJSON(const Json::Value &);

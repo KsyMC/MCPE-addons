@@ -9,8 +9,8 @@ namespace Touch
 class TButton : public Button
 {
 public:
-	NinePatchLayer *_ninepathLayer1;		// 168
-	NinePatchLayer *_ninepathLayer2;		// 172
+	NinePatchLayer *ninepathLayer1;		// 168
+	NinePatchLayer *ninepathLayer2;		// 172
 
 public:
 	TButton(int, int, int, int, int, const std::string &, MinecraftClient *, bool);

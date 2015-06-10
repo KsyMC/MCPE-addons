@@ -3,7 +3,8 @@
 class IntRectangle;
 class TextureData;
 
-class NinePatchDescription {
+class NinePatchDescription
+{
 public:
 	NinePatchDescription(float, float, float, float, float, float, float, float, float, float, float, float);
 	void createSymmetrical(int, int, const IntRectangle &, int, int);

@@ -6,15 +6,18 @@
 class Monster : public PathfinderMob
 {
 public:
+	char filler1[20]; // 3204
+
+public:
 	Monster(TileSource &);
 	virtual ~Monster();
 	virtual void normalTick();
-	virtual void isSurfaceMob() const;
+	virtual bool isSurfaceMob() const;
 	virtual void hurt(EntityDamageSource &, int);
 	virtual void readAdditionalSaveData(const CompoundTag *);
 	virtual void addAdditionalSaveData(CompoundTag*);
 	virtual void aiStep();
-	virtual void canSpawn();
+	virtual bool canSpawn();
 	virtual void shouldDespawn() const;
 	virtual void doHurtTarget(Entity *);
 	virtual void getWalkTargetValue(const TilePos &);

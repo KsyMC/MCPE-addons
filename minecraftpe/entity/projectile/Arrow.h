@@ -23,6 +23,6 @@ public:
 	virtual int getOwnerID();
 	virtual void readAdditionalSaveData(const CompoundTag *);
 	virtual void addAdditionalSaveData(CompoundTag *);
-	void shoot(float, float, float, float, float);
 	void _init();
+	void shoot(float, float, float, float, float);
 };

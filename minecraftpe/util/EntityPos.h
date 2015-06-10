@@ -3,11 +3,11 @@
 class EntityPos
 {
 public:
-	int i1;		// 0
-	int i2;		// 4
-	int i3;		// 8
-	int i4;		// 12
-	int i5;		// 16
-	bool b1;	// 20
-	bool b2;	// 21
+	float posX;			// 0
+	float posY;			// 4
+	float posZ;			// 8
+	float rotationYaw;	// 12
+	float rotationPitch;// 16
+	bool teleport;		// 20
+	bool angle;			// 21
 };

@@ -15,11 +15,11 @@ public:
 	virtual void die(EntityDamageSource &);
 	virtual float getBaseSpeed();
 	virtual int getMaxHealth();
-	virtual float getArmorValue();
+	virtual void getArmorValue();
 	virtual void aiStep();
 	virtual void finalizeMobSpawn();
 	virtual bool isBaby() const;
-	virtual Item *getDeathLoot();
+	virtual int getDeathLoot();
 	virtual const char *getAmbientSound();
 	virtual std::string getHurtSound();
 	virtual std::string getDeathSound();

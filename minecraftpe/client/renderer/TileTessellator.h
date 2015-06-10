@@ -8,16 +8,20 @@ class TileSource;
 class Tessellator;
 class TilePos;
 
+// Size : 72740
 class TileTessellator
 {
 public:
+	static TileTessellator *instance;
+
+public:
 	char filler1[4];				// 0
-	TileSource *_tileSource;		// 4
-	TextureUVCoordinateSet _texture;// 8
-	bool _renderTexture;			// 40
+	TileSource *tileSource;			// 4
+	TextureUVCoordinateSet texture;	// 8
+	bool renderTexture;				// 40
 	char filler2[623];				// 41
-	Tessellator* _tessellator;		// 664
-	AABB _aabb;						// 668
+	Tessellator* tessellator;		// 664
+	AABB aabb;						// 668
 
 public:
 	bool tessellateInWorld(Tile *, const TilePos &, bool);

@@ -7,15 +7,22 @@ class MobEffectInstance;
 class PathNavigation;
 class MobEffect;
 class EntityUniqueID;
+class ItemInstace;
 
 // Size : 3178
 class Mob : public Entity
 {
 public:
-	char filler1[42];		// 324
-	int health;				// 328
-	char filler2[2672];		// 324
-	std::string skinPath;	// 2996
+	char filler1[16];			// 324
+	float renderYawOffset;		// 340
+	float prevRenderYawOffset;	// 344
+	float rotationYawHead;		// 348
+	float prevRotationYawHead;	// 352
+	char filler2[8];			// 356
+	int health;					// 364
+	char filler3[2628];			// 368
+	std::string skinPath;		// 2996
+	char filler4[178];			// 3000
 
 public:
 	Mob(Level &);
@@ -25,13 +32,13 @@ public:
 	virtual void normalTick();
 	virtual void baseTick();
 	virtual void rideTick();
-	virtual void getHeadHeight() const;
-	virtual void isImmobile();
-	virtual void isPickable();
-	virtual void isPushable();
-	virtual void isShootable();
-	virtual void isSneaking();
-	virtual void isAlive();
+	virtual float getHeadHeight() const;
+	virtual bool isImmobile();
+	virtual bool isPickable();
+	virtual bool isPushable();
+	virtual bool isShootable();
+	virtual bool isSneaking();
+	virtual bool isAlive();
 	virtual void hurt(EntityDamageSource &, int);
 	virtual void animateHurt();
 	virtual void doFireHurt(int);
@@ -44,94 +51,95 @@ public:
 	virtual void postInit();
 	virtual void knockback(Entity *, int, float, float);
 	virtual void die(EntityDamageSource &);
-	virtual void canSee(Entity *);
+	virtual bool canSee(Entity *);
 	virtual void onLadder();
 	virtual void spawnAnim();
 	virtual void getTexture();
-	virtual void isSleeping();
-	virtual void isWaterMob();
+	virtual bool isSleeping();
+	virtual bool isWaterMob();
 	virtual void setSneaking(bool);
-	virtual void getVoicePitch();
+	virtual float getVoicePitch();
 	virtual void getMobType();
 	virtual void playAmbientSound();
-	virtual void getAmbientSoundInterval();
+	virtual int getAmbientSoundInterval();
 	virtual void getItemInHandIcon(const ItemInstance *, int);
 	virtual float getBaseSpeed() = 0;
 	virtual void getJumpPower() const;
 	virtual void superTick();
 	virtual void heal(int);
-	virtual void getMaxHealth();
+	virtual int getMaxHealth();
 	virtual void actuallyHurt(int, const EntityDamageSource &);
 	virtual void getArmorValue();
-	virtual void isInvertedHealAndHarm() const;
+	virtual bool isInvertedHealAndHarm() const;
 	virtual void pick(float, float, bool);
 	virtual void travel(float, float);
 	virtual void updateWalkAnim();
 	virtual void aiStep();
 	virtual void pushEntities();
 	virtual void lookAt(Entity *, float, float);
-	virtual void isLookingAtAnEntity();
+	virtual bool isLookingAtAnEntity();
 	virtual void beforeRemove();
-	virtual void canSpawn();
+	virtual bool canSpawn();
 	virtual void finalizeMobSpawn();
 	virtual void shouldDespawn() const;
 	virtual void getAttackAnim(float);
-	virtual void isBaby() const;
-	virtual void isTamable() const;
-	virtual void getCarriedItem();
+	virtual bool isBaby() const;
+	virtual bool isTamable() const;
+	virtual ItemInstance *getCarriedItem();
 	virtual void getItemUseDuration();
 	virtual void swing();
 	virtual void ate();
-	virtual void getMaxHeadXRot();
-	virtual void getLastHurtByMob();
+	virtual float getMaxHeadXRot();
+	virtual Mob *getLastHurtByMob();
 	virtual void setLastHurtByMob(Mob *);
-	virtual void getLastHurtMob();
+	virtual Entity *getLastHurtMob();
 	virtual void setLastHurtMob(Entity *);
-	virtual void getTarget();
+	virtual Mob *getTarget();
 	virtual void setTarget(Mob *);
-	virtual void isAlliedTo(Mob *);
+	virtual bool isAlliedTo(Mob *);
 	virtual void doHurtTarget(Entity *);
-	virtual void canBeControlledByRider();
+	virtual bool canBeControlledByRider();
 	virtual void teleportTo(float, float, float);
-	virtual void removeWhenFarAway();
-	virtual void getDeathLoot();
+	virtual bool removeWhenFarAway();
+	virtual int getDeathLoot();
 	virtual void dropDeathLoot();
 	virtual void jumpFromGround();
 	virtual void updateAi();
 	virtual void newServerAiStep();
 	virtual void serverAiMobStep();
-	virtual void getSoundVolume();
-	virtual void getAmbientSound();
-	virtual void getHurtSound();
-	virtual void getDeathSound();
+	virtual float getSoundVolume();
+	virtual const char *getAmbientSound();
+	virtual std::string getHurtSound();
+	virtual std::string getDeathSound();
 	virtual void getWalkingSpeedModifier();
 	virtual void getDamageAfterArmorAbsorb(const EntityDamageSource &, int);
 	virtual void getDamageAfterMagicAbsorb(const EntityDamageSource &, int);
 	virtual void hurtArmor(int);
-	virtual void useNewAi();
-	virtual void canBeAffected(const MobEffectInstance &);
+	virtual bool useNewAi();
+	virtual bool canBeAffected(const MobEffectInstance &);
 	virtual void onEffectAdded(const MobEffectInstance &);
 	virtual void onEffectUpdated(const MobEffectInstance &);
 	virtual void onEffectRemoved(const MobEffectInstance &);
 	void _ctor();
 	void _init();
 	void addEffect(const MobEffectInstance &);
-	bool canShowNameTag();
-	void getAllEffect();
+	void checkDespawn(Mob *);
+	void checkDespawn();
+	void getAllEffects();
 	void getCurrentSwingDuration();
-	void getItemUseDuration();
+	void getEffect(MobEffect *);
 	void getJumpControl();
-	void getMobType();
-	void *getMoveControl();
-	PathNavigation *getNavigation();
-	bool getSensing();
-	float getSpeed();
-	float getWalkingSpeedEffect();
-	float getYHeadRot();
+	void getLookControl();
+	void getMoveControl();
+	void getNavigation();
+	void getSensing();
+	void getSpeed();
+	void getWalkingSpeedEffect();
+	void getYHeadRot();
 	bool hasAnyEffects();
 	bool hasEffect(MobEffect *);
-	bool interpolateOnly();
-	bool isInvisible();
+	void interpolateOnly();
+	void removeAllEffects();
 	void removeEffect(int);
 	void removeEffectNoUpdate(int);
 	void removeEffectParticles();

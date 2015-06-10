@@ -9,11 +9,14 @@ public:
 	static float MAX_TURN;
 
 public:
+	char filler1[26]; // 3178
+
+public:
 	PathfinderMob(TileSource &);
 	virtual ~PathfinderMob();
 	virtual void readAdditionalSaveData(const CompoundTag *);
 	virtual void addAdditionalSaveData(CompoundTag *);
-	virtual void canSpawn();
+	virtual bool canSpawn();
 	virtual void updateAi();
 	virtual void getWalkingSpeedModifier();
 	virtual void getAttackTarget();

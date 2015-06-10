@@ -9,7 +9,7 @@ public:
 	char filler1[60];	// 108
 
 public:
-	Button(int, int, int, int, int, const std::string &, bool);
+	Button::Button(int, int, int, int, int, const std::string &, bool);
 	Button(int, int, int, const std::string &);
 	Button(int, const std::string &, bool);
 	virtual ~Button();
