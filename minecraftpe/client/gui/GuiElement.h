@@ -11,15 +11,15 @@ class NinePatchLayer;
 class GuiElement : public GuiComponent
 {
 public:
-	bool isActive;					// 64
-	bool isVisible;					// 65
-	int x;							// 68
-	int y;							// 72
+	bool enabled;					// 64
+	bool visible;					// 65
+	int xPosition;					// 68
+	int yPosition;					// 72
 	int width;						// 76
 	int height;						// 80
 	Color color;					// 84
 	NinePatchLayer *ninePatchLayer;	// 100
-	bool isSelected;				// 104
+	bool selected;					// 104
 
 public:
 	GuiElement(bool, bool, int, int, int, int);

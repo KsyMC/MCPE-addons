@@ -2,7 +2,7 @@
 
 #include "ImageButton.h"
 
-// Size : 196
+// Size : 244
 class LargeImageButton : public ImageButton
 {
 public:

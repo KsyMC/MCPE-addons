@@ -3,6 +3,11 @@
 #include <deque>
 #include "Screen.h"
 
+namespace Touch
+{
+	class HeaderButton;
+}
+
 class ImageWithBackground;
 
 // Size : 244
@@ -12,9 +17,14 @@ public:
 	static std::deque<std::string> sentMessages;
 
 public:
-	std::string _message;				// 200
-	char filler1[16];					// 204
-	ImageWithBackground *_chatButton;	// 220
+	std::string message;				// 200
+	char filler1[4];					// 204
+	Touch::HeaderButton *closeButton;	// 208
+	Touch::HeaderButton *hideButton;	// 212
+	BlankButton *backgroundButton;		// 216
+	ImageWithBackground *chatButton;	// 220
+	ImageWithBackground *sendButton;	// 224
+	char filler2[16];					// 228
 
 public:
 	ChatScreen(bool);

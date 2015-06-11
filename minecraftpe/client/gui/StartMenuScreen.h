@@ -18,6 +18,7 @@ public:
 	Touch::TButton playButton;			// 200
 	Touch::TButton realmButton;			// 376
 	ImageWithBackground *optionButton;	// 552
+	ImageWithBackground *languageButton;// 556
 
 public:
 	StartMenuScreen();

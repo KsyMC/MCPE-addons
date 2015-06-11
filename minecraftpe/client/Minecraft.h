@@ -17,7 +17,7 @@ class Mob;
 class LocalPlayer;
 class ClientSideNetworkHandler;
 
-// Size : 168
+// Size : 248
 class Minecraft : public App
 {
 public:
@@ -27,17 +27,20 @@ public:
 
 public:
 	char filler1[4];					// 28
-	int width;							// 32
-	int height;							// 36
-	char filler2[24];					// 40
+	int displayWidth;					// 32
+	int displayHeight;					// 36
+	char filler2[32];					// 40
 	std::string serverName;				// 72
-	Level *level;						// 104
-	char filler5[44];					// 108
+	char filler3[36];					// 76
 	ServerCommandParser *commandParser;	// 112
-	NetEventCallback *netEventCallback;	// 140
-	GameMode *gameMode;					// 144
-	PacketSender *packetSender;			// 148
-	RakNetInstance *raknetInstance;		// 156
+	char filler4[104];					// 116
+	NetEventCallback *netEventCallback;	// 220
+	GameMode *gameMode;					// 224
+	PacketSender *packetSender;			// 228
+	char filler5[4];					// 232
+	RakNetInstance *raknetInstance;		// 236
+	char filler6[4];					// 240
+	Level *level;						// 244
 
 public:
 	Minecraft(int, char **);

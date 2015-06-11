@@ -16,29 +16,31 @@ class GameStore;
 class SkinRepository;
 class Screen;
 
-// Size : 320
+// Size : 400
 class MinecraftClient : public Minecraft
 {
 public:
 	static int _hasInitedStatics;
 
 public:
-	Options *options;						// 104
-	char filler1[20];						// 156
-	ScreenChooser *chooser;					// 172
-	char filler2[48];						// 180
-	LevelRenderer *levelRenderer;			// 212
-	GameRenderer *gameRenderer;				// 216
-	ParticleEngine *particleEngine;			// 220
-	ExternalServerFile *externalServerFile;	// 224
-	Textures *textures;						// 228
-	Font *font;								// 232
-	char filler3[12];						// 236
-	Player *player;							// 252
-	Gui *gui;								// 256
-	SoundEngine *soundEngine;				// 264
-	GameStore *gameStore;					// 276
-	SkinRepository *_skinRepository;		// 280
+	char filler1[4];						// 248
+	ScreenChooser *chooser;					// 252
+	char filler2[36];						// 256
+	LevelRenderer *levelRenderer;			// 292
+	GameRenderer *gameRenderer;				// 296
+	ParticleEngine *particleEngine;			// 300
+	ExternalServerFile *externalServerFile;	// 304
+	Textures *textures;						// 308
+	Font *font;								// 312
+	char filler3[16];						// 316
+	LocalPlayer *player;					// 332
+	Gui *gui;								// 336
+	Options *options;						// 340
+	SoundEngine *soundEngine;				// 344
+	char filler4[8];						// 348
+	GameStore *gameStore;					// 356
+	SkinRepository *skinRepository;			// 360
+	char filler5[36];						// 364
 
 public:
 	MinecraftClient(int, char **);

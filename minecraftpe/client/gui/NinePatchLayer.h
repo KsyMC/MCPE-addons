@@ -10,6 +10,9 @@ class Tessellator;
 class NinePatchLayer : public GuiElement
 {
 public:
+	char filler1[400];	// 108
+
+public:
 	NinePatchLayer(const NinePatchDescription &, const std::string &, Textures *, float, float);
 	virtual ~NinePatchLayer();
 	void buildQuad(int);

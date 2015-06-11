@@ -6,6 +6,7 @@ class IntRectangle;
 class Color;
 class Font;
 
+// Size : 60
 class ScreenRenderer
 {
 public:

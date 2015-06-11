@@ -9,6 +9,9 @@ namespace Touch
 class HeaderButton : public TButton
 {
 public:
+	char filler1[12];	// 176
+
+public:
 	HeaderButton(int, MinecraftClient &, const std::string &, bool, bool);
 	virtual ~HeaderButton();
 	virtual void setMsg(const std::string &);

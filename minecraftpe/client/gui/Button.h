@@ -6,7 +6,12 @@
 class Button : public GuiElement
 {
 public:
-	char filler1[60];	// 108
+	char filler1[48];				// 108
+	std::string displayString;		// 156
+	int id;							// 160
+	bool toogled;					// 164
+	bool pressed;					// 165
+	bool overrideScreenRendering;	// 166
 
 public:
 	Button(int, int, int, int, int, const std::string &, bool);
@@ -22,8 +27,10 @@ public:
 	virtual void getYImage(bool);
 	virtual void renderBg(MinecraftClient *, int, int);
 	virtual void renderFace(MinecraftClient *, int, int);
-	void setOverrideScreenRendering(bool);
-	void isOveridingScreenRendering(void);
-	bool isInside(int, int);
+	int _getWidth(MinecraftClient *, const std::string &, int);
 	bool hovered(MinecraftClient *, int, int);
+	bool isInside(int, int);
+	bool isOveridingScreenRendering();
+	bool isPressed(int, int);
+	void setOverrideScreenRendering(bool);
 };

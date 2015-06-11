@@ -7,6 +7,9 @@
 class App : public AppPlatformListener
 {
 public:
+	char filler1[24]; 	// 4
+
+public:
 	App(int, char **);
 	virtual ~App();
 	virtual void platform();

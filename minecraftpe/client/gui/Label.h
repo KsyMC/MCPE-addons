@@ -6,7 +6,11 @@
 class Label : public GuiElement
 {
 public:
-	char filler1[36];	// 108
+	std::string displayString;	// 108
+	char filler1[4];			// 112
+	Color color;				// 116
+	char filler2[10];			// 132
+	bool centered;				// 142
 
 public:
 	Label(MinecraftClient *, std::string, const Color &, int, int, int, bool);

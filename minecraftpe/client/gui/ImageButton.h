@@ -1,14 +1,16 @@
 #pragma once
 
 #include "Button.h"
-
-class ImageDef;
+#include "ImageDef.h"
 
 // Size : 244
 class ImageButton : public Button
 {
 public:
-	char filler1[76];	// 168
+	ImageDef imageDef;	// 168
+	char filler1[20];	// 208
+	int yOffset;		// 228
+	char filler2[12];	// 232
 
 public:
 	ImageButton(int, const std::string &);

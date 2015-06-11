@@ -7,7 +7,7 @@ class GuiComponent
 {
 public:
 	//void **vtable;				// 0
-	ScreenRenderer _screenRenderer;	// 4
+	ScreenRenderer screenRenderer;	// 4
 
 public:
 	GuiComponent();

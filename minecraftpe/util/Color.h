@@ -1,5 +1,6 @@
 #pragma once
 
+// Size : 16
 class Color
 {
 public:

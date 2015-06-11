@@ -2,11 +2,16 @@
 
 #include "Screen.h"
 
+// Size : 232
 class ConfirmScreen : public Screen
 {
 public:
-	// Size : 232
-	char filler1[32];	// 200
+	char filler1[8];			// 200
+	std::string titleString;	// 208
+	std::string descString;		// 212
+	std::string okString;		// 216
+	std::string cancelString;	// 220
+	char filler2[8];			// 224
 
 public:
 	ConfirmScreen(Screen *, const std::string &, const std::string &, int);

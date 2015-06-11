@@ -6,8 +6,8 @@
 class DisconnectionScreen : public Screen
 {
 public:
-	std::string _text;			// 200
-	Touch::TButton *_okButton;	// 204
+	std::string text;			// 200
+	Touch::TButton *okButton;	// 204
 
 public:
 	DisconnectionScreen(const std::string &);

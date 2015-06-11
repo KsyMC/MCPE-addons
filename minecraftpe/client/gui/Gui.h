@@ -20,8 +20,18 @@ public:
 public:
 	//void **vtable;					// 64
 	char filler1[304];					// 68
-	MinecraftClient *_minecraftClient;	// 372
-	char filler2[232];					// 376
+	MinecraftClient *mc;				// 372
+	char filler2[8];					// 376
+	std::string recordPlaying;			// 384
+	int recordPlayingUpFor;				// 388
+	bool recordIsPlaying;				// 392
+	char filler3[7];					// 393
+	bool muteChat;						// 400
+	char filler4[156];					// 404
+	std::string tipMessage;				// 560
+	float tipMessageAlpha;				// 564
+	float tipMessageLineLength;			// 568
+	char filler5[36];					// 572
 
 public:
 	Gui(MinecraftClient &);

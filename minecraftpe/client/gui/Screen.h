@@ -24,19 +24,20 @@ class MojangConnectionStatus;
 class Screen : public GuiComponent
 {
 public:
-	int width;							// 64
-	int height;							// 68
-	char filler1[4];					// 72
-	MinecraftClient *minecraftClient;	// 76
-	std::vector<Button *> vecBtn;		// 80
-	std::vector<TextBox *> vecTextB;	// 92
-	std::vector<Button *> vecBtn2;		// 104
-	std::vector<GuiElement *> vecGuiE;	// 116
-	std::vector<GuiElement *> vecGui2E;	// 128
-	char filler5[12];					// 140
-	Font *font;							// 152
-	char filler6[32];					// 156
-	MaterialPtr ui_cubemap;				// 188
+	int width;								// 64
+	int height;								// 68
+	char filler1[4];						// 72
+	MinecraftClient *mc;					// 76
+	std::vector<Button *> buttonList;		// 80
+	std::vector<TextBox *> textboxList;		// 92
+	std::vector<Button *> buttonList2;		// 104
+	std::vector<GuiElement *> elementList;	// 116
+	std::vector<GuiElement *> elementList2;	// 128
+	char filler5[12];						// 140
+	Font *fontObj;							// 152
+	Button *selectedButton;					// 156
+	char filler6[28];						// 160
+	MaterialPtr ui_cubemap;					// 188
 
 public:
 	Screen();

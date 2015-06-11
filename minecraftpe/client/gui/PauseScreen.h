@@ -13,7 +13,7 @@ public:
 	char filler1[12];				// 204
 	Touch::TButton *backButton;		// 216
 	Touch::TButton *quitButton;		// 220
-	Touch::TButton *quitCopyButton;// 224
+	Touch::TButton *quitCopyButton;	// 224
 	Touch::TButton *optionButton;	// 228
 	Label *gameMenuLabel;			// 232
 	Label *playerList;				// 236
