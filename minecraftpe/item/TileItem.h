@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Item.h"
-#include "..\client\renderer\texture\TextureUVCoordinateSet.h"
 
 // Size : 80
 class TileItem : public Item

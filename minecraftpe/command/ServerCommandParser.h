@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "..\util\Token.h"
+#include "../util/Token.h"
 
 class Minecraft;
 class GuiMessage;

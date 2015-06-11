@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\FlyingMob.h"
+#include "../FlyingMob.h"
 
 // Size : 3240
 class Ghast : public FlyingMob

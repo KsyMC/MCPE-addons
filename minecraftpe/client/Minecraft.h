@@ -2,8 +2,8 @@
 
 #include <memory>
 #include "App.h"
-#include "settings\Options.h"
-#include "..\level\Level.h"
+#include "settings/Options.h"
+#include "../level/Level.h"
 
 class TextureAtlas;
 class ServerCommandParser;

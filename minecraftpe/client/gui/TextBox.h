@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GuiElement.h"
-#include "..\settings\Options.h"
+#include "../settings/Options.h"
 
 namespace Touch
 {

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "..\Packet.h"
-#include "..\..\util\TilePos.h"
+#include "../Packet.h"
+#include "../../util/TilePos.h"
 
 class UpdateBlockPacket : public Packet
 {

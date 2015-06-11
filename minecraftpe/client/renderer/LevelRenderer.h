@@ -1,9 +1,9 @@
 #pragma once
 
 #include <memory>
-#include "..\..\level\LevelListener.h"
-#include "..\AppPlatformListener.h"
-#include "texture\TextureAtlas.h"
+#include "../../level/LevelListener.h"
+#include "../AppPlatformListener.h"
+#include "texture/TextureAtlas.h"
 
 class MinecraftClient;
 

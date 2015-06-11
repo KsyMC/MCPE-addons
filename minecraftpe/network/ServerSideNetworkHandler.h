@@ -2,8 +2,8 @@
 
 #include <memory>
 #include "NetEventCallback.h"
-#include "..\level\LevelListener.h"
-#include "..\gamemode\GameMode.h"
+#include "../level/LevelListener.h"
+#include "../gamemode/GameMode.h"
 
 class Minecraft;
 class IRakNetInstance;

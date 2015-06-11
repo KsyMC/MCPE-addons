@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#include "..\client\renderer\texture\TextureUVCoordinateSet.h"
-#include "..\client\renderer\texture\TextureAtlasTextureItem.h"
+#include "../client/renderer/texture/TextureUVCoordinateSet.h"
+#include "../client/renderer/texture/TextureAtlasTextureItem.h"
 
 class TextureAtlas;
 class ItemInstance;

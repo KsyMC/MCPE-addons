@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Player.h"
-#include "..\..\inventory\IContainerListener.h"
+#include "../../inventory/IContainerListener.h"
 
 class MinecraftClient;
 class User;

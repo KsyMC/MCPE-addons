@@ -4,9 +4,9 @@
 #include "TileSourceListener.h"
 #include "LevelStorage.h"
 #include "ParticleType.h"
-#include "..\entity\Entity.h"
-#include "..\client\AppPlatformListener.h"
-#include "..\util\Random.h"
+#include "../entity/Entity.h"
+#include "../client/AppPlatformListener.h"
+#include "../util/Random.h"
 
 class Player;
 class Random;

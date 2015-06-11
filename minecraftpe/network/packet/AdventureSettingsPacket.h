@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\Packet.h"
+#include "../Packet.h"
 
 class AdventureSettings;
 class Abilities;

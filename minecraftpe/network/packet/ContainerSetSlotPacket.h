@@ -1,7 +1,7 @@
 #pragma once
 
-#include "..\Packet.h"
-#include "..\..\util\ItemInstance.h"
+#include "../Packet.h"
+#include "../../util/ItemInstance.h"
 
 // Size : 36
 class ContainerSetSlotPacket : public Packet

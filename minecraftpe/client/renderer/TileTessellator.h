@@ -1,7 +1,7 @@
 #pragma once
 
-#include "texture\TextureUVCoordinateSet.h"
-#include "..\..\util\AABB.h"
+#include "texture/TextureUVCoordinateSet.h"
+#include "../../util/AABB.h"
 
 class Tile;
 class TileSource;

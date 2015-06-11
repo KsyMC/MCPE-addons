@@ -1,11 +1,11 @@
 #pragma once
 
 #include <string>
-#include "..\tileentity\TileEntityType.h"
-#include "..\client\renderer\texture\TextureUVCoordinateSet.h"
-#include "..\client\renderer\texture\TextureAtlasTextureItem.h"
-#include "..\util\TileID.h"
-#include "..\util\AABB.h"
+#include "../tileentity/TileEntityType.h"
+#include "../client/renderer/texture/TextureUVCoordinateSet.h"
+#include "../client/renderer/texture/TextureAtlasTextureItem.h"
+#include "../util/TileID.h"
+#include "../util/AABB.h"
 
 class TextureAtlas;
 class Material;

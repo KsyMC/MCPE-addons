@@ -1,10 +1,10 @@
 #pragma once
 
 #include <memory>
-#include "..\Mob.h"
-#include "..\..\Abilities.h"
-#include "..\item\ItemEntity.h"
-#include "..\..\..\raknet\RakNetTypes.h"
+#include "../Mob.h"
+#include "../../Abilities.h"
+#include "../item/ItemEntity.h"
+#include "../../../raknet/RakNetTypes.h"
 
 class PacketSender;
 class Inventory;

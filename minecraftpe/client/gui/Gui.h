@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include "GuiComponent.h"
-#include "..\AppPlatformListener.h"
+#include "../AppPlatformListener.h"
 
 class MinecraftClient;
 class Config;

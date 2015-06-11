@@ -2,7 +2,7 @@
 
 #include <string>
 #include "GuiComponent.h"
-#include "..\..\util\Color.h"
+#include "../../util/Color.h"
 
 class MinecraftClient;
 class NinePatchLayer;

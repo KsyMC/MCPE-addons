@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\AppPlatformListener.h"
+#include "../AppPlatformListener.h"
 
 class RenderMaterialGroup : public AppPlatformListener
 {

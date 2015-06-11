@@ -1,7 +1,7 @@
 #pragma once
 
 #include "NetEventCallback.h"
-#include "..\..\raknet\RakNetTypes.h"
+#include "../../raknet/RakNetTypes.h"
 
 class MinecraftClient;
 class MultiPlayerLevel;

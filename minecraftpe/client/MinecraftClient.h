@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Minecraft.h"
-#include "settings\Options.h"
+#include "settings/Options.h"
 
 class ScreenChooser;
 class LevelRenderer;

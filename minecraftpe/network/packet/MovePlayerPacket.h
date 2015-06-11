@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\Packet.h"
+#include "../Packet.h"
 
 // Size : 44
 class MovePlayerPacket : public Packet
