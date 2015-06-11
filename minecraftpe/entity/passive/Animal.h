@@ -12,15 +12,15 @@ public:
 	virtual void hurt(EntityDamageSource &, int);
 	virtual void readAdditionalSaveData(const CompoundTag *);
 	virtual void addAdditionalSaveData(CompoundTag *);
-	virtual void getAmbientSoundInterval();
+	virtual int getAmbientSoundInterval();
 	virtual void aiStep();
 	virtual void shouldDespawn() const;
-	virtual void removeWhenFarAway();
+	virtual bool removeWhenFarAway();
 	virtual void getWalkTargetValue(const TilePos &);
 	virtual void findAttackTarget();
 	virtual void canMate(const Animal *) const;
 	virtual void isFood(const ItemInstance *) const;
-	virtual void getBreedOffspring(Animal *) = 0;
+	virtual Entity *getBreedOffspring(Animal *) = 0;
 	void _randomHeartPos();
 	bool isInLove();
 	void resetLove();

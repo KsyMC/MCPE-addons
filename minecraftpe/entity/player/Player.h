@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "..\monster\Mob.h"
+#include "..\Mob.h"
 #include "..\..\Abilities.h"
 #include "..\item\ItemEntity.h"
 #include "..\..\..\raknet\RakNetTypes.h"

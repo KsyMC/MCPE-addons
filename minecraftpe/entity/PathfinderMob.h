@@ -1,6 +1,6 @@
 #pragma once
 
-#include "monster\Mob.h"
+#include "Mob.h"
 
 // Size : 3204
 class PathfinderMob : public Mob
@@ -18,7 +18,7 @@ public:
 	virtual void addAdditionalSaveData(CompoundTag *);
 	virtual bool canSpawn();
 	virtual void updateAi();
-	virtual void getWalkingSpeedModifier();
+	virtual float getWalkingSpeedModifier();
 	virtual void getAttackTarget();
 	virtual void setAttackTarget(Entity *);
 	virtual void getWalkTargetValue(const TilePos &);

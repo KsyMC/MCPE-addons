@@ -2,7 +2,7 @@
 
 #include <string>
 #include <functional>
-#include "..\AppPlatformListener.h"
+#include "../AppPlatformListener.h"
 
 class Options;
 class Color;

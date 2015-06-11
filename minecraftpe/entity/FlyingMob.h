@@ -1,6 +1,6 @@
 #pragma once
 
-#include "monster\Mob.h"
+#include "Mob.h"
 
 // Size : 3178
 class FlyingMob : public Mob

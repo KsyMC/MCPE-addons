@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\Entity.h"
+#include "Entity.h"
 
 class Item;
 class MobEffectInstance;
@@ -111,7 +111,7 @@ public:
 	virtual const char *getAmbientSound();
 	virtual std::string getHurtSound();
 	virtual std::string getDeathSound();
-	virtual void getWalkingSpeedModifier();
+	virtual float getWalkingSpeedModifier();
 	virtual void getDamageAfterArmorAbsorb(const EntityDamageSource &, int);
 	virtual void getDamageAfterMagicAbsorb(const EntityDamageSource &, int);
 	virtual void hurtArmor(int);
