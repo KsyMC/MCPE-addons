@@ -19,6 +19,7 @@ public:
 	Touch::TButton realmButton;			// 376
 	ImageWithBackground *optionButton;	// 552
 	ImageWithBackground *languageButton;// 556
+	char filler1[32];					// 560
 
 public:
 	StartMenuScreen();

@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+class MinecraftClient;
+
 class Options
 {
 public:
