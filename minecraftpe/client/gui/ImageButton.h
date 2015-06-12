@@ -21,8 +21,5 @@ public:
 	virtual void setYOffset(int);
 	virtual void setupDefault();
 	virtual void isSecondImage(bool);
-	bool isSecondImage(bool);
 	void setImageDef(const ImageDef &, bool);
-	void setYOffset(int);
-	void setupDefault();
 };

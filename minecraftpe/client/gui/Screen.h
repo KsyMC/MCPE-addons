@@ -50,7 +50,7 @@ public:
 	virtual void keyboardEvent();
 	virtual void keyboardTextEvent();
 	virtual void controllerEvent();
-	virtual void handleBackEvent(bool);
+	virtual bool handleBackEvent(bool);
 	virtual void tick();
 	virtual void removed();
 	virtual void renderBackground(int);
@@ -58,10 +58,10 @@ public:
 	virtual void renderMenuBackground(float);
 	virtual void renderGameBehind();
 	virtual void hasClippingArea(IntRectangle &);
-	virtual void isPauseScreen();
-	virtual void isErrorScreen();
-	virtual void isInGameScreen();
-	virtual void closeOnPlayerHurt();
+	virtual bool isPauseScreen();
+	virtual bool isErrorScreen();
+	virtual bool isInGameScreen();
+	virtual bool closeOnPlayerHurt();
 	virtual void confirmResult(bool, int);
 	virtual void lostFocus();
 	virtual void toGUICoordinate(int &, int &);

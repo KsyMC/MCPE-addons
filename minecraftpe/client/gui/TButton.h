@@ -13,9 +13,9 @@ public:
 	NinePatchLayer *ninepathLayer2;		// 172
 
 public:
-	TButton(int, int, int, int, int, const std::string &, MinecraftClient *, bool);
-	TButton(int, int, int, const std::string &, MinecraftClient *);
-	TButton(int, const std::string &, MinecraftClient *, bool);
+	TButton(int, int, int, int, int, const std::string &, MinecraftClient *, bool, int);
+	TButton(int, int, int, const std::string &, MinecraftClient *, int);
+	TButton(int, const std::string &, MinecraftClient *, bool, int);
 	virtual ~TButton();
 	virtual void renderBg(MinecraftClient *, int, int);
 	void init(MinecraftClient *);
