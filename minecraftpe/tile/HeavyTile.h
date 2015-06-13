@@ -4,6 +4,7 @@
 
 class Color;
 
+// Size : 140
 class HeavyTile : public Tile
 {
 public:

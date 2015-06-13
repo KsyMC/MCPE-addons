@@ -2,10 +2,10 @@
 
 #include "TextureFile.h"
 
+// Size : 32
 class TextureUVCoordinateSet
 {
 public:
-	// Size : 32
 	float startX;		// 0
 	float startY;		// 4
 	float endX;			// 8

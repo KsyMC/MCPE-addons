@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "Container.h"
-#include "../util/ItemInstance.h"
+#include "../item/ItemInstance.h"
 
 class ListTag;
 

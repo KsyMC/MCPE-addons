@@ -23,7 +23,11 @@ public:
 	};
 
 public:
-	static ArmorMaterial CHAIN, CLOTH, DIAMOND, GOLD, IRON;
+	static ArmorMaterial CHAIN;
+	static ArmorMaterial CLOTH;
+	static ArmorMaterial DIAMOND;
+	static ArmorMaterial GOLD;
+	static ArmorMaterial IRON;
 	static int healthPerSlot[4];
 
 public:
@@ -33,7 +37,7 @@ public:
 	ArmorMaterial *armorMaterial;	// 84
 
 public:
-	ArmorItem(int, ArmorItem::ArmorMaterial const&, int, int);
+	ArmorItem(int, const ArmorItem::ArmorMaterial &, int, int);
 	virtual ~ArmorItem();
 	virtual bool isArmor() const;
 };
