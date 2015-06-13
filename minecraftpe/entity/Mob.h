@@ -7,7 +7,6 @@ class MobEffectInstance;
 class PathNavigation;
 class MobEffect;
 class EntityUniqueID;
-class ItemInstace;
 
 // Size : 3178
 class Mob : public Entity

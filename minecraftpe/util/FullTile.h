@@ -5,7 +5,7 @@
 class FullTile
 {
 public:
-	static const FullTile AIR;
+	static FullTile AIR;
 
 public:
 	TileID id;

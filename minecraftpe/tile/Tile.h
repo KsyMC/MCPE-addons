@@ -7,6 +7,7 @@
 #include "../client/renderer/texture/TextureAtlasTextureItem.h"
 #include "../util/TileID.h"
 #include "../util/AABB.h"
+#include "../util/Brightness.h"
 
 class TextureAtlas;
 class Material;
@@ -18,11 +19,8 @@ class Entity;
 class Vec3;
 class Mob;
 class ItemInstance;
-
-class Brightness
-{
-	float brightness;
-};
+class FullTile;
+typedef int TileType;
 
 // Size : 140
 class Tile
@@ -199,7 +197,7 @@ public:
 	static float translucency[255];
 	static bool solid[255];
 	static float lightEmission[255];
-	static int lightBlock[255];
+	static Brightness lightBlock[255];
 	static Tile *tiles[255];
 
 public:

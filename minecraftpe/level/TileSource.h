@@ -2,6 +2,7 @@
 
 #include <memory>
 #include "../tileentity/TileEntity.h"
+#include "../util/Brightness.h"
 
 class Level;
 class ChunkSource;
@@ -18,7 +19,6 @@ class LightLayer;
 class ChunkPos;
 class Bounds;
 class TileTickingQueue;
-typedef float Brightness;
 
 // Size : 76
 class TileSource

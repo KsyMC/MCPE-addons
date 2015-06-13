@@ -13,10 +13,10 @@ public:
 	virtual ~ItemEntity();
 	virtual void normalTick();
 	virtual void playerTouch(Player *);
-	virtual void isPushable();
+	virtual bool isPushable();
 	virtual void hurt(EntityDamageSource &, int);
-	virtual void getEntityTypeId() const;
-	virtual void isItemEntity();
+	virtual int getEntityTypeId() const;
+	virtual bool isItemEntity();
 	virtual void getHandleWaterAABB() const;
 	virtual void burn(int);
 	virtual void readAdditionalSaveData(const CompoundTag *);

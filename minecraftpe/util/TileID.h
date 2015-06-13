@@ -3,7 +3,7 @@
 class TileID
 {
 public:
-	static const TileID AIR;
+	static TileID AIR;
 
 public:
 	unsigned char id;	// 0

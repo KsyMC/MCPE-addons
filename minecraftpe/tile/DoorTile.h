@@ -7,9 +7,9 @@ class DoorTile : public Tile
 {
 public:
 	TextureUVCoordinateSet texture1;	 // 140
-	TextureUVCoordinateSet texture1;	 // 172
-	TextureUVCoordinateSet texture1;	 // 204
-	TextureUVCoordinateSet texture1;	 // 236
+	TextureUVCoordinateSet texture2;	 // 172
+	TextureUVCoordinateSet texture3;	 // 204
+	TextureUVCoordinateSet texture4;	 // 236
 
 public:
 	DoorTile(int, const Material *);

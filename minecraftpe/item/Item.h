@@ -170,7 +170,7 @@ public:
 	char filler2[2];				// 22
 	TextureUVCoordinateSet itemIcon;// 24
 	int category;					// 56
-	bool handEquipped;				// 60
+	bool _handEquipped;				// 60
 	bool stackedByData;				// 61
 	char filler3[6];				// 62
 	std::string nameId;				// 68
@@ -208,9 +208,9 @@ public:
 	virtual bool isArmor() const;
 	virtual bool isDye() const;
 	virtual bool isLiquidClipItem(int) const;
-	virtual void requiresInteract() const;
-	virtual void getInteractText() const;
-	virtual void getName(const ItemInstance *) const;
+	virtual bool requiresInteract() const;
+	virtual std::string getInteractText() const;
+	virtual std::string getName(const ItemInstance *) const;
 	virtual void setNameID(const std::string &);
 	virtual bool isEmissive(int) const;
 	virtual void getAnimationFrameFor(Mob &) const;
