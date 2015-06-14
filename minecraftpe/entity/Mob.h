@@ -5,6 +5,10 @@
 class Item;
 class MobEffectInstance;
 class PathNavigation;
+class LookControl;
+class MoveControl;
+class JumpControl;
+class BodyControl;
 class MobEffect;
 class EntityUniqueID;
 
@@ -21,7 +25,14 @@ public:
 	int health;					// 364
 	char filler3[2628];			// 368
 	std::string skinPath;		// 2996
-	char filler4[178];			// 3000
+	char filler4[64];			// 3000
+	LookControl *lockControl;	// 3064
+	MoveControl *moveControl;	// 3068
+	JumpControl *jumpControl;	// 3072
+	BodyControl *bodyControl;	// 3076
+	PathNavigation *navigator;	// 3080
+	Sensing *sensing;			// 3084
+	char filler5[90];			// 3088
 
 public:
 	Mob(Level &);
@@ -127,11 +138,11 @@ public:
 	void getAllEffects();
 	void getCurrentSwingDuration();
 	void getEffect(MobEffect *);
-	void getJumpControl();
-	void getLookControl();
-	void getMoveControl();
-	void getNavigation();
-	void getSensing();
+	JumpControl *getJumpControl();
+	LookControl *getLookControl();
+	MoveControl *getMoveControl();
+	PathNavigation *getNavigation();
+	Sensing *getSensing();
 	void getSpeed();
 	void getWalkingSpeedEffect();
 	void getYHeadRot();
