@@ -9,6 +9,7 @@ class LookControl;
 class MoveControl;
 class JumpControl;
 class BodyControl;
+class Sensing;
 class MobEffect;
 class EntityUniqueID;
 

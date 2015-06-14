@@ -2,14 +2,14 @@
 
 #include "GuiElementContainer.h"
 
-// Size : 148
+// Size : 140
 class PackedScrollContainer : public GuiElementContainer
 {
 public:
-	char filler1[20];	// 128
+	char filler1[12];	// 128
 
 public:
-	PackedScrollContainer(bool, int, int);
+	PackedScrollContainer(bool, bool);
 	virtual ~PackedScrollContainer();
 	virtual void tick(MinecraftClient *);
 	virtual void render(MinecraftClient *, int, int);

@@ -56,7 +56,7 @@ public:
 	virtual void renderBackground(int);
 	virtual void renderDirtBackground();
 	virtual void renderMenuBackground(float);
-	virtual void renderGameBehind();
+	virtual bool renderGameBehind();
 	virtual void hasClippingArea(IntRectangle &);
 	virtual bool isPauseScreen();
 	virtual bool isErrorScreen();

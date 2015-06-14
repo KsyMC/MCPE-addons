@@ -13,7 +13,7 @@ public:
 	bool centered;				// 142
 
 public:
-	Label(MinecraftClient *, std::string, const Color &, int, int, int, bool);
+	Label(MinecraftClient &, const std::string &, const Color &, int, int, int, bool);
 	virtual ~Label();
 	virtual void render(MinecraftClient *, int, int);
 	virtual void setupPositions();

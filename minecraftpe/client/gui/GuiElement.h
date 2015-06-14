@@ -4,6 +4,11 @@
 #include "GuiComponent.h"
 #include "../../util/Color.h"
 
+namespace Controller
+{
+	class StickDirection;
+}
+
 class MinecraftClient;
 class NinePatchLayer;
 
