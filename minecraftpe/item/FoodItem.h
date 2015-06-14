@@ -15,7 +15,7 @@ public:
 	float potionEffectProbability;	// 96
 
 public:
-	FoodItem();
+	FoodItem(int, int, bool, float);
 	virtual void ~FoodItem();
 	virtual ItemInstance &use(ItemInstance &, Player &);
 	virtual int getMaxUseDuration() const;
