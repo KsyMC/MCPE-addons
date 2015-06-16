@@ -31,4 +31,5 @@ public:
 	void setNotBlockingMotion();
 	void setReplaceable();
 	static void initMaterials();
+	static void tearDownMaterials();
 };

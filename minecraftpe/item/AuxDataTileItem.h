@@ -8,7 +8,7 @@ public:
 	Tile *tile;		// 76
 
 public:
-	AuxDataTileItem();
+	AuxDataTileItem(int, Tile *);
 	virtual ~AuxDataTileItem();
 	virtual int getLevelDataForAuxValue(int) const;
 	virtual std::string getName(const ItemInstance *) const;

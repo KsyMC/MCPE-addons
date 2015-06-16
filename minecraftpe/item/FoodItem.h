@@ -16,7 +16,7 @@ public:
 
 public:
 	FoodItem(int, int, bool, float);
-	virtual void ~FoodItem();
+	virtual ~FoodItem();
 	virtual ItemInstance &use(ItemInstance &, Player &);
 	virtual int getMaxUseDuration() const;
 	virtual void useTimeDepleted(ItemInstance *, Level *, Player *);
