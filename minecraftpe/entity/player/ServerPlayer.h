@@ -3,12 +3,14 @@
 #include "Player.h"
 #include "../../inventory/IContainerListener.h"
 
-// Size : 3464
+// Size : 3480
 class ServerPlayer : public Player, public IContainerListener
 {
 public:
-	//void **vtable;		// 3432
-	int containerCount;		// 3456
+	//void **vtable;		// 3444
+	char filler1[20];		// 3448
+	int containerCount;		// 3468
+	char filler2[8];		// 3472
 
 public:
 	ServerPlayer(Level &, PacketSender &, bool, const RakNet::RakNetGUID &, std::function<void(ServerPlayer &)>);

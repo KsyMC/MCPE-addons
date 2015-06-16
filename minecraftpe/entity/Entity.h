@@ -29,7 +29,8 @@ public:
 
 public:
 	// void **vtable;
-	char filler1[20];			// 4
+	char filler1[4];			// 4
+	SynchedEntityData data;		// 8
 	float posX;					// 24
 	float posY;					// 28
 	float posZ;					// 32

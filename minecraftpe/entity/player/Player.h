@@ -1,8 +1,8 @@
 #pragma once
 
 #include <memory>
+#include "Abilities.h"
 #include "../Mob.h"
-#include "../../Abilities.h"
 #include "../item/ItemEntity.h"
 #include "../../../raknet/RakNetTypes.h"
 
@@ -17,8 +17,10 @@ class Packet;
 class LevelChunk;
 class Tile;
 class ChunkSource;
+class BatchPacket;
+class SimpleFoodData;
 
-// Size : 3432
+// Size : 3444
 class Player : public Mob
 {
 public:
@@ -26,16 +28,32 @@ public:
 	static float DEFAULT_FLY_SPEED;
 
 public:
-	char filler1[2832];				// 332
-	std::string playerName;			// 3164
-	char filler2[16];				// 3168
+	char filler1[2];				// 3178
+	int score;						// 3180
+	char filler2[8];				// 3184
+	std::string playerName;			// 3192
 	Abilities abilities;			// 3196
-	char filler3[12];				// 3200
-	Inventory *inventory;			// 3244
-	char filler4[180];				// 3216
-	SkinInfo *skinInfo;				// 3304
-	RakNet::RakNetGUID rakNetGUID;	// 3336
-	PacketSender *packetSender;		// 3408
+	SimpleFoodData *simpleFoodData;	// 3204
+	char filler3[8];				// 3208
+	RakNet::RakNetGUID rakNetGUID;	// 3216
+	char filler4[28];				// 3228
+	Inventory *inventory;			// 3256
+	char filler5[12];				// 3260
+	TileSource *tileSource;			// 3272
+	char filler6[40];				// 3276
+	SkinInfo *skinInfo;				// 3316
+	char filler7[4];				// 3320
+	ItemInstance itemInstance;		// 3324
+	char filler8[4];				// 3340
+	ItemInstance armors[4];			// 3348
+	char filler9[8];				// 3412
+	PacketSender *packetSender;		// 3420
+	BatchPacket *batchPacket;		// 3424
+	int spawnPointX;				// 3428
+	int spawnPointY;				// 3432
+	int spawnPointZ;				// 3436
+	bool sleeping;					// 3440
+
 
 public:
 	Player(Level &, PacketSender &, bool, const RakNet::RakNetGUID &);

@@ -2,17 +2,22 @@
 
 #include "Player.h"
 #include "../../inventory/IContainerListener.h"
+#include "../../inventory/InventoryMenu.h"
 
 class MinecraftClient;
 class User;
 class Boat;
 
-// Size : 3648
+// Size : 3664
 class LocalPlayer : public Player, public IContainerListener
 {
 public:
-	//void **vtable;			// 3432
-	MinecraftClient *_client;	// 3480
+	//void **vtable;				// 3444
+	InventoryMenu invMenu;			// 3448
+	char filler1[12];				// 3480
+	MinecraftClient *mc;			// 3492
+	ItemInstance itemInstance[4];	// 3596
+	char filler2[4];				// 3660
 
 public:
 	LocalPlayer(MinecraftClient *, Level &, User *, bool, const RakNet::RakNetGUID &);
@@ -59,7 +64,7 @@ public:
 	std::string getGameModeString();
 	float getPreloadingProgress();
 	void hurtTo(int);
-	void isSolidTile(int, int, int);
+	bool isSolidTile(int, int, int);
 	void onViewDistanceChanged(int);
 	void sendGameSessionHeartBoat(bool);
 	void sendPosition();
