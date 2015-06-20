@@ -24,9 +24,9 @@ public:
 	virtual void render(int, int, float);
 	virtual void init();
 	virtual void setupPositions();
-	virtual void handleBackEvent(bool);
+	virtual bool handleBackEvent(bool);
 	virtual void tick();
-	virtual void renderGameBehind();
+	virtual bool renderGameBehind();
 	virtual void buttonClicked(Button *);
 	virtual void controllerDirectionChanged(int, Controller::StickDirection);
 	virtual void onEntityAdded(Entity &);

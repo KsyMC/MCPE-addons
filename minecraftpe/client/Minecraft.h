@@ -16,6 +16,7 @@ class Timer;
 class Mob;
 class LocalPlayer;
 class ClientSideNetworkHandler;
+class ExternalFileLevelStorageSource;
 
 // Size : 248
 class Minecraft : public App
@@ -69,7 +70,7 @@ public:
 	virtual void getVibration();
 	void cancelLocateMultiplayer();
 	ServerCommandParser *getCommandParser();
-	void *getLevelSource();
+	ExternalFileLevelStorageSource *getLevelSource();
 	PacketSender *getPacketSender();
 	std::string getServerName();
 	void hostMultiplayer(int, int);

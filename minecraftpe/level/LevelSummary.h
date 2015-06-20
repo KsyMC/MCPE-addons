@@ -6,10 +6,10 @@ class LevelSummary
 public:
 	std::string name1;		// 0
 	std::string levelName;	// 4
-	char filler1[20];		// 8
-	// 8
+	int filler1;			// 8
 	int gameMode;			// 12
-	// 16
-	// 20
-	// 24
+	int filler2;			// 16
+	int filler3;			// 20
+	int filler4;			// 24
+	int filler5;			// 24
 };
