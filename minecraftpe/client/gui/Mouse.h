@@ -14,8 +14,8 @@ public:
 	static void getEvent();
 	static void getEventButton();
 	static void getEventButtonState();
-	static float getX();
-	static float getY();
+	static int getX();
+	static int getY();
 	static bool isButtonDown(int);
 	static void next();
 	static void reset();

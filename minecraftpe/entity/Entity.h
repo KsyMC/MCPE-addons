@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include "SynchedEntityData.h"
 #include "../util/AABB.h"
 
 class Level;

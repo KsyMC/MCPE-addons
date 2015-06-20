@@ -4,6 +4,7 @@
 #include "Abilities.h"
 #include "../Mob.h"
 #include "../item/ItemEntity.h"
+#include "../../item/ItemInstance.h"
 #include "../../../raknet/RakNetTypes.h"
 
 class PacketSender;
