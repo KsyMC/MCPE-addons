@@ -40,8 +40,8 @@ TestListItemElement::~TestListItemElement()
 void TestListItemElement::tick(MinecraftClient *mc)
 {
 	float scale = Gui::InvGuiScale;
-	float mouseX = Mouse::getX() * scale;
-	float mouseY = Mouse::getY() * scale;
+	int mouseX = Mouse::getX() * scale;
+	int mouseY = Mouse::getY() * scale;
 
 	if (fabsf(mouseX - clickedX) > 20.0f || fabsf(mouseY - clickedY) > 20.0f)
 	{
@@ -71,8 +71,8 @@ void TestListItemElement::render(MinecraftClient *mc, int x, int y)
 void TestListItemElement::mouseClicked(MinecraftClient *mc, int x, int y, int i)
 {
 	float scale = Gui::InvGuiScale;
-	float mouseX = Mouse::getX() * scale;
-	float mouseY = Mouse::getY() * scale;
+	int mouseX = Mouse::getX() * scale;
+	int mouseY = Mouse::getY() * scale;
 
 	Button *tempButton = NULL;
 
@@ -83,10 +83,12 @@ void TestListItemElement::mouseClicked(MinecraftClient *mc, int x, int y, int i)
 
 	if (tempButton)
 	{
+		LOGI("%d %d", mouseX, mouseY);
+
 		clickedX = mouseX;
 		clickedY = mouseY;
-		clickedButton = tempButton;
 		tempButton->setPressed();
+		clickedButton = tempButton;
 	}
 }
 

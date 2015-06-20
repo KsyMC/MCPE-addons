@@ -16,8 +16,8 @@ public:
 	Touch::TButton *mainButton;
 	ImageWithBackground *removeButton;
 	Button *clickedButton;
-	float clickedX;
-	float clickedY;
+	int clickedX;
+	int clickedY;
 
 public:
 	TestListItemElement(MinecraftClient *mc);
