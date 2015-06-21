@@ -5,16 +5,16 @@ class TilePos;
 class Vec3
 {
 public:
-	static const Vec3 MAX;
-	static const Vec3 MIN;
-	static const Vec3 NEG_UNIT_X;
-	static const Vec3 NEG_UNIT_Y;
-	static const Vec3 NEG_UNIT_Z;
-	static const Vec3 ONE;
-	static const Vec3 UINT_X;
-	static const Vec3 UINT_Y;
-	static const Vec3 UINT_Z;
-	static const Vec3 ZERO;
+	static Vec3 MAX;
+	static Vec3 MIN;
+	static Vec3 NEG_UNIT_X;
+	static Vec3 NEG_UNIT_Y;
+	static Vec3 NEG_UNIT_Z;
+	static Vec3 ONE;
+	static Vec3 UINT_X;
+	static Vec3 UINT_Y;
+	static Vec3 UINT_Z;
+	static Vec3 ZERO;
 
 public:
 	float x;	// 0
@@ -22,5 +22,6 @@ public:
 	float z;	// 8
 
 public:
+	Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
 	Vec3(const TilePos &);
 };
