@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include <memory>
 #include "GuiElement.h"
 
@@ -23,11 +24,11 @@ public:
 	virtual void keyPressed(MinecraftClient *, int);
 	virtual void keyboardNewChar(MinecraftClient *, const std::string &, bool);
 	virtual void backPressed(MinecraftClient *, bool);
-	virtual void suppressOtherGUI();
+	virtual bool suppressOtherGUI();
 	virtual void setTextboxText(const std::string &);
-	virtual void hasChildren() const;
+	virtual bool hasChildren() const;
 	virtual void addChild(std::shared_ptr<GuiElement>);
 	virtual void removeChild(std::shared_ptr<GuiElement>);
 	virtual void clearAll();
-	void *getChildren(); // TODO return
+	const std::vector<std::shared_ptr<GuiElement>> &getChildren();
 };

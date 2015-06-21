@@ -42,7 +42,7 @@ public:
 	virtual void keyPressed(MinecraftClient *, int);
 	virtual void keyboardNewChar(MinecraftClient *, const std::string &, bool);
 	virtual void backPressed(MinecraftClient *, bool);
-	virtual void suppressOtherGUI();
+	virtual bool suppressOtherGUI();
 	virtual void setTextboxText(const std::string &);
 	virtual void setFocus(MinecraftClient *);
 	virtual void loseFocus(MinecraftClient *);

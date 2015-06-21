@@ -41,13 +41,13 @@ public:
 	virtual void keyboardNewChar(MinecraftClient *, const std::string &, bool);
 	virtual void backPressed(MinecraftClient *, bool);
 	virtual void pointInside(int, int);
-	virtual void suppressOtherGUI();
+	virtual bool suppressOtherGUI();
 	virtual void setTextboxText(const std::string &);
 	virtual void handleControllerDirectionHeld(int, Controller::StickDirection);
 	virtual void drawSelected(int);
 	virtual void drawSliderSelected();
 	virtual void onSelectedChanged();
-	virtual void hasChildren() const;
+	virtual bool hasChildren() const;
 	void clearBackground();
 	bool isSelected();
 	void setBackground(const Color &);

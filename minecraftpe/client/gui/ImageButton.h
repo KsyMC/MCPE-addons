@@ -20,6 +20,6 @@ public:
 	virtual void renderBg(MinecraftClient *, int, int);
 	virtual void setYOffset(int);
 	virtual void setupDefault();
-	virtual void isSecondImage(bool);
+	virtual bool isSecondImage(bool);
 	void setImageDef(const ImageDef &, bool);
 };
