@@ -4,16 +4,18 @@
 #include "TileSourceListener.h"
 #include "LevelStorage.h"
 #include "ParticleType.h"
+#include "GeneratorType.h"
 #include "../entity/Entity.h"
 #include "../client/AppPlatformListener.h"
 #include "../util/Random.h"
+#include "../util/TilePos.h"
 
 class Player;
+class LocalPlayer;
 class Random;
 class MobFactory;
 class SoundPlayer;
 class TileSource;
-class TilePos;
 class FullTile;
 class EntityDamageSource;
 class LightLayer;
@@ -28,11 +30,6 @@ class LevelEvent;
 class LevelSettings;
 typedef int StorageVersion;
 
-enum GeneratorType
-{
-
-};
-
 // Size : 2996
 class Level : public TileSourceListener, public AppPlatformListener
 {
@@ -40,8 +37,12 @@ public:
 	//void **vtable;						// 4
 	//std::unordered_set<Player *> players;	// 60
 	char filler1[88];						// 8
-	Random random;							// 96
-	MobFactory *mobFactory;					// 2908
+	//Random random;							// 96 + (SIZE??)
+	char filler2[2664];						// 96
+	LevelData worldInfo;					// 2760
+	char filler3[32];						// 2868
+	MobFactory *mobFactory;					// 2900
+	char filler4[92];						// 2904
 
 public:
 	Level(SoundPlayer &, std::unique_ptr<LevelStorage>, const std::string &, const LevelSettings &, bool);
@@ -91,16 +92,16 @@ public:
 	void getChunkSource();
 	void getCloudColor(float);
 	void getCurrentTick();
-	void getDefaultSpawn();
-	char getDifficulty() const;
+	TilePos getDefaultSpawn();
+	int getDifficulty() const;
 	Entity *getEntity(EntityUniqueID, bool);
 	void getEntityIdMap();
 	LevelData *getLevelData();
 	LevelStorage *getLevelStorage();
 	void getLightsToUpdate();
-	void getLocalPlayer();
+	LocalPlayer *getLocalPlayer();
 	void getMob(EntityUniqueID);
-	void getMobSpawner();
+	MobRenderer *getMobSpawner();
 	void getMoonBrightness() const;
 	void getMoonPhase();
 	Player *getNearestPlayer(Entity *, float);
@@ -109,12 +110,12 @@ public:
 	void getOldSkyDarken(float);
 	Player *getPlayer(EntityUniqueID);
 	Player *getPlayer(const std::string &);
-	Player *getPlayerByClientId(uint);
+	Player *getPlayerByClientId(unsigned int);
 	void getPlayerNames();
 	Player *getRandomPlayer();
-	void getSeaLevel();
-	void getSeed();
-	void getSharedSpawnPos();
+	int getSeaLevel();
+	unsigned int getSeed();
+	TilePos getSharedSpawnPos();
 	void getSkyColor(const Entity &, float);
 	void getSkyColor(TileSource &, const TilePos &, float);
 	void getSkyDarken(float);
@@ -123,14 +124,14 @@ public:
 	void getSunIntensity(float, const Entity &, float);
 	void getSunlightDirection(float);
 	void getSunriseColor(float);
-	long getTime() const;
+	int getTime() const;
 	void getTimeOfDay(float);
 	void getTimeSinceCreation();
 	void handleLevelEvent(LevelEvent, const Vec3 &, int);
 	bool isDay();
 	bool isNightMode();
 	void loadPlayer(Player &, bool);
-	void mayInteract(Player *, int, int, int);
+	bool mayInteract(Player *, int, int, int);
 	void playSound(Entity *, const std::string &, float, float);
 	void playSound(float, float, float, const std::string &, float, float);
 	void removeAllPlayers();
