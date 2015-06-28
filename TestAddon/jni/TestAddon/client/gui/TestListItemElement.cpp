@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "TestListItemElement.h"
 #include "minecraftpe/client/MinecraftClient.h"
 #include "minecraftpe/client/gui/TButton.h"
@@ -6,9 +8,8 @@
 #include "minecraftpe/client/gui/Font.h"
 #include "minecraftpe/client/gui/Gui.h"
 #include "minecraftpe/client/gui/Mouse.h"
-#include "shared.h"
 
-#include <cmath>
+#include "shared.h"
 
 TestListItemElement::TestListItemElement(MinecraftClient *mc) : GuiElement(true, true, 0, 0, 24, 24)
 {

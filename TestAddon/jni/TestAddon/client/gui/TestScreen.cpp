@@ -13,7 +13,7 @@
 #include "minecraftpe/client/renderer/texture/NinePatchFactory.h"
 #include "minecraftpe/util/Color.h"
 
-#include "TestAddon/client/gui/TestListItemElement.h"
+#include "TestListItemElement.h"
 
 TestScreen::TestScreen()
 {

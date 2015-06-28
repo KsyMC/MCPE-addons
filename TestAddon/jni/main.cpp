@@ -2,11 +2,6 @@
 #include <dlfcn.h>
 #include <algorithm>
 
-#include "Substrate.h"
-#include "shared.h"
-#include "dl_internal.h"
-#include "sounds.h"
-
 #include "minecraftpe/util/Vec3.h"
 #include "minecraftpe/util/Vec2.h"
 #include "minecraftpe/entity/MobFactory.h"
@@ -24,6 +19,7 @@
 #include "minecraftpe/tile/DoorTile.h"
 #include "minecraftpe/tile/material/Material.h"
 
+#include "TestAddon.h"
 #include "TestAddon/entity/passive/Horse.h"
 #include "TestAddon/client/model/HorseModel.h"
 #include "TestAddon/client/model/WingedSteveModel.h"
@@ -31,6 +27,13 @@
 #include "TestAddon/client/gui/TestScreen.h"
 #include "TestAddon/tile/AnywhereDoorTile.h"
 
+#include "Substrate.h"
+#include "shared.h"
+#include "AddonManager.h"
+#include "dl_internal.h"
+#include "sounds.h"
+
+TestAddon testAddon;
 Touch::TButton *screenTestButton;
 
 static Item *Item_anywhereDoorItem;
@@ -212,14 +215,14 @@ static bool DoorItem$useOn_hook(DoorItem *_this, ItemInstance *itemInstance, Pla
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
 	soinfo2 *handle = (soinfo2 *) dlopen("libminecraftpe.so", RTLD_LAZY);
-	void *Touch$StartMenuScreen$Destructor = dlsym(handle, "_ZN5Touch15StartMenuScreenD2Ev");
+	//void *Touch$StartMenuScreen$Destructor = dlsym(handle, "_ZN5Touch15StartMenuScreenD2Ev");
 	void *EntityRenderDispatcher$EntityRenderDispatcher = dlsym(handle, "_ZN22EntityRenderDispatcherC2ER15MinecraftClient");
 	void *SoundEngine$init = dlsym(handle, "_ZN11SoundEngine4initEP9MinecraftP7Options");
 
-	MSHookFunction(Touch$StartMenuScreen$Destructor, (void *)&Touch$StartMenuScreen$Destructor_hook, (void **)&Touch$StartMenuScreen$Destructor_real);
-	MSHookFunction((void *)&Touch::StartMenuScreen::init, (void *)&Touch$StartMenuScreen$init_hook, (void **)&Touch$StartMenuScreen$init_real);
-	MSHookFunction((void *)&Touch::StartMenuScreen::setupPositions, (void *)&Touch$StartMenuScreen$setupPositions_hook, (void **)&Touch$StartMenuScreen$setupPositions_real);
-	MSHookFunction((void *)&Touch::StartMenuScreen::buttonClicked, (void *)&Touch$StartMenuScreen$buttonClicked_hook, (void **)&Touch$StartMenuScreen$buttonClicked_real);
+	//MSHookFunction(Touch$StartMenuScreen$Destructor, (void *)&Touch$StartMenuScreen$Destructor_hook, (void **)&Touch$StartMenuScreen$Destructor_real);
+	//MSHookFunction((void *)&Touch::StartMenuScreen::init, (void *)&Touch$StartMenuScreen$init_hook, (void **)&Touch$StartMenuScreen$init_real);
+	//MSHookFunction((void *)&Touch::StartMenuScreen::setupPositions, (void *)&Touch$StartMenuScreen$setupPositions_hook, (void **)&Touch$StartMenuScreen$setupPositions_real);
+	//MSHookFunction((void *)&Touch::StartMenuScreen::buttonClicked, (void *)&Touch$StartMenuScreen$buttonClicked_hook, (void **)&Touch$StartMenuScreen$buttonClicked_real);
 	//MSHookFunction((void *)&MobFactory::CreateMob, (void *)&MobFactory$CreateMob_hook, (void **)&MobFactory$CreateMob_real);
 	MSHookFunction(EntityRenderDispatcher$EntityRenderDispatcher, (void *)&EntityRenderDispatcher$EntityRenderDispatcher_hook, (void **)&EntityRenderDispatcher$EntityRenderDispatcher_real);
 	MSHookFunction((void *)&SoundEngine::init, (void *)&SoundEngine$init_hook, (void **)&SoundEngine$init_real);
@@ -228,6 +231,8 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved)
 	MSHookFunction((void *)&Item::initCreativeItems, (void *)&Item$initCreativeItems_hook, (void **)&Item$initCreativeItems_real);
 	MSHookFunction((void *)&Tile::initTiles, (void *)&Tile$initTiles_hook, (void **)&Tile$initTiles_real);
 	MSHookFunction((void *)&DoorItem::useOn, (void *)&DoorItem$useOn_hook, (void **)&DoorItem$useOn_real);
+
+	AddonManager::registerAddon(&testAddon);
 
 	return JNI_VERSION_1_2;
 }

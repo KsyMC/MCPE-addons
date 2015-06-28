@@ -1,9 +1,10 @@
-#include "HorseModel.h"
-#include "minecraftpe/entity/Mob.h"
-#include "math_.h"
-
 #include <algorithm>
 #include <cmath>
+
+#include "HorseModel.h"
+#include "minecraftpe/entity/Mob.h"
+
+#include "math_.h"
 
 HorseModel::HorseModel()
 	: body(this, 0, 34, 128, 128),
