@@ -14,7 +14,8 @@ class Screen;
 class TextBox : public GuiElement
 {
 public:
-	static const char *extendedAcsii;
+	static const char *extendedASCII;
+	static const char *identifierChars;
 	static const char *numberChars;
 
 public:
@@ -30,8 +31,8 @@ public:
 	char filler3[12];			// 152
 
 public:
-	TextBox(MinecraftClient *, const Options::Option *, const std::string &, const std::string &);
-	TextBox(MinecraftClient *, const std::string &, int, const std::string &, Screen *, void (Screen::*)(int), int);
+	TextBox(MinecraftClient &, const Options::Option *, const std::string &, const std::string &);
+	TextBox(MinecraftClient &, const std::string &, int, const std::string &, Screen *, void (Screen::*)(int), int);
 	virtual void tick(MinecraftClient *);
 	virtual void render(MinecraftClient *, int, int);
 	virtual void topRender(MinecraftClient *, int, int);
@@ -41,7 +42,7 @@ public:
 	virtual void focusedMouseReleased(MinecraftClient *, int, int, int);
 	virtual void keyPressed(MinecraftClient *, int);
 	virtual void keyboardNewChar(MinecraftClient *, const std::string &, bool);
-	virtual void backPressed(MinecraftClient *, bool);
+	virtual bool backPressed(MinecraftClient *, bool);
 	virtual bool suppressOtherGUI();
 	virtual void setTextboxText(const std::string &);
 	virtual void setFocus(MinecraftClient *);

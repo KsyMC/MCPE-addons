@@ -5,6 +5,7 @@
 #include "LevelStorage.h"
 #include "ParticleType.h"
 #include "GeneratorType.h"
+#include "storage/LevelData.h"
 #include "../entity/Entity.h"
 #include "../client/AppPlatformListener.h"
 #include "../util/Random.h"
@@ -23,7 +24,6 @@ class LevelChunk;
 class Vec3;
 class AABB;
 class Material;
-class LevelData;
 class EntityUniqueID;
 class LevelListener;
 class LevelEvent;
@@ -35,14 +35,16 @@ class Level : public TileSourceListener, public AppPlatformListener
 {
 public:
 	//void **vtable;						// 4
+	char filler1[8];						// 8
+	bool isRemote;							// 12
 	//std::unordered_set<Player *> players;	// 60
-	char filler1[88];						// 8
+	char filler2[84];						// 12
 	//Random random;							// 96 + (SIZE??)
-	char filler2[2664];						// 96
+	char filler3[2664];						// 96
 	LevelData worldInfo;					// 2760
-	char filler3[32];						// 2868
+	char filler4[32];						// 2868
 	MobFactory *mobFactory;					// 2900
-	char filler4[92];						// 2904
+	char filler5[92];						// 2904
 
 public:
 	Level(SoundPlayer &, std::unique_ptr<LevelStorage>, const std::string &, const LevelSettings &, bool);
@@ -101,7 +103,7 @@ public:
 	void getLightsToUpdate();
 	LocalPlayer *getLocalPlayer();
 	void getMob(EntityUniqueID);
-	MobRenderer *getMobSpawner();
+	MobFactory *getMobSpawner();
 	void getMoonBrightness() const;
 	void getMoonPhase();
 	Player *getNearestPlayer(Entity *, float);

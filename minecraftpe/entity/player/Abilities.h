@@ -5,9 +5,9 @@ class Abilities
 {
 public:
 	bool disableDamage;	// 0
-	bool isFlying;		// 1
+	bool flying;		// 1
 	bool allowFlying;	// 2
-	bool isCreativeMode;// 3
+	bool creativeMode;// 3
 	bool allowEdit;		// 4
 
 public:

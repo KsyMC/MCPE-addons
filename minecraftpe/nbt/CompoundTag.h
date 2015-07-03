@@ -4,6 +4,9 @@
 
 #include "NamedTag.h"
 
+class ListTag;
+class TagMemoryChunk;
+
 // Size : 32
 class CompoundTag : public NamedTag
 {

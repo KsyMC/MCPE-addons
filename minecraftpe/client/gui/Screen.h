@@ -66,7 +66,7 @@ public:
 	virtual void lostFocus();
 	virtual void toGUICoordinate(int &, int &);
 	virtual void feedMCOEvent(MCOEvent);
-	virtual void supppressedBySubWindow();
+	virtual bool supppressedBySubWindow();
 	virtual void onTextBoxUpdated(int);
 	virtual void onMojangConnectorStatus(MojangConnectionStatus);
 	virtual void setTextboxText(const std::string &);
