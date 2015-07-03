@@ -55,7 +55,7 @@ static void Touch$StartMenuScreen$init_hook(Touch::StartMenuScreen *_this)
 
 	if (!screenTestButton)
 	{
-		screenTestButton = new Touch::TButton(6, "menu.test", NULL, false, 0x7FFFFFFF);
+		screenTestButton = new Touch::TButton(10, "menu.test", NULL, false, 0x7FFFFFFF);
 		screenTestButton->init(_this->mc);
 	}
 	_this->buttonList.push_back(screenTestButton);
@@ -66,9 +66,8 @@ static void Touch$StartMenuScreen$setupPositions_hook(Touch::StartMenuScreen *_t
 {
 	Touch$StartMenuScreen$setupPositions_real(_this);
 
-	screenTestButton->xPosition = _this->languageButton->xPosition;
-	screenTestButton->yPosition = _this->languageButton->yPosition - _this->languageButton->height - 2;
-	screenTestButton->width = _this->width - _this->languageButton->xPosition - 2;
+	screenTestButton->xPosition = _this->languageButton->xPosition - screenTestButton->width - 3;
+	screenTestButton->yPosition = _this->languageButton->yPosition;
 	screenTestButton->height = _this->languageButton->height;
 }
 
@@ -77,7 +76,7 @@ static void Touch$StartMenuScreen$buttonClicked_hook(Touch::StartMenuScreen *_th
 {
 	switch (button->id)
 	{
-	case 6:
+	case 10:
 		_this->mc->setScreen(new TestScreen());
 		break;
 	default:
@@ -215,14 +214,14 @@ static bool DoorItem$useOn_hook(DoorItem *_this, ItemInstance *itemInstance, Pla
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
 	soinfo2 *handle = (soinfo2 *) dlopen("libminecraftpe.so", RTLD_LAZY);
-	//void *Touch$StartMenuScreen$Destructor = dlsym(handle, "_ZN5Touch15StartMenuScreenD2Ev");
+	void *Touch$StartMenuScreen$Destructor = dlsym(handle, "_ZN5Touch15StartMenuScreenD2Ev");
 	void *EntityRenderDispatcher$EntityRenderDispatcher = dlsym(handle, "_ZN22EntityRenderDispatcherC2ER15MinecraftClient");
 	void *SoundEngine$init = dlsym(handle, "_ZN11SoundEngine4initEP9MinecraftP7Options");
 
-	//MSHookFunction(Touch$StartMenuScreen$Destructor, (void *)&Touch$StartMenuScreen$Destructor_hook, (void **)&Touch$StartMenuScreen$Destructor_real);
-	//MSHookFunction((void *)&Touch::StartMenuScreen::init, (void *)&Touch$StartMenuScreen$init_hook, (void **)&Touch$StartMenuScreen$init_real);
-	//MSHookFunction((void *)&Touch::StartMenuScreen::setupPositions, (void *)&Touch$StartMenuScreen$setupPositions_hook, (void **)&Touch$StartMenuScreen$setupPositions_real);
-	//MSHookFunction((void *)&Touch::StartMenuScreen::buttonClicked, (void *)&Touch$StartMenuScreen$buttonClicked_hook, (void **)&Touch$StartMenuScreen$buttonClicked_real);
+	MSHookFunction(Touch$StartMenuScreen$Destructor, (void *)&Touch$StartMenuScreen$Destructor_hook, (void **)&Touch$StartMenuScreen$Destructor_real);
+	MSHookFunction((void *)&Touch::StartMenuScreen::init, (void *)&Touch$StartMenuScreen$init_hook, (void **)&Touch$StartMenuScreen$init_real);
+	MSHookFunction((void *)&Touch::StartMenuScreen::setupPositions, (void *)&Touch$StartMenuScreen$setupPositions_hook, (void **)&Touch$StartMenuScreen$setupPositions_real);
+	MSHookFunction((void *)&Touch::StartMenuScreen::buttonClicked, (void *)&Touch$StartMenuScreen$buttonClicked_hook, (void **)&Touch$StartMenuScreen$buttonClicked_real);
 	//MSHookFunction((void *)&MobFactory::CreateMob, (void *)&MobFactory$CreateMob_hook, (void **)&MobFactory$CreateMob_real);
 	MSHookFunction(EntityRenderDispatcher$EntityRenderDispatcher, (void *)&EntityRenderDispatcher$EntityRenderDispatcher_hook, (void **)&EntityRenderDispatcher$EntityRenderDispatcher_real);
 	MSHookFunction((void *)&SoundEngine::init, (void *)&SoundEngine$init_hook, (void **)&SoundEngine$init_real);

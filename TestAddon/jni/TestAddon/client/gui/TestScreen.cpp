@@ -6,6 +6,7 @@
 #include "minecraftpe/client/gui/BlankButton.h"
 #include "minecraftpe/client/gui/Label.h"
 #include "minecraftpe/client/gui/ImageButton.h"
+#include "minecraftpe/client/gui/TextBox.h"
 #include "minecraftpe/client/gui/TButton.h"
 #include "minecraftpe/client/gui/PackedScrollContainer.h"
 #include "minecraftpe/client/gui/StartMenuScreen.h"
@@ -15,6 +16,8 @@
 
 #include "TestListItemElement.h"
 
+#include "shared.h"
+
 TestScreen::TestScreen()
 {
 	testHeader = NULL;
@@ -23,6 +26,7 @@ TestScreen::TestScreen()
 	blankButton = NULL;
 	stringLabel = NULL;
 	imageButton = NULL;
+	inputTextBox = NULL;
 	stateLabel = NULL;
 	testButton = NULL;
 	toggleButton = NULL;
@@ -37,6 +41,7 @@ TestScreen::~TestScreen()
 	delete blankButton;
 	delete stringLabel;
 	delete imageButton;
+	delete inputTextBox;
 	delete stateLabel;
 	delete testButton;
 	delete toggleButton;
@@ -58,6 +63,7 @@ void TestScreen::init()
 	blankButton = new BlankButton(1);
 	stringLabel = new Label(*mc, "Label", Color::WHITE, 0, 0, 0, true);
 	imageButton = new ImageButton(2, "ImageButton");
+	inputTextBox = new TextBox(*mc, "Test input", 5, TextBox::extendedASCII, NULL, &Screen::onTextBoxUpdated, 0);
 	stateLabel = new Label(*mc, "누름 : 없음", Color::WHITE, 0, 0, 0, true);
 	testButton = new Touch::TButton(3, "TButton", NULL, false, 0x7FFFFFFF);
 	toggleButton = new Touch::TButton(4, "Toggle", NULL, true, 0x7FFFFFFF);
@@ -79,6 +85,7 @@ void TestScreen::init()
 	buttonList.push_back(blankButton);
 	elementList2.push_back(stringLabel);
 	buttonList.push_back(imageButton);
+	elementList2.push_back(inputTextBox);
 	elementList2.push_back(stateLabel);
 	buttonList.push_back(testButton);
 	buttonList.push_back(toggleButton);
@@ -105,6 +112,10 @@ void TestScreen::setupPositions()
 	imageButton->xPosition = 10;
 	imageButton->yPosition = stringLabel->yPosition + stringLabel->height + 2;
 
+	inputTextBox->xPosition = imageButton->xPosition;
+	inputTextBox->yPosition = imageButton->yPosition + imageButton->height;
+	inputTextBox->width = width / 2 - 12;
+
 	stateLabel->xPosition = width / 2;
 	stateLabel->yPosition = testHeader->height + 10;
 
@@ -123,7 +134,14 @@ void TestScreen::setupPositions()
 bool TestScreen::handleBackEvent(bool b)
 {
 	if (!b)
+	{
+		if (inputTextBox->suppressOtherGUI())
+		{
+			if (inputTextBox->backPressed(mc, false))
+				return true;
+		}
 		mc->setScreen(new Touch::StartMenuScreen());
+	}
 	return true;
 }
 

@@ -13,6 +13,7 @@ class NinePatchLayer;
 class BlankButton;
 class Label;
 class ImageButton;
+class TextBox;
 class PackedScrollContainer;
 
 class TestScreen : public Screen
@@ -24,6 +25,7 @@ public:
 	BlankButton *blankButton;
 	Label *stringLabel;
 	ImageButton *imageButton;
+	TextBox *inputTextBox;
 	Label *stateLabel;
 	Touch::TButton *testButton;
 	Touch::TButton *toggleButton;
