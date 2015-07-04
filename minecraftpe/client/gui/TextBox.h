@@ -48,7 +48,7 @@ public:
 	virtual void setFocus(MinecraftClient *);
 	virtual void loseFocus(MinecraftClient *);
 	int getKey();
-	std::string getText() const;
+	std::string &getText() const;
 	void setText(const std::string &);
 	void setValidChars(const std::string &);
 };

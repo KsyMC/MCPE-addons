@@ -2,11 +2,14 @@
 
 #include "GuiElementContainer.h"
 
+class ScrollingPane;
+
 // Size : 140
 class PackedScrollContainer : public GuiElementContainer
 {
 public:
-	char filler1[12];	// 128
+	ScrollingPane *pane;	// 128
+	char filler1[8];		// 132
 
 public:
 	PackedScrollContainer(bool, bool);
