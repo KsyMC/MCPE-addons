@@ -20,4 +20,4 @@ public:
 	virtual void renderBg(MinecraftClient *, int, int);
 };
 
-}
+};

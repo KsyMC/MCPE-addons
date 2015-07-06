@@ -29,8 +29,8 @@ public:
 	void blitRaw(float, float, float, float, float, float, float, float, float);
 	void drawString(Font *, const std::string &, int, int, Color const &);
 	void drawCenteredString(Font *, const std::string &, int, int, const Color &);
-	void fill(float, float, float, float, const Color &);
-	void fill(int, int, int, int, const Color &);
+	void fill(float, float, float, float, const Color &) const;
+	void fill(int, int, int, int, const Color &) const;
 	void fillGradient(float, float, float, float, const Color &, const Color &);
 	void fillGradient(int, int, int, int, const Color &, const Color &);
 	void fillHorizontalGradient(float, float, float, float, const Color &, const Color &);

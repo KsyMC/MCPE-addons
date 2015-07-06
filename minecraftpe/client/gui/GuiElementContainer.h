@@ -8,7 +8,8 @@
 class GuiElementContainer : public GuiElement
 {
 public:
-	char filler1[20];	// 108
+	std::vector<std::shared_ptr<GuiElement>> children;	// 108
+	char filler1[8];									// 120
 
 public:
 	GuiElementContainer(bool, bool, int, int, int, int);

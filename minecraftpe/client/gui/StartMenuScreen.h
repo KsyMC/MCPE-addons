@@ -34,4 +34,4 @@ public:
 	virtual void controllerDirectionChanged(int, Controller::StickDirection);
 };
 
-}
+};

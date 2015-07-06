@@ -1,5 +1,16 @@
 #pragma once
 
+#include "ScrollingPane.h"
+#include "../AppPlatformListener.h"
+
+namespace Controller
+{
+	class StickDirection;
+}
+
+class IntRectangle;
+class ItemInstance;
+
 namespace Touch
 {
 
@@ -17,6 +28,14 @@ public:
 	virtual void refreshItems();
 	virtual void onAppSuspended();
 	virtual void onAppResumed();
+	void buildInventoryItemsChunk(std::vector<const ItemInstance *> &, ItemRenderChunkType);
+	void drawRectangleOnSelectedItem(ScrollingPane::GridItem &);
+	void drawScrollBar(ScrollBar &);
+	void onSelectItem();
+	void renderSelectedItem(std::vector<ScrollingPane::GridItem> &, std::vector<const ItemInstance *>, Tessellator &, ScrollingPane::GridItem *&, float &, float &);
+	void setControllerDirection(Controller::StickDirection);
+	void setRenderDecorations(bool);
+	void tick();
 };
 
-}
+};

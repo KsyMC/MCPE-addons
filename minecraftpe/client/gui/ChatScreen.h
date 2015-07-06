@@ -6,7 +6,7 @@
 namespace Touch
 {
 	class HeaderButton;
-}
+};
 
 class ImageWithBackground;
 

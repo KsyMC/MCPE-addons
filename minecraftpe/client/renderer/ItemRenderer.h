@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EntityRenderer.h"
+#include "entity/EntityRenderer.h"
 #include "ItemRenderChunkType.h"
 
 class Textures;

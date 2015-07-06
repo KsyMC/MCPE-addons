@@ -22,4 +22,4 @@ public:
 	void init(MinecraftClient *, const std::string &, const IntRectangle &, const IntRectangle &, int, int, int, int);
 };
 
-}
+};

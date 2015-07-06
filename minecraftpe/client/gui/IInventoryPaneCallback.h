@@ -12,4 +12,4 @@ public:
 	virtual void getItems(const Touch::InventoryPane *) = 0;
 };
 
-}
+};

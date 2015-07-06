@@ -6,11 +6,11 @@
 namespace Touch
 {
 	class TButton;
-}
+};
 namespace Controller
 {
 	class StickDirection;
-}
+};
 
 class MinecraftClient;
 class IntRectangle;

@@ -2,6 +2,8 @@
 
 #include "BaseContainerMenu.h"
 
+class Container;
+
 // Size : 32
 class InventoryMenu : public BaseContainerMenu
 {

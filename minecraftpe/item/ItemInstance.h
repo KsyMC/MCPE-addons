@@ -73,7 +73,7 @@ public:
 	void sameItemAndAux(ItemInstance *) const;
 	void save(CompoundTag *);
 	void set(int);
-	void setAuxValue(int);
+	void setAuxValue(short);
 	void setDescriptionId(const std::string &);
 	void setNull();
 	void snap(Player *);

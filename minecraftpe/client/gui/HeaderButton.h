@@ -17,4 +17,4 @@ public:
 	virtual void setMsg(const std::string &);
 };
 
-}
+};
