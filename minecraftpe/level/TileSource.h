@@ -75,10 +75,10 @@ public:
 	void getSeenPercent(const Vec3 &, const AABB &);
 	void getSkyDarken();
 	void getTickQueue(const TilePos &);
-	void getTile(const TilePos &);
-	FullTile getTile(int, int, int);
-	void getTileAndData(const TilePos &);
-	void getTileAndData(int, int, int);
+	TileID getTile(const TilePos &);
+	TileID getTile(int, int, int);
+	FullTile getTileAndData(const TilePos &);
+	FullTile getTileAndData(int, int, int);
 	void getTileEntity(const TilePos &);
 	void getTileEntity(int, int, int);
 	Tile *getTilePtr(const TilePos &);

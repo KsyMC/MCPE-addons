@@ -37,7 +37,7 @@ public:
 	SimpleFoodData *simpleFoodData;	// 3204
 	char filler3[8];				// 3208
 	RakNet::RakNetGUID rakNetGUID;	// 3216
-	char filler4[28];				// 3228
+	char filler4[24];				// 3232
 	Inventory *inventory;			// 3256
 	char filler5[12];				// 3260
 	TileSource *tileSource;			// 3272
@@ -54,7 +54,6 @@ public:
 	int spawnPointY;				// 3432
 	int spawnPointZ;				// 3436
 	bool sleeping;					// 3440
-
 
 public:
 	Player(Level &, PacketSender &, bool, const RakNet::RakNetGUID &);

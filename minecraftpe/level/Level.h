@@ -44,7 +44,9 @@ public:
 	LevelData worldInfo;					// 2760
 	char filler4[32];						// 2868
 	MobFactory *mobFactory;					// 2900
-	char filler5[92];						// 2904
+	char filler5[4];						// 2904
+	TileSource *tileSource;					// 2908
+	char filler6[84];						// 2912
 
 public:
 	Level(SoundPlayer &, std::unique_ptr<LevelStorage>, const std::string &, const LevelSettings &, bool);

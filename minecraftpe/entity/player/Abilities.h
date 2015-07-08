@@ -7,7 +7,7 @@ public:
 	bool disableDamage;	// 0
 	bool flying;		// 1
 	bool allowFlying;	// 2
-	bool creativeMode;// 3
+	bool creativeMode;	// 3
 	bool allowEdit;		// 4
 
 public:

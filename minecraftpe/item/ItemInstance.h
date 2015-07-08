@@ -38,8 +38,8 @@ public:
 	ItemInstance *cloneSafe(const ItemInstance *);
 	void fromTag(CompoundTag *);
 	int getAttackDamage(Entity *);
-	int getAuxValue() const;
-	int getDamageValue() const;
+	short getAuxValue() const;
+	short getDamageValue() const;
 	int getDestroySpeed(Tile *);
 	void getIcon(int, bool) const;
 	int getId() const;
