@@ -63,7 +63,7 @@ public:
 	virtual void updateSoundLocation(Mob *, float);
 	virtual void isServerVisible();
 	virtual void sendLocalMessage(const std::string &, const std::string &);
-	virtual void getPlayer();
+	virtual LocalPlayer *getPlayer();
 	virtual void onInternetUpdate();
 	virtual void createLocalClientNetworkHandler();
 	virtual void getSoundPlayer();

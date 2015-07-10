@@ -72,12 +72,12 @@ public:
 	virtual void playUI(const std::string &, float, float);
 	virtual void isServerVisible();
 	virtual void sendLocalMessage(const std::string &, const std::string &);
-	virtual void getPlayer();
+	virtual LocalPlayer *getPlayer();
 	virtual void onInternetUpdate();
 	virtual void createLocalClientNetworkHandler();
 	virtual void getSoundPlayer();
 	virtual void getVibration();
-	virtual void getLocalPlayer();
+	virtual LocalPlayer *getLocalPlayer();
 	virtual void vibrate(int);
 	void _createDefaultInput();
 	void _reloadFancy(bool);

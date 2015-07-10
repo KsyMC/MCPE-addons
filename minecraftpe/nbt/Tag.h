@@ -13,6 +13,9 @@ public:
 	static void *NullString;
 
 public:
+	//void **vtable;	// 0
+
+public:
 	Tag(const std::string &);
 	virtual ~Tag();
 	virtual void deleteChildren();

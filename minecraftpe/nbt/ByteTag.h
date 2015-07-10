@@ -2,8 +2,12 @@
 
 #include "Tag.h"
 
+// Size : 8
 class ByteTag : public Tag
 {
+public:
+	char filler1[4];	// 4
+
 public:
 	ByteTag(const std::string &);
 	ByteTag(const std::string &, char);

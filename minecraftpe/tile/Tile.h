@@ -209,7 +209,7 @@ public:
 	char filler1[4];					// 4
 	AABB aabb;							// 8
 	TextureUVCoordinateSet blockIcon;	// 36
-	TileID id;							// 68
+	TileID tileID;						// 68
 	Tile::SoundType	stepSound;			// 72
 	int blockRendererId;				// 84
 	char filler2[20];					// 88

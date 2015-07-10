@@ -6,6 +6,9 @@
 class ListTag : public Tag
 {
 public:
+	char filler1[16];	// 4
+
+public:
 	ListTag();
 	ListTag(const std::string &);
 	virtual ~ListTag();

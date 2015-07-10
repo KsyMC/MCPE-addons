@@ -35,10 +35,10 @@ class Level : public TileSourceListener, public AppPlatformListener
 {
 public:
 	//void **vtable;						// 4
-	char filler1[8];						// 8
+	char filler1[4];						// 8
 	bool isRemote;							// 12
 	//std::unordered_set<Player *> players;	// 60
-	char filler2[84];						// 12
+	char filler2[80];						// 16
 	//Random random;							// 96 + (SIZE??)
 	char filler3[2664];						// 96
 	LevelData worldInfo;					// 2760

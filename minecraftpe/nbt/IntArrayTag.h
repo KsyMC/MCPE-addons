@@ -2,8 +2,12 @@
 
 #include "Tag.h"
 
+// Size : 12
 class IntArrayTag : public Tag
 {
+public:
+	char filler1[8];	// 4
+
 public:
 	IntArrayTag(const std::string &);
 	IntArrayTag(const std::string &, TagMemoryChunk);

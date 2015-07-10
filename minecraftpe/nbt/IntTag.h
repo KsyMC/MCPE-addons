@@ -6,6 +6,9 @@
 class IntTag : public Tag
 {
 public:
+	char filler1[4];	// 4
+
+public:
 	IntTag(const std::string &);
 	IntTag(const std::string &, int);
 	virtual ~IntTag();

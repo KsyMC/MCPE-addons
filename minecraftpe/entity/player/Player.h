@@ -45,7 +45,7 @@ public:
 	SkinInfo *skinInfo;				// 3316
 	char filler7[4];				// 3320
 	ItemInstance itemInstance;		// 3324
-	char filler8[4];				// 3340
+	char filler8[8];				// 3340
 	ItemInstance armors[4];			// 3348
 	char filler9[8];				// 3412
 	PacketSender *packetSender;		// 3420

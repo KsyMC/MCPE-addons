@@ -3,6 +3,7 @@
 class ChunkPos;
 class Vec3;
 
+// Size : 12
 class TilePos
 {
 public:

@@ -6,6 +6,9 @@
 class ByteArrayTag : public Tag
 {
 public:
+	char filler1[8];	// 4
+
+public:
 	ByteArrayTag(const std::string &);
 	ByteArrayTag(const std::string &, TagMemoryChunk);
 	virtual ~ByteArrayTag();

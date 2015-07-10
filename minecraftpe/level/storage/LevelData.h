@@ -42,7 +42,7 @@ public:
 	void createTag() const;
 	Dimension getDimension();
 	int getGameType() const;
-	void getGenerator() const;
+	GeneratorType getGenerator() const;
 	void getLastPlayed() const;
 	std::string getLevelName() const;
 	void getLoadedPlayerTag();

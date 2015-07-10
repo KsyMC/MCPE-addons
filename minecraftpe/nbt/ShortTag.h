@@ -6,6 +6,9 @@
 class ShortTag : public Tag
 {
 public:
+	char filler1[4];	// 4
+
+public:
 	ShortTag(const std::string &);
 	ShortTag(const std::string &, short);
 	virtual ~ShortTag();

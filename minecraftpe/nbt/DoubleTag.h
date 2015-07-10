@@ -6,6 +6,9 @@
 class DoubleTag : public Tag
 {
 public:
+	char filler1[12];	// 4
+
+public:
 	DoubleTag(const std::string &);
 	DoubleTag(const std::string &, double);
 	virtual ~DoubleTag();

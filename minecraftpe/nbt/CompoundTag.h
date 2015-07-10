@@ -11,6 +11,9 @@ class TagMemoryChunk;
 class CompoundTag : public NamedTag
 {
 public:
+	char filler1[28];	// 4
+
+public:
 	CompoundTag();
 	CompoundTag(const std::string &);
 	CompoundTag(CompoundTag &&);
