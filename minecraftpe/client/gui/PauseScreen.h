@@ -3,20 +3,20 @@
 #include "Screen.h"
 #include "../../level/LevelListener.h"
 
+class PackedScrollContainer;
 class Label;
 
 // Size : 236
 class PauseScreen : public Screen, public LevelListener
 {
 public:
-	//void **vtable;				// 200
-	char filler1[12];				// 204
-	Touch::TButton *backButton;		// 216
-	Touch::TButton *quitButton;		// 220
-	Touch::TButton *quitCopyButton;	// 224
-	Touch::TButton *optionButton;	// 228
-	Label *gameMenuLabel;			// 232
-	Label *playerList;				// 236
+	//void **vtable;							// 200
+	char filler1[12];							// 204
+	Touch::TButton *backButton;					// 216
+	Touch::TButton *quitButton;					// 220
+	Touch::TButton *optionButton;				// 224
+	Label *headerLabel;							// 228
+	PackedScrollContainer *playerListContainer;	// 232
 
 public:
 	PauseScreen(bool);
