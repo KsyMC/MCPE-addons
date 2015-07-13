@@ -9,7 +9,7 @@ public:
 	char filler1[48];				// 108
 	std::string displayString;		// 156
 	int id;							// 160
-	bool toogled;					// 164
+	bool toggled;					// 164
 	bool pressed;					// 165
 	bool overrideScreenRendering;	// 166
 
