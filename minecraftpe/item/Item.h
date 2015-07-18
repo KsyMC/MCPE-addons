@@ -197,7 +197,7 @@ public:
 	virtual int getLevelDataForAuxValue(int) const;
 	virtual bool isStackedByData() const;
 	virtual short getMaxDamage();
-	virtual void getAttackDamage(Entity *);
+	virtual int getAttackDamage(Entity *);
 	virtual void hurtEnemy(ItemInstance *, Mob *, Mob *);
 	virtual void interactEnemy(ItemInstance *, Mob *, Player *);
 	virtual void mineBlock(ItemInstance *, int, int, int, int, Mob *);
