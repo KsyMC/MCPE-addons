@@ -224,7 +224,7 @@ public:
 public:
 	Tile(int, const Material *);
 	Tile(int, TextureUVCoordinateSet, const Material *);
-	Tile(int, std::string const&, const Material *);
+	Tile(int, const std::string &, const Material *);
 	virtual ~Tile();
 	virtual void onFertilized(TileSource *, int, int, int);
 	virtual AABB *getShape(TileSource *, int, int, int, AABB &, bool);
