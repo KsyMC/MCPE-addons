@@ -9,12 +9,14 @@ class AppPlatform_android : public AppPlatform
 public:
 	AppPlatform_android();
 	virtual ~AppPlatform_android();
-	virtual void getImagePath(const std::string &, bool);
-	virtual void loadPNG(ImageData &, const std::string &, bool);
-	virtual void loadTGA(ImageData &, const std::string &);
+	virtual void getDataUrl() const;
+	virtual void getImagePath(std::string const &, bool);
+	virtual void loadPNG(ImageData &, std::string const &, bool);
+	virtual void loadTGA(ImageData &, std::string const &);
 	virtual void getKeyFromKeyCode(int, int, int);
-	virtual void showKeyboard(const std::string &, int, bool);
+	virtual void showKeyboard(std::string const &, int, bool, UI::ValidCharacterFlag, Vec2 const &);
 	virtual void hideKeyboard();
+	virtual void getKeyboardHeight() const;
 	virtual void swapBuffers();
 	virtual void getSystemRegion() const;
 	virtual void getGraphicsVendor();
@@ -24,7 +26,7 @@ public:
 	virtual void pickImage(ImagePickingCallback &);
 	virtual void getExternalStoragePath();
 	virtual void getInternalStoragePath();
-	virtual void playSound(const std::string &, float, float);
+	virtual void getUserdataPath();
 	virtual void showDialog(int);
 	virtual void createUserInput();
 	virtual void getUserInputStatus();
@@ -32,14 +34,10 @@ public:
 	virtual void getScreenWidth();
 	virtual void getScreenHeight();
 	virtual void getPixelsPerMillimeter();
-	virtual void openLoginWindow();
-	virtual void updateTextBoxText(const std::string &);
-	virtual void getLoginInformation();
-	virtual void setLoginInformation(const LoginInformation &);
-	virtual void clearSessionIDAndRefreshToken();
+	virtual void updateTextBoxText(std::string const &);
 	virtual void supportsVibration();
 	virtual void vibrate(int);
-	virtual void readAssetFile(const std::string &);
+	virtual void readAssetFile(std::string const &);
 	virtual void getDateString(int);
 	virtual void checkLicense();
 	virtual void hasBuyButtonWhenInvalidLicense();
@@ -48,7 +46,6 @@ public:
 	virtual void isPowerVR();
 	virtual void buyGame();
 	virtual void finish();
-	virtual void supportsTouchscreen();
 	virtual void getPlatformStringVar(int);
 	virtual void getApplicationId();
 	virtual void getAvailableMemory();

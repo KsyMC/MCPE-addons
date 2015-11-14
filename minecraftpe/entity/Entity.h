@@ -25,8 +25,8 @@ class Entity
 {
 public:
 	static std::string RIDING_TAG;
-	static uint entityCounter;
-	static Random *sharedRandom;
+	static int TOTAL_AIR_SUPPLY;
+	static uint mEntityCounter;
 
 public:
 	// void **vtable;
@@ -36,7 +36,7 @@ public:
 	float posY;					// 28
 	float posZ;					// 32
 	char filler2[12];			// 36
-	TileSource *tileSource;		// 48
+	BlockSource *blockSource;	// 48
 	char filler3[4];			// 52
 	Level *level;				// 56
 	float prevPosX;				// 60
@@ -68,8 +68,8 @@ public:
 	char filler11[16];			// 308
 
 public:
-	Entity(Level &, bool);
-	Entity(TileSource &, bool);
+	Entity(Level &);
+	Entity(BlockSource &);
 	virtual ~Entity();
 	virtual void reset();
 	virtual void remove();

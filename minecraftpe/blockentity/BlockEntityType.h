@@ -1,6 +1,6 @@
 #pragma once
 
-enum TileEntityType
+enum BlockEntityType
 {
 	FURNACE = 1,
 	CHEST,

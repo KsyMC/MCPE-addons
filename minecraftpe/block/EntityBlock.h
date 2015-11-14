@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tile.h"
+#include <minecraftpe/block/Block.h>
 
 class TileEntity;
 

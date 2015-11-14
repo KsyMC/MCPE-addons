@@ -1,9 +1,9 @@
 #pragma once
 
-#include "TileSourceListener.h"
+#include "BlockSourceListener.h"
 #include "ParticleType.h"
 
-class LevelListener : public TileSourceListener
+class LevelListener : public BlockSourceListener
 {
 public:
 	virtual ~LevelListener();

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Tile.h"
+#include <minecraftpe/block/Block.h>
 
 // Size : 268
-class DoorTile : public Tile
+class DoorBlock : public Block
 {
 public:
 	TextureUVCoordinateSet texture1;	 // 140
@@ -12,8 +12,8 @@ public:
 	TextureUVCoordinateSet texture4;	 // 236
 
 public:
-	DoorTile(int, const Material *);
-	virtual ~DoorTile();
+	DoorBlock(int, const Material *);
+	virtual ~DoorBlock();
 	virtual AABB *getShape(TileSource *, int, int, int, AABB &, bool);
 	virtual TextureUVCoordinateSet getTexture(signed char, int);
 	virtual TextureUVCoordinateSet getTexture(TileSource *, int, int, int, signed char);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Tile.h"
+#include <minecraftpe/block/Block.h>
 
 // Size : 144
 class HalfTransparentTile : public Tile

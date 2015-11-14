@@ -1,11 +1,9 @@
 #pragma once
 
 #include <memory>
-#include "App.h"
 #include "settings/Options.h"
 #include "../level/Level.h"
 
-class TextureAtlas;
 class ServerCommandParser;
 class NetEventCallback;
 class GameMode;
@@ -17,15 +15,13 @@ class Mob;
 class LocalPlayer;
 class ClientSideNetworkHandler;
 class ExternalFileLevelStorageSource;
+class GameCallbacks;
+class SkinInfoFactory;
+class Whitelist;
 
 // Size : 248
-class Minecraft : public App
+class Minecraft
 {
-public:
-	static TextureAtlas *_itemsTextureAtlas;
-	static TextureAtlas *_terrainTextureAtlas;
-	static int customDebugId;
-
 public:
 	char filler1[4];					// 28
 	int displayWidth;					// 32
@@ -44,43 +40,35 @@ public:
 	Level *level;						// 244
 
 public:
-	Minecraft(int, char **);
-	virtual ~Minecraft();
-	virtual void onAppSuspended();
-	virtual void onAppResumed();
-	virtual void update();
-	virtual void init();
-	virtual void teardown();
-	virtual void selectLevel(const std::string &, const std::string &, const LevelSettings &);
-	virtual void setLevel(std::unique_ptr<Level>, const std::string &, Player *);
-	virtual void startFrame();
-	virtual void updateGraphics(const Timer &);
-	virtual void endFrame();
-	virtual void tick(int, int);
-	virtual void leaveGame(bool);
-	virtual void play(const std::string &, float, float, float, float, float);
-	virtual void playUI(const std::string &, float, float);
-	virtual void updateSoundLocation(Mob *, float);
-	virtual void isServerVisible();
-	virtual void sendLocalMessage(const std::string &, const std::string &);
-	virtual LocalPlayer *getPlayer();
-	virtual void onInternetUpdate();
-	virtual void createLocalClientNetworkHandler();
-	virtual void getSoundPlayer();
-	virtual void getVibration();
-	void cancelLocateMultiplayer();
+	Minecraft(GameCallbacks &, SkinInfoFactory &, Vibration &, SoundPlayer &, Whitelist const &, std::string const &);
+	~Minecraft();
+	void createGameMode(GameType, Level &);
+	void createLevel(std::string const &, std::string const &, LevelSettings const &);
 	ServerCommandParser *getCommandParser();
-	ExternalFileLevelStorageSource *getLevelSource();
+	GameMode *getGameMode();
+	Level *getLevel();
+	void *getLevelSource();
+	NetEventCallback *getNetEventCallback();
 	PacketSender *getPacketSender();
+	RakNetInstance *getRakNetInstance();
 	std::string getServerName();
-	void hostMultiplayer(int, int);
-	void init(const std::string &);
-	bool isCreativeMode();
+	ServerNetworkHandler *getServerNetworkHandler();
+	void *getTimer();
+	void *getUser();
+	void hostMultiplayer(std::unique_ptr<Level>, std::unique_ptr<GameMode>, Player *, std::unique_ptr<NetEventCallback>, bool, int, int);
+	void init(std::string const &);
+	void initAsDedicatedServer();
 	bool isModded();
 	bool isOnlineClient();
-	void lookForControl();
-	void removeAllPlayers();
-	void setIsCreativeMode(bool);
+	void onClientStartedLevel(std::unique_ptr<Level>);
+	void resetGameSession();
+	void restartMultiplayerHost(int, int);
+	void setGameModeReal(GameType);
 	void setLeaveGame();
-	void setNetEventCallBack(std::unique_ptr<NetEventCallback>);
+	void setupServerCommands();
+	void startClientGame(std::unique_ptr<NetEventCallback>);
+	void stopGame();
+	void teardown();
+	void tick(int, int);
+	void update();
 };

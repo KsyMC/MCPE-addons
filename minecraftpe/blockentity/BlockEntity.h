@@ -1,16 +1,16 @@
 #pragma once
 
-#include "TileEntityType.h"
+#include "BlockEntityType.h"
 #include "../inventory/FillingContainer.h"
 
 class Packet;
-class TilePos;
+class BlockPos;
 
-class TileEntity
+class BlockEntity
 {
 public:
-	TileEntity(TileEntityType, const TilePos &, const std::string &);
-	virtual ~TileEntity();
+	BlockEntity(TileEntityType, const TilePos &, const std::string &);
+	virtual ~BlockEntity();
 	virtual void load(CompoundTag *);
 	virtual void save(CompoundTag *);
 	virtual void tick(TileSource *);

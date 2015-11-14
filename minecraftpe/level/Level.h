@@ -1,9 +1,9 @@
 #pragma once
 
 #include <unordered_set>
-#include "TileSourceListener.h"
 #include "LevelStorage.h"
 #include "ParticleType.h"
+#include "BlockSourceListener.h"
 #include "GeneratorType.h"
 #include "storage/LevelData.h"
 #include "../entity/Entity.h"
@@ -31,7 +31,7 @@ class LevelSettings;
 typedef int StorageVersion;
 
 // Size : 2996
-class Level : public TileSourceListener, public AppPlatformListener
+class Level : public BlockSourceListener, public AppPlatformListener
 {
 public:
 	//void **vtable;						// 4
