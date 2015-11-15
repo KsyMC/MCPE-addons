@@ -1,17 +1,14 @@
 #pragma once
 
-#include <minecraftpe/block/Block.h>
-
-class BlockEntity;
+#include "Block.h"
 
 // Size : 140
-class EntityTile : public Block
+class EntityBlock : public Block
 {
 public:
-	EntityTile(int, const Material *);
-	EntityTile(int, const std::string &, const Material *);
-	virtual ~EntityTile();
-	virtual void neighborChanged(BlockSource *, int, int, int, int, int, int);
-	virtual void triggerEvent(BlockSource *, int, int, int, int, int);
-	virtual BlockEntity *newTileEntity(const BlockPos &);
+	EntityBlock(std::string const &, int, Material const &);
+	EntityBlock(std::string const &, int, std::string const &, Material const &);
+	virtual ~EntityBlock();
+	virtual void neighborChanged(BlockSource &, BlockPos const &, BlockPos const &);
+	virtual void triggerEvent(BlockSource &, BlockPos const &, int, int);
 };

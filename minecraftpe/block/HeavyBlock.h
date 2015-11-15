@@ -1,21 +1,24 @@
 #pragma once
 
-#include <minecraftpe/block/Block.h>
+#include "Block.h"
 
 class Color;
 
 // Size : 140
-class HeavyTile : public Block
+class HeavyBlock : public Block
 {
 public:
-	HeavyTile(int, const std::string &, const Material *);
-	virtual ~HeavyTile();
-	virtual void getTickDelay();
-	virtual void tick(BlockSource *, int, int, int, Random *);
-	virtual void animateTick(BlockSource *, int, int, int, Random *);
-	virtual void neighborChanged(BlockSource *, int, int, int, int, int, int);
-	virtual void onPlace(BlockSource *, int, int, int);
-	virtual Color *getDustColor() = 0;
+	HeavyBlock(std::string const &, int, std::string const &, Material const &);
+	virtual ~HeavyBlock();
+	virtual void tick(BlockSource &, BlockPos const &, Random &);
+	virtual void animateTick(BlockSource &, BlockPos const &, Random &);
+	virtual void onPlace(BlockSource &, BlockPos const &);
+	virtual void neighborChanged(BlockSource &, BlockPos const &, BlockPos const &);
+	virtual Color *getDustColor() const = 0;
+	virtual void falling();
+	virtual void onLand(BlockSource &, BlockPos const &);
+	virtual void isFree(BlockSource &, BlockPos const &);
+	virtual void startFalling(BlockSource &, BlockPos const &, Block *, bool);
 	void _checkSlide(BlockSource *, int, int, int);
 	void _findBottomSlidingTile(BlockSource &, const BlockPos &);
 	void _isFree(BlockSource *, const BlockPos &);

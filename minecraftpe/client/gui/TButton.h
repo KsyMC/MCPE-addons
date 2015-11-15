@@ -5,7 +5,7 @@
 namespace Touch
 {
 
-// Size : 176
+// Size : 116
 class TButton : public Button
 {
 public:

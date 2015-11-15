@@ -1,18 +1,13 @@
 #pragma once
 
+#include "MaterialType.h"
+
 // Size : 16
 class Material
 {
 public:
-	enum Type
-	{
-		//MATERIAL_
-	};
-
-public:
-	static Material *web, *cake, *portal, *vegetable, *clay, *cactus, *snow, *topsnow, *ice, *coral, *explosive;
-	static Material *glass, *decoration, *sand, *fire, *bed, *cloth, *sponge, *replaceable_plant, *plant, *leaves;
-	static Material *lava, *water, *metal, *stone, *wood, *dirt, *air;
+	static Material *mInitialized;
+	static Material *mMaterials;
 
 public:
 	bool flammable;				// 0
@@ -24,7 +19,7 @@ public:
 	char filler2[3];			// 13
 
 public:
-	Material(Material::Type, float);
+	Material(MaterialType, Material::Settings, float);
 	void setFlammable();
 	void setNeverBuildable();
 	void setNotAlwaysDestroyable();

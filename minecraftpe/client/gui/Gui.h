@@ -3,81 +3,88 @@
 #include <string>
 #include <vector>
 #include "GuiComponent.h"
+#include "../settings/IConfigListener.h"
 #include "../AppPlatformListener.h"
 
 class MinecraftClient;
 class Config;
 class ItemInstance;
 
-// Size : 608
-class Gui : public GuiComponent, public AppPlatformListener
+// Size : 3040
+class Gui : public GuiComponent, public IConfigListener, public AppPlatformListener
 {
 public:
 	static float DropTicks;
 	static float GuiScale;
 	static float InvGuiScale;
+	static float BUTTONS_TRANSPARENCY;
 
 public:
 	//void **vtable;					// 64
-	char filler1[304];					// 68
-	MinecraftClient *mc;				// 372
-	char filler2[8];					// 376
-	std::string recordPlaying;			// 384
-	int recordPlayingUpFor;				// 388
-	bool recordIsPlaying;				// 392
-	char filler3[7];					// 393
-	bool muteChat;						// 400
-	char filler4[156];					// 404
-	std::string tipMessage;				// 560
-	float tipMessageAlpha;				// 564
-	float tipMessageLineLength;			// 568
-	char filler5[36];					// 572
+	char filler1[2520];					// 68
+	MinecraftClient *mc;				// 2588
 
 public:
 	Gui(MinecraftClient &);
+	virtual ~Gui();
+	virtual void onAppSuspended();
+	virtual void onConfigChanged(Config const &);
 	void _buildFeedbackCircle();
 	void _buildInnerFeedbackCircle(int, float);
 	void _buildOuterFeedbackCircle(int, float, float);
-	void addMessage(const std::string &, const std::string &, int);
+	void _cubeSmoothStep(float, float, float);
+	void _renderPortalOverlay(float, int, int);
+	void _renderSlot(int, int, int, float);
+	void _renderVignette(float, int, int);
+	void _tickItemDrop();
+	void _touchEnabledOrHolographic();
+	void _updateHudPositions();
+	void addMessage(std::string const &, std::string const &, int, bool);
 	void clearMessages();
-	void cubeSmoothStep(float, float, float);
-	void displayChatMessage(const std::string &, const std::string &);
-	void displayClientMessage(const std::string &);
-	void displayLocalizableMessage(const std::string &, const std::vector<std::string> &);
+	void displayChatMessage(std::string const &, std::string const &);
+	void displayClientMessage(std::string const &);
+	void displayLocalizableMessage(std::string const &, std::vector<std::string> const &);
+	void displaySystemMessage(std::string const &);
+	void drawRectangleArea(Tessellator &, RectangleArea const *, int, int, float);
+	void drawRectangleArea(Tessellator &, RectangleArea const *, int, int, float, float);
 	void flashSlot(int);
 	void floorAlignToScreenPixel(float);
+	void forceMuteChat();
+	void getGuiScale();
+	void getInvGuiScale();
+	void getMessageList();
 	int getNumSlots();
-	void getRectangleArea(int);
-	int getSlotIdAt(int, int);
-	int getSlotPos(int, int &, int &);
-	void handleClick(int, int, int);
-	void handleKeyPressed(int);
+	void getSlotIdAt(int, int);
+	void getSlotPos(int, int &, int &);
+	void handleClick();
 	void inventoryUpdated();
 	bool isInside(int, int);
-	int itemCountItoa(char *, int);
-	void onAppResumed();
-	void onAppSuspended();
-	void onConfigChanged(const Config &);
+	bool isMuteChat();
+	bool itemCountItoa(char *, int);
 	void onLevelGenerated();
+	void onMobEffectsChanged(MobEffectsLayout const &);
 	void postError(int);
-	void processLeftShoulder(int);
-	void processRightShoulder(int);
 	void render(float, bool, int, int);
 	void renderBubbles();
-	void renderChatMessages(int, int, unsigned int, bool, Font *);
+	void renderChatMessages(int, int, uint, bool, Font *);
+	void renderCursor(float, float);
+	void renderExperience();
 	void renderHearts();
-	void renderInteractButton(const std::string &, float, float);
+	void renderHunger();
 	void renderOnSelectItemNameText(int, Font *, int);
-	void renderProgressIndicator(bool, int, int, float);
+	void renderProgressIndicator(int, int, float);
 	void renderSleepAnimation(int, int);
-	void renderSlot(int, int, int, float);
-	void renderSlotText(const ItemInstance *, float, float, bool, bool, bool);
+	void renderSlotText(ItemInstance const *, float, float, bool, bool, bool, bool);
 	void renderToolBar(float, float);
-	void renderVignette(float, int, int);
-	void setNowPlaying(const std::string &);
-	void showPopupNotice(const std::string &);
-	void showTipMessage(const std::string &);
+	void setGuiScale(float);
+	void setIsChatting(bool);
+	void setNowPlaying(std::string const &);
+	void setShowProgress(bool);
+	void setTouchToolbarArea(RectangleArea const &);
+	void showPopupNotice(std::string const &, std::string const &);
+	void showTipMessage(std::string const &);
 	void tick();
-	void tickItemDrop();
 	void toggleMuteChat();
+	void updatePointerLocation(short, short);
+	void wasToolbarClicked();
 };

@@ -44,6 +44,7 @@ public:
 	bool isEmpty() const;
 	bool isNan() const;
 	void merge(const AABB &) const;
+	void move(Vec3 const &);
 	void move(float, float, float);
 	void set(const AABB &);
 	void set(const Vec3 &, const Vec3 &);

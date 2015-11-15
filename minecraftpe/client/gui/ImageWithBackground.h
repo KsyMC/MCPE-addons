@@ -4,7 +4,7 @@
 
 class Textures;
 
-// Size : 244
+// Size : 192
 class ImageWithBackground : public LargeImageButton
 {
 public:

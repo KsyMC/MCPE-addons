@@ -1,9 +1,12 @@
 #pragma once
 
-#include <minecraftpe/blockentity/BlockEntityType.h>
-#include <minecraftpe/util/BlockID.h>
 #include <string>
+#include <vector>
+#include <map>
 #include <memory>
+#include "BlockEntityType.h"
+#include "BlockProperty.h"
+#include "BlockID.h"
 #include "../client/renderer/texture/TextureUVCoordinateSet.h"
 #include "../client/renderer/texture/TextureAtlasTextureItem.h"
 #include "../util/AABB.h"
@@ -32,18 +35,18 @@ public:
 	public:
 		float volume;			// 0
 		float pitch;			// 4
-		std::string	stepSound;	// 8
+		std::string stepSound;	// 8
 		std::string breakSound;	// 12
 		std::string placeSound;	// 16
 
 	public:
-		SoundType(std::string const &, float,float);
+		SoundType(std::string const &, float, float);
 		SoundType(std::string const &, std::string const &, float, float);
 		SoundType(std::string const &, std::string const &, std::string const &, float, float);
 		~SoundType();
 		std::string getBreakSound();
-		std::string  getPlaceSound();
-		std::string  getStepSound();
+		std::string getPlaceSound();
+		std::string getStepSound();
 		float getVolume();
 		float getPitch();
 	};
@@ -239,11 +242,11 @@ public:
 	static SoundType SOUND_WOOD;
 
 public:
-	static Block *mBlockLookupMap;
+	static std::map<std::string const, Block *> mBlockLookupMap;
 	static Block *mBlocks[255];
-	static Block *mLightBlock[255];
+	static Brightness mLightBlock[255];
 	static Block *mLightEmission[255];
-	static Block *mOwnedBlocks;
+	static std::vector<Block> mOwnedBlocks;
 	static bool mShouldTick[255];
 	static bool mSolid[255];
 	static float mTranslucency[255];
@@ -254,20 +257,22 @@ public:
 
 public:
 	//void **vtable;					// 0
-	char filler1[4];					// 4
-	AABB aabb;							// 8
-	TextureUVCoordinateSet blockIcon;	// 36
-	BlockID tileID;						// 68
-	Block::SoundType	stepSound;		// 72
-	int blockRendererId;				// 84
-	char filler2[20];					// 88
-	Material *blockMaterial;			// 108
-	char filler3[4];					// 112
-	float blockHardness;				// 116
-	float blockResistance;				// 120
-	int category;						// 124
-	char filler4[8];					// 128
-	std::string unlocalizedName;		// 136
+	BlockID tileID;						// 4
+	std::string descriptionId;			// 12
+	TextureUVCoordinateSet blockIcon;	// 16
+	SoundType *soundType;				// 48
+	int renderLayer;					// 56
+	BlockProperty property;				// 64
+	char filler1[4];					// 68
+	float thickness;					// 76
+	char filler2[4];					// 80
+	int gravity;						// 84
+	Material *material;					// 88
+	bool heavy;							// 96
+	float blockHardness;				// 100
+	float blockResistance;				// 104
+	CreativeItemCategory itemCategory;	// 108
+	char filler3[28];					// 112
 
 public:
 	Block(std::string const &, int, Material const &);
@@ -279,7 +284,7 @@ public:
 	virtual void getVisualShape(BlockSource &, BlockPos const &, AABB &, bool);
 	virtual void getVisualShape(unsigned char, AABB &, bool);
 	virtual void getCollisionShape(AABB &, BlockSource &, BlockPos const &, Entity *);
-	virtual void isObstructingChests(BlockSource &, BlockPos const &);
+	virtual bool isObstructingChests(BlockSource &, BlockPos const &);
 	virtual void shouldRenderFace(BlockSource &, BlockPos const &, signed char, AABB const &) const;
 	virtual void getTexture(signed char);
 	virtual void getTexture(signed char, int);
@@ -289,17 +294,17 @@ public:
 	virtual void addAABBs(BlockSource &, BlockPos const &, AABB const *, std::vector<AABB, std::allocator<AABB> > &);
 	virtual void getAABB(BlockSource &, BlockPos const &, AABB &, int, bool, int);
 	virtual void addCollisionShapes(BlockSource &, BlockPos const &, AABB const *, std::vector<AABB, std::allocator<AABB> > &, Entity *);
-	virtual void isCropBlock() const;
-	virtual void isContainerBlock() const;
-	virtual void isCraftingBlock() const;
-	virtual void isInteractiveBlock() const;
-	virtual void isWaterBlocking() const;
-	virtual void isDoorBlock() const;
-	virtual void isRedstoneBlock() const;
-	virtual void isRedstoneAttachable() const;
+	virtual bool isCropBlock() const;
+	virtual bool isContainerBlock() const;
+	virtual bool isCraftingBlock() const;
+	virtual bool isInteractiveBlock() const;
+	virtual bool isWaterBlocking() const;
+	virtual bool isDoorBlock() const;
+	virtual bool isRedstoneBlock() const;
+	virtual bool isRedstoneAttachable() const;
 	virtual void waterSpreadCausesSpawn() const;
 	virtual void getRenderLayer(BlockSource &, BlockPos const &) const;
-	virtual void getThickness() const;
+	virtual float getThickness() const;
 	virtual void checkIsPathable(Entity &, BlockPos const &, BlockPos const &);
 	virtual void onPlace(BlockSource &, BlockPos const &);
 	virtual void onRemove(BlockSource &, BlockPos const &);
@@ -321,7 +326,7 @@ public:
 	virtual void getSecondPart(BlockSource &, BlockPos const &, BlockPos &);
 	virtual void onGraphicsModeChanged(bool, bool);
 	virtual void getResource(Random &, int, int);
-	virtual void getResourceCount(Random &, int, int);
+	virtual int getResourceCount(Random &, int, int);
 	virtual void asItemInstance(BlockSource &, BlockPos const &, int) const;
 	virtual void getDestroyProgress(Player &);
 	virtual void spawnResources(BlockSource &, BlockPos const &, int, float, int);
@@ -335,11 +340,11 @@ public:
 	virtual void handleEntityInside(BlockSource &, BlockPos const &, Entity *, Vec3 &);
 	virtual void getColor(int);
 	virtual void getColor(BlockSource &, BlockPos const &);
-	virtual void isSeasonTinted(BlockSource &, BlockPos const &) const;
+	virtual bool isSeasonTinted(BlockSource &, BlockPos const &) const;
 	virtual void entityInside(BlockSource &, BlockPos const &, Entity &);
 	virtual void playerDestroy(Player *, BlockPos const &, int);
 	virtual void canSurvive(BlockSource &, BlockPos const &);
-	virtual void getExperienceDrop(Random &) const;
+	virtual int getExperienceDrop(Random &) const;
 	virtual void canBeBuiltOver(BlockSource &, BlockPos const &) const;
 	virtual void buildDescriptionName(ItemInstance const &) const;
 	virtual void triggerEvent(BlockSource &, BlockPos const &, int, int);
@@ -348,7 +353,7 @@ public:
 	virtual void getIconYOffset() const;
 	virtual void shouldStopFalling(Entity &);
 	virtual void calcGroundFriction(Mob &, BlockPos const &) const;
-	virtual void canHaveExtraData() const;
+	virtual bool canHaveExtraData() const;
 	virtual void init();
 	virtual void canBeSilkTouched() const;
 	virtual void getSilkTouchItemInstance(unsigned char);
@@ -361,23 +366,25 @@ public:
 	virtual void setFriction(float);
 	virtual void setTicking(bool);
 	virtual void getSpawnResourcesAuxValue(unsigned char);
-	static void initTiles();
+	static void initBlocks();
 	static Block *getLightEmission(BlockID);
-	static TextureAtlasTextureItem getTextureItem(const std::string &);
+	static TextureAtlasTextureItem getTextureItem(std::string const &);
 	static TextureUVCoordinateSet getTextureUVCoordinateSet(const std::string &, int);
-	static Material *getTileMaterial(int);
-	static bool isFaceVisible(BlockSource *, int, int, int, signed char);
-	static bool isTileType(const FullBlock &, TileType);
+	static bool isFaceVisible(BlockSource &, BlockPos const &, signed char);
 	static void setTextureAtlas(std::shared_ptr<TextureAtlas>);
-	static void teardownTiles();
-	void _getTypeToSpawn(BlockSource &, int, const BlockPos &) const;
-	void addAABB(const AABB &, const AABB *, std::vector<AABB> &);
-	void destroyEffect(BlockSource &, const BlockPos &, const Vec3 &);
+	static void teardownBlocks();
+	void getTypeToSpawn(BlockSource &, EntityType, BlockPos const &) const;
+	void addAABB(AABB const &, AABB const *, std::vector<AABB> &);
+	void destroyEffect(BlockSource &, BlockPos const &, Vec3 const &, float);
 	float getShadeBrightness() const;
-	bool isLiquidTile() const;
-	bool isObstructingChests(BlockSource *, const BlockPos &);
-	void popResource(BlockSource *, int, int, int, const ItemInstance &);
-	void setCategory(int);
+	bool isType(Block const *) const;
+	bool isHeavy();
+	bool isSolid();
+	bool isSolidBlockingBlock();
+	bool isUnbreakable();
+	void popResource(BlockSource *, BlockPos const &, ItemInstance const &);
+	void setCategory(CreativeItemCategory);
 	void transformToValidBlockId(BlockID);
-	void transformToValidBlockId(BlockID, int, int, int);
+	void transformToValidBlockId(BlockID, BlockPos const &);
+	Material *getMaterial() const;
 };

@@ -6,18 +6,11 @@ class IntRectangle;
 class Color;
 class Font;
 
-// Size : 60
+// Size : 1
 class ScreenRenderer
 {
 public:
 	static ScreenRenderer *singletonPtr;
-
-public:
-	MaterialPtr ui_textured;			// 0
-	MaterialPtr ui_fill_color;			// 12
-	MaterialPtr ui_fill_gradient;		// 24
-	MaterialPtr ui_texture_and_color;	// 36
-	MaterialPtr ui_textured_and_glcolor;// 48
 
 public:
 	ScreenRenderer();

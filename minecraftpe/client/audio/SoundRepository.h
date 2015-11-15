@@ -2,14 +2,16 @@
 
 #include <string>
 
-class SoundDesc;
+class SoundEvent;
+class SoundItem;
 
 // Size : 12
 class SoundRepository
 {
 public:
-	std::vector<SoundDesc> list;	// 0
+	std::vector<SoundEvent> list;	// 0
 
 public:
-	void add(const std::string &, SoundDesc &);
+	void add(const std::string &, SoundEvent &);
+	void get(std::string const &, SoundItem &);
 };
