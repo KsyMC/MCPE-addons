@@ -2,7 +2,7 @@
 
 #include "Item.h"
 
-class TileSource;
+class BlockSource;
 class HangingEntity;
 
 // Size : 76
@@ -15,5 +15,5 @@ public:
 	HangingEntityItem(int, int);
 	virtual ~HangingEntityItem();
 	virtual bool useOn(ItemInstance *, Player *, int, int, int, signed char, float, float, float);
-	HangingEntity *createEntity(TileSource &, int, int, int, int);
+	HangingEntity *createEntity(BlockSource &, int, int, int, int);
 };

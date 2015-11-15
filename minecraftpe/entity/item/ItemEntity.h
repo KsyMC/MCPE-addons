@@ -8,8 +8,8 @@ public:
 	static int LIFETIME;
 
 public:
-	ItemEntity(TileSource &);
-	ItemEntity(TileSource &, float, float, float, const ItemInstance &);
+	ItemEntity(BlockSource &);
+	ItemEntity(BlockSource &, float, float, float, const ItemInstance &);
 	virtual ~ItemEntity();
 	virtual void normalTick();
 	virtual void playerTouch(Player *);

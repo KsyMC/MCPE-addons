@@ -5,7 +5,7 @@
 class TamableAnimal :public Animal
 {
 public:
-	TamableAnimal(TileSource &);
+	TamableAnimal(BlockSource &);
 	virtual ~TamableAnimal();
 	virtual void readAdditionalSaveData(const CompoundTag *);
 	virtual void addAdditionalSaveData(CompoundTag *);

@@ -5,7 +5,7 @@
 class Wolf : public TamableAnimal
 {
 public:
-	Wolf(TileSource &);
+	Wolf(BlockSource &);
 	virtual ~Wolf();
 	virtual int getCollarColor() const;
 	virtual void setCollarColor(int);

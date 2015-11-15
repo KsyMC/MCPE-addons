@@ -6,7 +6,7 @@
 class Animal : public AgableMob
 {
 public:
-	Animal(TileSource &);
+	Animal(BlockSource &);
 	virtual ~Animal();
 	virtual void interactWithPlayer(Player *);
 	virtual void hurt(EntityDamageSource &, int);
@@ -16,7 +16,7 @@ public:
 	virtual void aiStep();
 	virtual void shouldDespawn() const;
 	virtual bool removeWhenFarAway();
-	virtual void getWalkTargetValue(const TilePos &);
+	virtual void getWalkTargetValue(const BlockPos &);
 	virtual void findAttackTarget();
 	virtual void canMate(const Animal *) const;
 	virtual void isFood(const ItemInstance *) const;

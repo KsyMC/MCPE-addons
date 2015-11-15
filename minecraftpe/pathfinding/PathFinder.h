@@ -1,6 +1,6 @@
 #pragma once
 
-class TileSource;
+class BlockSource;
 class Entity;
 class Node;
 
@@ -8,10 +8,10 @@ class Node;
 class PathFinder
 {
 public:
-	TileSource *tileSource;	// 0
+	BlockSource *tileSource;	// 0
 
 public:
-	PathFinder(TileSource *, bool, bool, bool, bool);
+	PathFinder(BlockSource *, bool, bool, bool, bool);
 	~PathFinder();
 	void findPath(Entity *, Entity *, float);
 	void findPath(Entity *, Node *, Node *, Node *, float);

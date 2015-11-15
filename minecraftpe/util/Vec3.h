@@ -1,6 +1,6 @@
 #pragma once
 
-class TilePos;
+class BlockPos;
 
 class Vec3
 {
@@ -23,5 +23,5 @@ public:
 
 public:
 	Vec3(float x, float y, float z) : x(x), y(y), z(z) {}
-	Vec3(const TilePos &);
+	Vec3(const BlockPos &);
 };

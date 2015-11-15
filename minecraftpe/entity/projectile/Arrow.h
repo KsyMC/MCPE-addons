@@ -12,8 +12,8 @@ public:
 public:
 	Arrow(Mob *, Mob *, float, float);
 	Arrow(Mob *, float);
-	Arrow(TileSource &);
-	Arrow(TileSource &, float, float, float);
+	Arrow(BlockSource &);
+	Arrow(BlockSource &, float, float, float);
 	virtual void lerpMotion(float, float, float);
 	virtual void normalTick();
 	virtual float getShadowRadius() const;

@@ -6,7 +6,7 @@
 class PigZombie : public Zombie
 {
 public:
-	PigZombie(TileSource &);
+	PigZombie(BlockSource &);
 	virtual ~PigZombie();
 	virtual void normalTick();
 	virtual void interactWithPlayer(Player *);

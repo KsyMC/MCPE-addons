@@ -6,7 +6,7 @@
 class Zombie : public Monster
 {
 public:
-	Zombie(TileSource &);
+	Zombie(BlockSource &);
 	virtual ~Zombie();
 	virtual int getEntityTypeId() const;
 	virtual void setSize(float, float);

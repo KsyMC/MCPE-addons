@@ -1,43 +1,29 @@
 #pragma once
 
 #include <memory>
-#include "settings/Options.h"
-#include "../level/Level.h"
+#include "../gamemode/GameType.h"
 
-class ServerCommandParser;
-class NetEventCallback;
-class GameMode;
-class PacketSender;
-class RakNetInstance;
-class LevelSettings;
-class Timer;
-class Mob;
-class LocalPlayer;
-class ClientSideNetworkHandler;
-class ExternalFileLevelStorageSource;
 class GameCallbacks;
 class SkinInfoFactory;
+class Vibration;
+class SoundPlayer;
 class Whitelist;
+class LevelSettings;
+class ServerCommandParser;
+class GameMode;
+class Level;
+class NetEventCallback;
+class PacketSender;
+class RakNetInstance;
+class ServerNetworkHandler;
+class Player;
 
-// Size : 248
+// Size : 80
 class Minecraft
 {
 public:
-	char filler1[4];					// 28
-	int displayWidth;					// 32
-	int displayHeight;					// 36
-	char filler2[32];					// 40
-	std::string serverName;				// 72
-	char filler3[36];					// 76
-	ServerCommandParser *commandParser;	// 112
-	char filler4[104];					// 116
-	NetEventCallback *netEventCallback;	// 220
-	GameMode *gameMode;					// 224
-	PacketSender *packetSender;			// 228
-	char filler5[4];					// 232
-	RakNetInstance *raknetInstance;		// 236
-	char filler6[4];					// 240
-	Level *level;						// 244
+	char filler1[56];					// 0
+	ServerCommandParser *commandParser;	// 56
 
 public:
 	Minecraft(GameCallbacks &, SkinInfoFactory &, Vibration &, SoundPlayer &, Whitelist const &, std::string const &);

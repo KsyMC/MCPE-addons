@@ -14,14 +14,14 @@ public:
 public:
 	DoorBlock(int, const Material *);
 	virtual ~DoorBlock();
-	virtual AABB *getShape(TileSource *, int, int, int, AABB &, bool);
+	virtual AABB *getShape(BlockSource *, int, int, int, AABB &, bool);
 	virtual TextureUVCoordinateSet getTexture(signed char, int);
-	virtual TextureUVCoordinateSet getTexture(TileSource *, int, int, int, signed char);
+	virtual TextureUVCoordinateSet getTexture(BlockSource *, int, int, int, signed char);
 	virtual void getTessellatedUVs();
-	virtual bool mayPlace(TileSource *, int, int, int);
+	virtual bool mayPlace(BlockSource *, int, int, int);
 	virtual void playerWillDestroy(Player *, int, int, int, int);
-	virtual void neighborChanged(TileSource *, int, int, int, int, int, int);
-	virtual TilePos *getSecondPart(TileSource &, const TilePos &, TilePos &);
+	virtual void neighborChanged(BlockSource *, int, int, int, int, int, int);
+	virtual BlockPos *getSecondPart(BlockSource &, const BlockPos &, BlockPos &);
 	virtual int getResource(int, Random *);
 	virtual void use(Player *, int, int, int);
 	virtual void attack(Player *, int, int, int);

@@ -1,6 +1,6 @@
 #pragma once
 
-class TilePos;
+class BlockPos;
 class Vec3;
 class Entity;
 
@@ -14,7 +14,7 @@ public:
 	int z;	// 4
 
 public:
-	ChunkPos(const TilePos &);
+	ChunkPos(const BlockPos &);
 	ChunkPos(const Vec3 &);
 	ChunkPos(float, float, float);
 	ChunkPos(int, int, int);

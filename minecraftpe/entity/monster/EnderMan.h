@@ -2,13 +2,13 @@
 
 #include "Monster.h"
 
-class FullTile;
+class FullBlock;
 
 // Size : 3232
 class EnderMan : public Monster
 {
 public:
-	EnderMan(TileSource &);
+	EnderMan(BlockSource &);
 	virtual ~EnderMan();
 	virtual void normalTick();
 	virtual void hurt(EntityDamageSource &, int);
@@ -27,7 +27,7 @@ public:
 	void getCarryingBlock();
 	bool isCreepy();
 	bool isLookingAtMe(Player *);
-	void setCarryingBlock(FullTile);
+	void setCarryingBlock(FullBlock);
 	void setCreepy(bool);
 	void teleport(float, float, float);
 	void teleport();

@@ -4,8 +4,8 @@
 
 class Entity;
 class Color;
-class TileSource;
-class TilePos;
+class BlockSource;
+class BlockPos;
 
 // Size : 52
 class EntityShaderManager
@@ -24,6 +24,6 @@ public:
 	void _setupShaderParameters(Entity &, const Color &, const Color &, float);
 	void _setupShaderParameters(Entity &, const Color &, float);
 	void _setupShaderParameters(Entity &, float);
-	void _setupShaderParameters(TileSource &, const TilePos &,float);
+	void _setupShaderParameters(BlockSource &, const BlockPos &,float);
 	void _setupShaderParameters(float, const Color &);
 };

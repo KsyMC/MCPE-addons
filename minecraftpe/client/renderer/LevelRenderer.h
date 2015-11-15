@@ -13,9 +13,9 @@ class LevelRenderer : public LevelListener, public AppPlatformListener
 public:
 	LevelRenderer(MinecraftClient *, std::shared_ptr<TextureAtlas>);
 	virtual ~LevelRenderer();
-	virtual void onAreaChanged(TileSource &, const TilePos &, const TilePos &);
-	virtual void onTileChanged(TileSource *, const TilePos &, FullTile, FullTile, int);
-	virtual void onBrightnessChanged(TileSource&, const TilePos &);
+	virtual void onAreaChanged(BlockSource &, const BlockPos &, const BlockPos &);
+	virtual void onTileChanged(BlockSource *, const BlockPos &, FullBlock, FullBlock, int);
+	virtual void onBrightnessChanged(BlockSource&, const BlockPos &);
 	virtual void allChanged();
 	virtual void addParticle(ParticleType, const Vec3 &, const Vec3 &, int);
 	virtual void playSound(const std::string &, float, float, float, float, float);

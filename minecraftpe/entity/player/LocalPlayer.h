@@ -49,7 +49,7 @@ public:
 	virtual void animateRespawn();
 	virtual void startSleepInBed(int, int, int);
 	virtual void stopSleepInBed(bool, bool);
-	virtual void openTextEdit(TileEntity *);
+	virtual void openTextEdit(BlockEntity *);
 	virtual void isLocalPlayer();
 	virtual void stopLoading();
 	virtual void closeContainer();

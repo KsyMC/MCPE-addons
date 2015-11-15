@@ -12,7 +12,7 @@ public:
 	char filler1[26]; // 3178
 
 public:
-	PathfinderMob(TileSource &);
+	PathfinderMob(BlockSource &);
 	virtual ~PathfinderMob();
 	virtual void readAdditionalSaveData(const CompoundTag *);
 	virtual void addAdditionalSaveData(CompoundTag *);
@@ -21,7 +21,7 @@ public:
 	virtual float getWalkingSpeedModifier();
 	virtual void getAttackTarget();
 	virtual void setAttackTarget(Entity *);
-	virtual void getWalkTargetValue(const TilePos &);
+	virtual void getWalkTargetValue(const BlockPos &);
 	virtual void findAttackTarget();
 	virtual void checkHurtTarget(Entity *, float);
 	virtual void checkCantSeeTarget(Entity *, float);

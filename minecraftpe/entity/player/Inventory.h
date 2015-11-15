@@ -2,7 +2,7 @@
 
 #include "../../inventory/FillingContainer.h"
 
-class Tile;
+class Block;
 class Entity;
 
 // Size : 40
@@ -20,10 +20,10 @@ public:
 	virtual void clearSlot(int);
 	virtual void doDrop(ItemInstance *, bool);
 	virtual void setContainerSize(int);
-	bool canDestroy(Tile *);
+	bool canDestroy(Block *);
 	void clearInventoryWithDefault(bool);
 	void getAttackDamage(Entity *);
-	void getDestroySpeed(Tile *);
+	void getDestroySpeed(Block *);
 	void getLinkedSlotForItem(int);
 	void getLinkedSlotForItemIdAndAux(int, int);
 	void getSelectedItem() const;

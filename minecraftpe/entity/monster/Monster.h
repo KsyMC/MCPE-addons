@@ -9,7 +9,7 @@ public:
 	char filler1[20]; // 3204
 
 public:
-	Monster(TileSource &);
+	Monster(BlockSource &);
 	virtual ~Monster();
 	virtual void normalTick();
 	virtual bool isSurfaceMob() const;
@@ -20,7 +20,7 @@ public:
 	virtual bool canSpawn();
 	virtual void shouldDespawn() const;
 	virtual void doHurtTarget(Entity *);
-	virtual void getWalkTargetValue(const TilePos &);
+	virtual void getWalkTargetValue(const BlockPos &);
 	virtual void findAttackTarget();
 	virtual void checkHurtTarget(Entity *, float);
 	virtual void getAttackDamage(Entity *);

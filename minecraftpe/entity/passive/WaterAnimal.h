@@ -5,7 +5,7 @@
 class WaterAnimal : public AgableMob
 {
 public:
-	WaterAnimal(TileSource &);
+	WaterAnimal(BlockSource &);
 	virtual ~WaterAnimal();
 	virtual void normalTick();
 	virtual void readAdditionalSaveData(const CompoundTag *);

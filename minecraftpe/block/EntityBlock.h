@@ -2,16 +2,16 @@
 
 #include <minecraftpe/block/Block.h>
 
-class TileEntity;
+class BlockEntity;
 
 // Size : 140
-class EntityTile : public Tile
+class EntityTile : public Block
 {
 public:
 	EntityTile(int, const Material *);
 	EntityTile(int, const std::string &, const Material *);
 	virtual ~EntityTile();
-	virtual void neighborChanged(TileSource *, int, int, int, int, int, int);
-	virtual void triggerEvent(TileSource *, int, int, int, int, int);
-	virtual TileEntity *newTileEntity(const TilePos &);
+	virtual void neighborChanged(BlockSource *, int, int, int, int, int, int);
+	virtual void triggerEvent(BlockSource *, int, int, int, int, int);
+	virtual BlockEntity *newTileEntity(const BlockPos &);
 };

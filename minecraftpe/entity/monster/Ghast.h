@@ -6,7 +6,7 @@
 class Ghast : public FlyingMob
 {
 public:
-	Ghast(TileSource &);
+	Ghast(BlockSource &);
 	virtual ~Ghast();
 	virtual void hurt(EntityDamageSource &, int);
 	virtual int getEntityTypeId() const;

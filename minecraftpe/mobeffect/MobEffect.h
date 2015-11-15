@@ -8,30 +8,29 @@ class Mob;
 class MobEffect
 {
 public:
-	static MobEffect *absorption;
-	static MobEffect *blindness;
-	static MobEffect *damageBoost;
-	static MobEffect *confusion;
-	static MobEffect *damageResistance;
-	static MobEffect *digSlowdown;
-	static MobEffect *digSpeed;
-	static MobEffect *fireResistance;
-	static MobEffect *harm;
-	static MobEffect *heal;
-	static MobEffect *healthBoost;
-	static MobEffect *hunger;
-	static MobEffect *invisibility;
-	static MobEffect *jump;
-	static MobEffect *mobEffects;
-	static MobEffect *movementSlowdown;
-	static MobEffect *movementSpeed;
-	static MobEffect *nightVision;
-	static MobEffect *poison;
-	static MobEffect *regeneration;
-	static MobEffect *saturation;
-	static MobEffect *waterBreathing;
-	static MobEffect *weakness;
-	static MobEffect *wither;
+	static MobEffect *ABSORPTION;
+	static MobEffect *BLINDNESS;
+	static MobEffect *CONFUSION;
+	static MobEffect *DAMAGE_BOOST;
+	static MobEffect *DAMAGE_RESISTANCE;
+	static MobEffect *DIG_SLOWDOWN;
+	static MobEffect *DIG_SPEED;
+	static MobEffect *FIRE_RESISTANCE;
+	static MobEffect *HARM;
+	static MobEffect *HEAL;
+	static MobEffect *HEALTH_BOOST;
+	static MobEffect *HUNGER;
+	static MobEffect *INVISIBILITY;
+	static MobEffect *JUMP;
+	static MobEffect *MOVEMENT_SLOWDOWN;
+	static MobEffect *MOVEMENT_SPEED;
+	static MobEffect *NIGHT_VISION;
+	static MobEffect *POISON;
+	static MobEffect *REGENERATION;
+	static MobEffect *SATURATION;
+	static MobEffect *WATER_BREATHING;
+	static MobEffect *WEAKNESS;
+	static MobEffect *WITHER;
 
 public:
 	//void **vtable;	// 0

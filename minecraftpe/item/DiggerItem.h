@@ -6,7 +6,7 @@ class DiggerItem : public Item
 {
 public:
 	virtual ~DiggerItem();
-	virtual float getDestroySpeed(ItemInstance *, Tile *);
+	virtual float getDestroySpeed(ItemInstance *, Block *);
 	virtual void getAttackDamage(Entity *);
 	virtual void hurtEnemy(ItemInstance *, Mob *, Mob *);
 	virtual void mineBlock(ItemInstance *, int, int, int, int, Mob *);

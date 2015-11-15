@@ -5,7 +5,7 @@
 class Squid : public WaterAnimal
 {
 public:
-	Squid(TileSource &);
+	Squid(BlockSource &);
 	virtual ~Squid();
 	virtual void normalTick();
 	virtual void hurt(EntityDamageSource &, int);

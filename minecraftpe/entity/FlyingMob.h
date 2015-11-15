@@ -6,7 +6,7 @@
 class FlyingMob : public Mob
 {
 public:
-	FlyingMob(TileSource &);
+	FlyingMob(BlockSource &);
 	virtual ~FlyingMob();
 	virtual void causeFallDamage(float);
 	virtual void onLadder();

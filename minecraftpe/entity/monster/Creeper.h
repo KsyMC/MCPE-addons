@@ -5,7 +5,7 @@
 class Creeper : public Monster
 {
 public:
-	Creeper(TileSource &);
+	Creeper(BlockSource &);
 	virtual ~Creeper();
 	virtual void normalTick();
 	virtual void interactWithPlayer(Player *);

@@ -5,7 +5,7 @@
 class Slime : public Monster
 {
 public:
-	Slime(TileSource &);
+	Slime(BlockSource &);
 	virtual ~Slime();
 	virtual void remove();
 	virtual void normalTick();

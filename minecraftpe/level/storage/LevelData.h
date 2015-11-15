@@ -1,8 +1,8 @@
 #pragma once
 
+#include <minecraftpe/util/BlockPos.h>
 #include <string>
 #include "../GeneratorType.h"
-#include "../../util/TilePos.h"
 #include "../../nbt/CompoundTag.h"
 
 namespace RakNet
@@ -21,7 +21,7 @@ public:
 	std::string levelName;		// 0
 	char filler1[12];			// 4
 	unsigned int randomSeed;	// 16
-	TilePos spawnPos;			// 20
+	BlockPos spawnPos;			// 20
 	char filler2[12];			// 32
 	int worldTime;				// 44
 	long lastTimePlayed;		// 48
@@ -36,7 +36,7 @@ public:
 public:
 	LevelData();
 	LevelData(const CompoundTag &);
-	LevelData(const LevelSettings &, const std::string &, GeneratorType, const TilePos *);
+	LevelData(const LevelSettings &, const std::string &, GeneratorType, const BlockPos *);
 	LevelData(LevelData &&);
 	void clearLoadedPlayerTag();
 	void createTag() const;
@@ -47,7 +47,7 @@ public:
 	std::string getLevelName() const;
 	void getLoadedPlayerTag();
 	unsigned int getSeed() const;
-	TilePos getSpawn() const;
+	BlockPos getSpawn() const;
 	bool getSpawnMobs() const;
 	void getTagData(const CompoundTag &);
 	int getTime() const;
@@ -59,7 +59,7 @@ public:
 	void setGenerator(GeneratorType);
 	void setLevelName(const std::string &);
 	void setSeed(unsigned int);
-	void setSpawn(const TilePos &);
+	void setSpawn(const BlockPos &);
 	void setSpawnMobs(bool);
 	void setStopTime(int);
 	void setTagData(CompoundTag &) const;

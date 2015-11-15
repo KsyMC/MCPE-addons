@@ -13,10 +13,10 @@ class SkinInfo;
 class Tick;
 class ChestTileEntity;
 class FurnaceTileEntity;
-class TileEntity;
+class BlockEntity;
 class Packet;
 class LevelChunk;
-class Tile;
+class Block;
 class ChunkSource;
 class BatchPacket;
 class SimpleFoodData;
@@ -40,7 +40,7 @@ public:
 	char filler4[24];				// 3232
 	Inventory *inventory;			// 3256
 	char filler5[12];				// 3260
-	TileSource *tileSource;			// 3272
+	BlockSource *tileSource;			// 3272
 	char filler6[40];				// 3276
 	SkinInfo *skinInfo;				// 3316
 	char filler7[4];				// 3320
@@ -108,7 +108,7 @@ public:
 	virtual void startSleepInBed(int, int, int);
 	virtual void stopSleepInBed(bool, bool);
 	virtual void getSleepTimer();
-	virtual void openTextEdit(TileEntity *);
+	virtual void openTextEdit(BlockEntity *);
 	virtual void isLocalPlayer();
 	virtual void stopLoading();
 	virtual void closeContainer();
@@ -122,7 +122,7 @@ public:
 	void destroyRegin();
 	void getArmor(int);
 	std::string getArmorTypeHash();
-	float getDestroySpeed(Tile *);
+	float getDestroySpeed(Block *);
 	void getItemInUse();
 	void getItemInUseDuration();
 	int getLoadedChunksCount();
@@ -131,7 +131,7 @@ public:
 	SkinInfo *getSkin() const;
 	float getSleepRotation();
 	void *getSpawnPosition();
-	void *getStandingPositionOnBlock(const TilePos &);
+	void *getStandingPositionOnBlock(const BlockPos &);
 	void *getTicksUsingItem();
 	float getViewRadius() const;
 	void *hasRespawnPosition() const;
@@ -149,7 +149,7 @@ public:
 	void setArmor(int, const ItemInstance *);
 	void setBedOffset(int);
 	void setDefaultHeadHeight();
-	void setRespawnPosition(const TilePos &);
+	void setRespawnPosition(const BlockPos &);
 	void setSkin(bool, const std::string &);
 	void settTeleportDestPos(const Vec3 &);
 	void spawnEatParticles(const ItemInstance *, int);

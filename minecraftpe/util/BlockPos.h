@@ -4,7 +4,7 @@ class ChunkPos;
 class Vec3;
 
 // Size : 12
-class TilePos
+class BlockPos
 {
 public:
 	int x;		// 0
@@ -12,11 +12,11 @@ public:
 	int z;		// 8
 
 public:
-	TilePos() : x(0), y(0), z(0) {}
-	TilePos(int x, int y, int z) : x(x), y(y), z(z) {}
-	TilePos(const ChunkPos &, int);
-	TilePos(const Vec3 &);
-	TilePos(float, float, float);
+	BlockPos() : x(0), y(0), z(0) {}
+	BlockPos(int x, int y, int z) : x(x), y(y), z(z) {}
+	BlockPos(const ChunkPos &, int);
+	BlockPos(const Vec3 &);
+	BlockPos(float, float, float);
 	void neighbor(signed char) const;
 	void relative(signed char, int) const;
 };

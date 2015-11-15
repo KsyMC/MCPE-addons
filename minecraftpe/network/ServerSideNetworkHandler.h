@@ -48,11 +48,11 @@ public:
 	virtual void sendAndClearBatchedPackets();
 	virtual void onPlayerVerified(const RestCallTagData &);
 	virtual void onPlayerVerifiedFailed(const RestCallTagData &);
-	virtual void onTileChanged(TileSource *, const TilePos &, FullTile, FullTile, int);
+	virtual void onTileChanged(BlockSource *, const BlockPos &, FullBlock, FullBlock, int);
 	virtual Packet *getAddPacketFromEntity(Entity &);
 	virtual void onEntityAdded(Entity &);
 	virtual void onEntityRemoved(Entity &);
-	virtual void onTileEvent(TileSource *, int, int, int, int, int);
+	virtual void onTileEvent(BlockSource *, int, int, int, int, int);
 	virtual void onNewChunkFor(Player &, LevelChunk &);
 	void _sendLevelData(Player *, const RakNet::RakNetGUID &);
 	void allowIncomingConnections(bool);

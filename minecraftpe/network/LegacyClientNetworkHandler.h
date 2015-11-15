@@ -48,7 +48,7 @@ public:
 	virtual void handle(const RakNet::RakNetGUID &, TileEntityDataPacket *);
 	virtual void handle(const RakNet::RakNetGUID &, FullChunkDataPacket *);
 	virtual void handle(const RakNet::RakNetGUID &, SetDifficultyPacket *);
-	virtual void onTileChanged(TileSource *, const TilePos &, FullTile, FullTile, int);
+	virtual void onTileChanged(BlockSource *, const BlockPos &, FullBlock, FullBlock, int);
 	void _region();
 	void getEntityLinksFor(const Entity &);
 	void handleEntityLink(const EntityLink &);

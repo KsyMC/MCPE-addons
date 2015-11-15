@@ -1,11 +1,11 @@
 #pragma once
 
 #include <minecraftpe/blockentity/BlockEntityType.h>
+#include <minecraftpe/util/BlockID.h>
 #include <string>
 #include <memory>
 #include "../client/renderer/texture/TextureUVCoordinateSet.h"
 #include "../client/renderer/texture/TextureAtlasTextureItem.h"
-#include "../util/TileID.h"
 #include "../util/AABB.h"
 #include "../util/Brightness.h"
 
@@ -19,7 +19,7 @@ class Entity;
 class Vec3;
 class Mob;
 class ItemInstance;
-class FullTile;
+class FullBlock;
 typedef int TileType;
 
 // Size : 140
@@ -257,7 +257,7 @@ public:
 	char filler1[4];					// 4
 	AABB aabb;							// 8
 	TextureUVCoordinateSet blockIcon;	// 36
-	TileID tileID;						// 68
+	BlockID tileID;						// 68
 	Block::SoundType	stepSound;		// 72
 	int blockRendererId;				// 84
 	char filler2[20];					// 88
@@ -362,22 +362,22 @@ public:
 	virtual void setTicking(bool);
 	virtual void getSpawnResourcesAuxValue(unsigned char);
 	static void initTiles();
-	static Tile *getLightEmission(TileID);
+	static Block *getLightEmission(BlockID);
 	static TextureAtlasTextureItem getTextureItem(const std::string &);
 	static TextureUVCoordinateSet getTextureUVCoordinateSet(const std::string &, int);
 	static Material *getTileMaterial(int);
-	static bool isFaceVisible(TileSource *, int, int, int, signed char);
-	static bool isTileType(const FullTile &, TileType);
+	static bool isFaceVisible(BlockSource *, int, int, int, signed char);
+	static bool isTileType(const FullBlock &, TileType);
 	static void setTextureAtlas(std::shared_ptr<TextureAtlas>);
 	static void teardownTiles();
-	void _getTypeToSpawn(TileSource &, int, const TilePos &) const;
+	void _getTypeToSpawn(BlockSource &, int, const BlockPos &) const;
 	void addAABB(const AABB &, const AABB *, std::vector<AABB> &);
-	void destroyEffect(TileSource &, const TilePos &, const Vec3 &);
+	void destroyEffect(BlockSource &, const BlockPos &, const Vec3 &);
 	float getShadeBrightness() const;
 	bool isLiquidTile() const;
-	bool isObstructingChests(TileSource *, const TilePos &);
-	void popResource(TileSource *, int, int, int, const ItemInstance &);
+	bool isObstructingChests(BlockSource *, const BlockPos &);
+	void popResource(BlockSource *, int, int, int, const ItemInstance &);
 	void setCategory(int);
-	void transformToValidBlockId(TileID);
-	void transformToValidBlockId(TileID, int, int, int);
+	void transformToValidBlockId(BlockID);
+	void transformToValidBlockId(BlockID, int, int, int);
 };

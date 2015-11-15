@@ -10,7 +10,7 @@ public:
 	char filler1[8]; // 3208
 
 public:
-	AgableMob(TileSource &);
+	AgableMob(BlockSource &);
 	virtual ~AgableMob();
 	virtual float getShadowRadius() const;
 	virtual void setSize(float, float);

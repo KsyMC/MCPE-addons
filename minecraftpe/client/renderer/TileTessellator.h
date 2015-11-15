@@ -3,10 +3,10 @@
 #include "texture/TextureUVCoordinateSet.h"
 #include "../../util/AABB.h"
 
-class Tile;
-class TileSource;
+class Block;
+class BlockSource;
 class Tessellator;
-class TilePos;
+class BlockPos;
 
 // Size : 72740
 class TileTessellator
@@ -16,7 +16,7 @@ public:
 
 public:
 	char filler1[4];				// 0
-	TileSource *tileSource;			// 4
+	BlockSource *tileSource;			// 4
 	TextureUVCoordinateSet texture;	// 8
 	bool renderTexture;				// 40
 	char filler2[623];				// 41
@@ -24,8 +24,8 @@ public:
 	AABB aabb;						// 668
 
 public:
-	bool tessellateInWorld(Tile *, const TilePos &, bool);
-	void tessellateBlockInWorld(Tile *, const TilePos &);
-	uint getLightColor(const TilePos &);
+	bool tessellateInWorld(Block *, const BlockPos &, bool);
+	void tessellateBlockInWorld(Block *, const BlockPos &);
+	uint getLightColor(const BlockPos &);
 	void tex1(uint);
 };

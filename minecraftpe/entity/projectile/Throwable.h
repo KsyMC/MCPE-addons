@@ -5,7 +5,7 @@
 class Throwable : public Entity
 {
 public:
-	Throwable(TileSource &);
+	Throwable(BlockSource &);
 	virtual void ~Throwable();
 	virtual void lerpMotion(float, float, float);
 	virtual void normalTick();

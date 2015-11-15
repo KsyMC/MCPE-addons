@@ -6,7 +6,7 @@
 class RemotePlayer : public Player
 {
 public:
-	RemotePlayer(TileSource &, PacketSender &, bool, const RakNet::RakNetGUID &);
+	RemotePlayer(BlockSource &, PacketSender &, bool, const RakNet::RakNetGUID &);
 	virtual ~RemotePlayer();
 	virtual void normalTick();
 	virtual void aiStep();

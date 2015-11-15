@@ -2,7 +2,7 @@
 
 class Mob;
 class Level;
-class TileSource;
+class BlockSource;
 
 // Size : 12
 class Goal
@@ -24,5 +24,5 @@ public:
 	virtual void setRequiredControlFlags(int);
 	virtual int getRequiredControlFlags();
 	Level *getLevel();
-	TileSource *getRegion();
+	BlockSource *getRegion();
 };

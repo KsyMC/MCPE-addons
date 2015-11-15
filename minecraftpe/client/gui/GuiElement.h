@@ -4,13 +4,10 @@
 #include "GuiComponent.h"
 #include "../../util/Color.h"
 
-namespace Controller
-{
-	class StickDirection;
-}
-
+class StickDirection;
 class MinecraftClient;
 class NinePatchLayer;
+class Vec2;
 
 // Size : 108
 class GuiElement : public GuiComponent
@@ -33,21 +30,26 @@ public:
 	virtual void render(MinecraftClient *, int, int);
 	virtual void topRender(MinecraftClient *, int, int);
 	virtual void setupPositions();
-	virtual void mouseClicked(MinecraftClient *, int, int, int);
-	virtual void mouseReleased(MinecraftClient *, int, int, int);
-	virtual void focusedMouseClicked(MinecraftClient *, int, int, int);
-	virtual void focusedMouseReleased(MinecraftClient *, int, int, int);
-	virtual void keyPressed(MinecraftClient *, int);
-	virtual void keyboardNewChar(MinecraftClient *, const std::string &, bool);
-	virtual bool backPressed(MinecraftClient *, bool);
+	virtual void pointerPressed(MinecraftClient *, int, int);
+	virtual void pointerReleased(MinecraftClient *, int, int);
+	virtual void focusedMouseClicked(MinecraftClient *, int, int);
+	virtual void focusedMouseReleased(MinecraftClient *, int, int);
+	virtual void handleButtonPress(MinecraftClient *, short);
+	virtual void handleButtonRelease(MinecraftClient *, short);
+	virtual void handleTextChar(MinecraftClient *, std::string const &, bool);
+	virtual void backPressed(MinecraftClient *, bool);
+	virtual void setKeyboardHeight(MinecraftClient *, float, Vec2 const &);
 	virtual void pointInside(int, int);
-	virtual bool suppressOtherGUI();
-	virtual void setTextboxText(const std::string &);
-	virtual void handleControllerDirectionHeld(int, Controller::StickDirection);
+	virtual void suppressOtherGUI();
+	virtual void setTextboxText(std::string const &);
+	virtual void hasFocus() const;
+	virtual void setFocus(bool);
+	virtual void handleControllerDirectionHeld(int, StickDirection);
 	virtual void drawSelected(int);
+	virtual void drawPressed(int);
 	virtual void drawSliderSelected();
 	virtual void onSelectedChanged();
-	virtual bool hasChildren() const;
+	virtual void hasChildren() const;
 	void clearBackground();
 	bool isSelected();
 	void setBackground(const Color &);

@@ -5,10 +5,10 @@
 class AuxDataTileItem : public TileItem
 {
 public:
-	Tile *tile;		// 76
+	Block *tile;		// 76
 
 public:
-	AuxDataTileItem(int, Tile *);
+	AuxDataTileItem(int, Block *);
 	virtual ~AuxDataTileItem();
 	virtual int getLevelDataForAuxValue(int) const;
 	virtual std::string getName(const ItemInstance *) const;

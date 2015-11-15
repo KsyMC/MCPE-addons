@@ -1,12 +1,12 @@
 #pragma once
 
+#include <minecraftpe/util/BlockPos.h>
 #include "../Packet.h"
-#include "../../util/TilePos.h"
 
 class UpdateBlockPacket : public Packet
 {
 public:
-	TilePos pos;			// 12
+	BlockPos pos;			// 12
 	unsigned char id;		// 24
 	unsigned char damage;	// 25
 

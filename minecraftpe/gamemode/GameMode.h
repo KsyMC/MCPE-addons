@@ -1,11 +1,13 @@
 #pragma once
 
+#include <functional>
+
 class PacketSender;
 class Level;
 class Vibration;
 class Player;
 class ItemInstance;
-class TilePos;
+class BlockPos;
 class Vec3;
 class Entity;
 class Abilities;
@@ -22,23 +24,23 @@ public:
 
 public:
 	GameMode(PacketSender &, Level &, Vibration &);
-	virtual ~GameMode();
-	virtual void startDestroyBlock(Player *, int, int, int, signed char);
-	virtual void destroyBlock(Player *, int, int, int, signed char);
-	virtual void continueDestroyBlock(Player*, int, int, int, signed char) = 0;
-	virtual void stopDestroyBlock(Player *);
+	virtual void ~GameMode();
+	virtual void startDestroyBlock(Player &, BlockPos, signed char);
+	virtual void destroyBlock(Player &, BlockPos, signed char);
+	virtual void continueDestroyBlock(Player &, BlockPos, signed char);
+	virtual void stopDestroyBlock(Player &);
+	virtual void startBuildBlock(Player &, BlockPos, signed char);
+	virtual void buildBlock(Player &, BlockPos, signed char);
+	virtual void continueBuildBlock(Player &, BlockPos, signed char);
+	virtual void stopBuildBlock(Player &);
 	virtual void tick();
-	virtual void getPickRange();
+	virtual void getPickRange(Player *, InputMode const &);
 	virtual void useItem(Player &, ItemInstance &);
-	virtual void useItemOn(Player &, ItemInstance *, TilePos const&, signed char, const Vec3 &);
-	virtual void initPlayer(Player*);
-	virtual void canHurtPlayer();
-	virtual void interact(Player *, Entity *);
-	virtual void attack(Player *, Entity *);
-	virtual void handleInventoryMouseClick(int, int, int, Player *);
-	virtual void handleCloseInventory(int, Player *);
-	virtual void isCreativeType();
-	virtual void isSurvivalType();
-	virtual void initAbilities(Abilities &);
-	virtual void releaseUsingItem(Player *);
+	virtual void useItemOn(Player &, ItemInstance *, BlockPos const &, signed char, Vec3 const &);
+	virtual void interact(Player &, Entity &);
+	virtual void attack(Player &, Entity &);
+	virtual void releaseUsingItem(Player &);
+	virtual void setTrialMode(bool);
+	virtual bool isInTrialMode();
+	virtual void registerUpsellScreenCallback(std::function<void (bool)>);
 };

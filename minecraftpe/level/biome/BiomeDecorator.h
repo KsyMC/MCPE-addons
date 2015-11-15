@@ -1,12 +1,12 @@
 #pragma once
 
-class TileSource;
+class BlockSource;
 class Random;
-class TilePos;
+class BlockPos;
 
 class BiomeDecorator
 {
 public:
-	virtual void decorateOres(TileSource *, Random &, const TilePos &);
+	virtual void decorateOres(BlockSource *, Random &, const BlockPos &);
 	virtual ~BiomeDecorator();
 };

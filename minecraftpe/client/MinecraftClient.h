@@ -1,24 +1,40 @@
 #pragma once
 
 #include <functional>
-#include "Minecraft.h"
-#include "settings/Options.h"
+#include <memory>
+#include "App.h"
+#include "../gamemode/GameType.h"
+#include "../util/Vec3.h"
 
-class ScreenChooser;
-class LevelRenderer;
-class GameRenderer;
-class ParticleEngine;
-class ExternalServerFile;
-class Textures;
+class AbstractScreen;
 class Font;
+class GameRenderer;
 class Gui;
-class SoundEngine;
-class GameStore;
-class SkinRepository;
 class Screen;
+class ScreenChooser;
+class Minecraft;
 class Music;
+class BuildActionIntention;
+class Level;
+class Mob;
+class Dimension;
+class Timer;
+class Options;
+class VoiceCommand;
+class DirectionId;
+class InputMode;
+class Side;
+class HolographicPlatform;
+class VoiceSystem;
+class Player;
+class LocalPlayer;
+class LevelSettings;
+namespace UI
+{
+	class GameEventNotification;
+};
 
-// Size : 400
+// Size : 472
 class MinecraftClient : public App
 {
 public:
@@ -26,24 +42,14 @@ public:
 	static int _hasInitedStatics;
 
 public:
-	char filler1[4];						// 248
-	ScreenChooser *chooser;					// 252
-	char filler2[36];						// 256
-	LevelRenderer *levelRenderer;			// 292
-	GameRenderer *gameRenderer;				// 296
-	ParticleEngine *particleEngine;			// 300
-	ExternalServerFile *externalServerFile;	// 304
-	Textures *textures;						// 308
-	Font *font;								// 312
-	char filler3[16];						// 316
-	LocalPlayer *player;					// 332
-	Gui *gui;								// 336
-	Options *options;						// 340
-	SoundEngine *soundEngine;				// 344
-	char filler4[8];						// 348
-	GameStore *gameStore;					// 356
-	SkinRepository *skinRepository;			// 360
-	char filler5[36];						// 364
+	char filler1[68];		// 4
+	int width;				// 72
+	int height;				// 76
+	Minecraft *minecraft;	// 80
+	Font *font;				// 108
+	Gui *gui;				// 288
+	Options *options;		// 296
+	ScreenChooser *screenChooser;	// 348
 
 public:
 	MinecraftClient(int, char **);
@@ -79,7 +85,7 @@ public:
 	void _reloadLanguages();
 	void _setNewGazeHoloScreenDirection(Vec3);
 	void _setNewGazeHoloScreenPosition(Vec3);
-	void allowPicking();
+	bool allowPicking();
 	void cancelLocateMultiplayer();
 	void checkForPiracy();
 	void clearDictationDataAvailable();
@@ -110,13 +116,13 @@ public:
 	void getLocalPlayer();
 	void getMouseGrabbed() const;
 	void getMultiplayer() const;
-	void getOptions();
+	Options *getOptions();
 	void getParticleEngine() const;
 	void getRuneFont() const;
 	Screen *getScreen();
 	Screen *getScreen() const;
 	ScreenChooser *getScreenChooser() const;
-	void getServer();
+	Minecraft *getServer();
 	Music *getSituationalMusic();
 	void getSkinRepository();
 	void getSoundEngine() const;
@@ -212,12 +218,10 @@ public:
 	void joinMultiplayer(char const*, int, bool);
 	void leaveGame(bool);
 	void locateMultiplayer();
-	void muteAudio();
 	void newDictationDataAvailable() const;
 	void onClientStartedLevel(std::unique_ptr<Level>, std::unique_ptr<LocalPlayer>);
 	void onDimensionChanged();
 	void onGameEventNotification(UI::GameEventNotification);
-	void onGameModeChanged();
 	void onMobEffectsChange();
 	void onPlayerLoaded(Player  &);
 	void onPrepChangeDimension();

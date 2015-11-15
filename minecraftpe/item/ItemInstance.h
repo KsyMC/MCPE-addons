@@ -2,7 +2,7 @@
 
 #include <string>
 
-class Tile;
+class Block;
 class Item;
 class Entity;
 class ItemInstance;
@@ -18,29 +18,29 @@ public:
 	char filler1[4];	// 0
 	int damage;			// 4
 	Item *item;			// 8
-	Tile *tile;			// 12
+	Block *tile;			// 12
 
 public:
 	ItemInstance(const Item *);
 	ItemInstance(const Item *, int);
 	ItemInstance(const Item *, int, int);
 	ItemInstance(const ItemInstance &);
-	ItemInstance(const Tile *);
-	ItemInstance(const Tile *, int);
-	ItemInstance(const Tile *, int, int);
+	ItemInstance(const Block *);
+	ItemInstance(const Block *, int);
+	ItemInstance(const Block *, int, int);
 	ItemInstance(bool);
 	ItemInstance(int, int, int);
 	ItemInstance();
 	void _setItem(int);
 	void add(int);
-	void canDestroySpecial(Tile *);
+	void canDestroySpecial(Block *);
 	ItemInstance *clone(const ItemInstance *);
 	ItemInstance *cloneSafe(const ItemInstance *);
 	void fromTag(CompoundTag *);
 	int getAttackDamage(Entity *);
 	short getAuxValue() const;
 	short getDamageValue() const;
-	int getDestroySpeed(Tile *);
+	int getDestroySpeed(Block *);
 	void getIcon(int, bool) const;
 	int getId() const;
 	int getIdAux() const;
