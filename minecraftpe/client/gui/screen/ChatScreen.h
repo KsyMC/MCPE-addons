@@ -10,40 +10,31 @@ namespace Touch
 
 class ImageWithBackground;
 
-// Size : 244
+// Size : 224
 class ChatScreen : public Screen
 {
 public:
 	static std::deque<std::string> sentMessages;
 
 public:
-	std::string message;				// 200
-	char filler1[4];					// 204
-	Touch::HeaderButton *closeButton;	// 208
-	Touch::HeaderButton *hideButton;	// 212
-	BlankButton *backgroundButton;		// 216
-	ImageWithBackground *chatButton;	// 220
-	ImageWithBackground *sendButton;	// 224
-	char filler2[16];					// 228
+	char filler1[64];			// 160
 
 public:
 	ChatScreen(bool);
 	virtual ~ChatScreen();
+	virtual void onSetKeyboardHeight(float);
+	virtual void removed();
+	virtual void handleButtonPress(short);
+	virtual void handleBackEvent(bool);
+	virtual void handleTextChar(std::string const &, bool);
+	virtual void setTextboxText(std::string const &);
+	virtual void renderGameBehind() const;
+	virtual void closeOnPlayerHurt() const;
 	virtual void render(int, int, float);
 	virtual void init();
 	virtual void setupPositions();
-	virtual bool handleBackEvent(bool);
 	virtual void tick();
-	virtual void removed();
-	virtual bool renderGameBehind();
-	virtual bool isPauseScreen();
-	virtual bool isErrorScreen();
-	virtual bool isInGameScreen();
-	virtual void closeOnPlayerHurt();
-	virtual void setTextboxText(const std::string &);
-	virtual void buttonClicked(Button *);
-	virtual void keyPressed(int);
-	virtual void keyboardNewChar(const std::string &, bool);
+	virtual void _buttonClicked(Button &);
 	void sendChatMessage();
 	void drawChatMessages(int);
 	void guiMessagesUpdated();

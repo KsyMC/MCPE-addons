@@ -4,22 +4,19 @@
 
 namespace Touch
 {
-
 // Size : 116
 class TButton : public Button
 {
 public:
-	NinePatchLayer *ninepathLayer1;		// 168
-	NinePatchLayer *ninepathLayer2;		// 172
+	char filler1[8];	// 108
 
 public:
-	TButton(int, int, int, int, int, const std::string &, MinecraftClient *, bool, int);
-	TButton(int, int, int, const std::string &, MinecraftClient *, int);
-	TButton(int, const std::string &, MinecraftClient *, bool, int);
+	TButton(int, int, int, int, int, std::string const &, MinecraftClient *, bool, int);
+	TButton(int, int, int, std::string const &, MinecraftClient *, int);
+	TButton(int, std::string const &, MinecraftClient *, bool, int);
 	virtual ~TButton();
 	virtual void renderBg(MinecraftClient *, int, int);
 	void init(MinecraftClient *);
-	void init(MinecraftClient *, const std::string &, const IntRectangle &, const IntRectangle &, int, int, int, int);
+	void init(MinecraftClient *, std::string const &, IntRectangle const &, IntRectangle const &, int, int, int, int);
 };
-
 };

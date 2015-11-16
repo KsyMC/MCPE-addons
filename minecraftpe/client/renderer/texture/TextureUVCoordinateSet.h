@@ -12,11 +12,11 @@ public:
 	float endY;			// 12
 	float width;		// 16
 	float height;		// 20
-	int i1;				// 24
+	int index;			// 24
 	TextureFile type;	// 28
 
 public:
-	TextureUVCoordinateSet(float, float, float, float, float, float, int, TextureFile);
 	TextureUVCoordinateSet();
+	TextureUVCoordinateSet(float, float, float, float, float, float, int, TextureFile);
 	void fix();
 };

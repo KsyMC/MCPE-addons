@@ -2,7 +2,7 @@
 
 #include "Button.h"
 
-// Size : 168
+// Size : 108
 class BlankButton : public Button
 {
 public:

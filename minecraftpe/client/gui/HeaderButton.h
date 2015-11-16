@@ -4,17 +4,15 @@
 
 namespace Touch
 {
-
-// Size : 188
+// Size : 128
 class HeaderButton : public TButton
 {
 public:
-	char filler1[12];	// 176
+	char filler1[12];		// 116
 
 public:
-	HeaderButton(int, MinecraftClient &, const std::string &, bool, bool);
+	HeaderButton(int, MinecraftClient &, std::string const &, bool, bool);
 	virtual ~HeaderButton();
-	virtual void setMsg(const std::string &);
+	virtual void setMsg(std::string const &);
 };
-
 };

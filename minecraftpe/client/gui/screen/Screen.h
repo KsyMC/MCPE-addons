@@ -24,8 +24,6 @@ class MojangConnectionStatus;
 class Screen : public BaseScreen, public GuiComponent
 {
 public:
-	//void *vtable;							// 0
-	// 4
 	//void *vtable;							// 8
 	int width;								// 12
 	int height;								// 16

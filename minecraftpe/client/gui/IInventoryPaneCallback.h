@@ -2,6 +2,7 @@
 
 namespace Touch
 {
+class InventoryPane;
 
 class IInventoryPaneCallback
 {
@@ -11,5 +12,4 @@ public:
 	virtual bool isAllowed(int) = 0;
 	virtual void getItems(const Touch::InventoryPane *) = 0;
 };
-
 };

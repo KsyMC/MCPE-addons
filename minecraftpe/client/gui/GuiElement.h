@@ -9,19 +9,15 @@ class MinecraftClient;
 class NinePatchLayer;
 class Vec2;
 
-// Size : 108
+// Size : 48
 class GuiElement : public GuiComponent
 {
 public:
-	bool enabled;					// 64
-	bool visible;					// 65
-	int xPosition;					// 68
-	int yPosition;					// 72
-	int width;						// 76
-	int height;						// 80
-	Color color;					// 84
-	NinePatchLayer *ninePatchLayer;	// 100
-	bool selected;					// 104
+	int xPosition;					// 8
+	int yPosition;					// 12
+	int width;						// 16
+	int height;						// 20
+	char filler1[24];				// 24
 
 public:
 	GuiElement(bool, bool, int, int, int, int);

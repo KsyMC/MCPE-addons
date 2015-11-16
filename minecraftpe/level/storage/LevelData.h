@@ -1,7 +1,7 @@
 #pragma once
 
-#include <minecraftpe/util/BlockPos.h>
 #include <string>
+#include "../../util/BlockPos.h"
 #include "../GeneratorType.h"
 #include "../../nbt/CompoundTag.h"
 
@@ -12,7 +12,6 @@ namespace RakNet
 
 class LevelSettings;
 typedef int StorageVersion;
-typedef int Dimension;
 
 // Size : 108
 class LevelData

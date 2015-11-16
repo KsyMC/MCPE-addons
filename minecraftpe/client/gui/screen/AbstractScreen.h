@@ -8,6 +8,9 @@ namespace UI
 class AbstractScreen
 {
 public:
+	//void *vtable;		// 0
+
+public:
 	virtual ~AbstractScreen();
 	virtual void _init(int, int) = 0;
 	virtual void setSize(int, int) = 0;

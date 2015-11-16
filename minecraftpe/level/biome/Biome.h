@@ -45,7 +45,6 @@ public:
 	static Biome *jungleEdgeMutated;
 	static Biome *jungleHills;
 	static Biome *jungleMutated;
-	static Biome *mBiomes;
 	static Biome *mesa;
 	static Biome *mesaClearRock;
 	static Biome *mesaClearRockMutated;
@@ -79,6 +78,9 @@ public:
 	static Biome *taigaColdMutated;
 	static Biome *taigaHills;
 	static Biome *taigaMutated;
+
+public:
+	static Biome *mBiomes;
 
 public:
 	Biome(int, Biome::BiomeType, BiomeDecorator *);

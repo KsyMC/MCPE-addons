@@ -4,12 +4,11 @@
 
 class ScrollingPane;
 
-// Size : 140
+// Size : 112
 class PackedScrollContainer : public GuiElementContainer
 {
 public:
-	ScrollingPane *pane;	// 128
-	char filler1[8];		// 132
+	char filler1[44];		// 68
 
 public:
 	PackedScrollContainer(bool, bool);
@@ -17,6 +16,6 @@ public:
 	virtual void tick(MinecraftClient *);
 	virtual void render(MinecraftClient *, int, int);
 	virtual void setupPositions();
-	virtual void mouseClicked(MinecraftClient *, int, int, int);
-	virtual void setTextboxText(const std::string &);
+	virtual void pointerPressed(MinecraftClient *, int, int);
+	virtual void setTextboxText(std::string const &);
 };

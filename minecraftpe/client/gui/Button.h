@@ -2,32 +2,30 @@
 
 #include "GuiElement.h"
 
-// Size : 168
+// Size : 108
 class Button : public GuiElement
 {
 public:
-	char filler1[48];				// 108
-	std::string displayString;		// 156
-	int id;							// 160
-	bool toggled;					// 164
-	bool pressed;					// 165
-	bool overrideScreenRendering;	// 166
+	char filler1[60];		// 48
 
 public:
-	Button(int, int, int, int, int, const std::string &, bool);
-	Button(int, int, int, const std::string &);
-	Button(int, const std::string &, bool);
+	Button(int, int, int, int, int, std::string const &, bool);
+	Button(int, int, int, std::string const &);
+	Button(int, std::string const &, bool);
 	virtual ~Button();
+	virtual void ~Button();
 	virtual void render(MinecraftClient *, int, int);
-	virtual void mouseReleased(MinecraftClient *, int, int, int);
-	virtual bool clicked(MinecraftClient *, int, int);
+	virtual void pointerReleased(MinecraftClient *, int, int);
+	virtual void drawPressed(int);
+	virtual void clicked(MinecraftClient *, int, int);
 	virtual void released(int, int);
 	virtual void setPressed();
-	virtual void setMsg(const std::string &);
+	virtual void setPressed(bool);
+	virtual void setMsg(std::string const &);
 	virtual void getYImage(bool);
 	virtual void renderBg(MinecraftClient *, int, int);
 	virtual void renderFace(MinecraftClient *, int, int);
-	int _getWidth(MinecraftClient *, const std::string &, int);
+	int _getWidth(MinecraftClient *, std::string const &, int);
 	bool hovered(MinecraftClient *, int, int);
 	bool isInside(int, int);
 	bool isOveridingScreenRendering();

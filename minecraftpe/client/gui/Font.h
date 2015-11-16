@@ -36,7 +36,6 @@ public:
 	void hasFormattingCodes(std::string const &);
 	void height(std::string const &, int);
 	void init();
-	void onAppSuspended();
 	void resetFormat(Color const &);
 	void splitLinesInBox(std::string const &, int, std::function<void (std::string const &, int)>);
 };

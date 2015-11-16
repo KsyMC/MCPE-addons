@@ -1,16 +1,14 @@
 #pragma once
 
 #include "Button.h"
-#include "ImageDef.h"
 
-// Size : 244
+class ImageDef;
+
+// Size : 180
 class ImageButton : public Button
 {
 public:
-	ImageDef imageDef;	// 168
-	char filler1[20];	// 208
-	int yOffset;		// 228
-	char filler2[12];	// 232
+	char filler1[72];		// 108
 
 public:
 	ImageButton(int, const std::string &);
@@ -20,6 +18,6 @@ public:
 	virtual void renderBg(MinecraftClient *, int, int);
 	virtual void setYOffset(int);
 	virtual void setupDefault();
-	virtual bool isSecondImage(bool);
-	void setImageDef(const ImageDef &, bool);
+	virtual void isSecondImage(bool);
+	void setImageDef(ImageDef const &, bool);
 };

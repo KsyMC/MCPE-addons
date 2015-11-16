@@ -4,12 +4,11 @@
 #include <memory>
 #include "GuiElement.h"
 
-// Size : 128
+// Size : 68
 class GuiElementContainer : public GuiElement
 {
 public:
-	std::vector<std::shared_ptr<GuiElement>> children;	// 108
-	char filler1[8];									// 120
+	char filler1[20];		// 48
 
 public:
 	GuiElementContainer(bool, bool, int, int, int, int);

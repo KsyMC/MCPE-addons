@@ -2,25 +2,23 @@
 
 #include "GuiElement.h"
 
-// Size : 144
+// Size : 84
 class Label : public GuiElement
 {
 public:
-	std::string displayString;	// 108
-	char filler1[4];			// 112
-	Color color;				// 116
-	char filler2[10];			// 132
-	bool centered;				// 142
+	char filler1[36];		// 48
 
 public:
-	Label(MinecraftClient &, const std::string &, const Color &, int, int, int, bool);
+	Label(MinecraftClient &, std::string const &, Color const &, int, int, int, bool);
 	virtual ~Label();
 	virtual void render(MinecraftClient *, int, int);
 	virtual void setupPositions();
-	virtual std::string getText() const;
-	virtual void setText(std::string);
-	virtual void setTextRaw(const std::string &);
+	virtual void pointerPressed(MinecraftClient *, int, int);
+	virtual void pointerReleased(MinecraftClient *, int, int);
+	virtual void getText() const;
+	virtual void setText(std::string const &);
+	virtual void setTextRaw(std::string const &);
 	virtual void setWidth(int);
-	virtual void setColor(const Color &);
+	virtual void setColor(Color const &);
 	void setCentered(bool);
 };

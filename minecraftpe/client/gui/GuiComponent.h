@@ -2,7 +2,7 @@
 
 #include "../renderer/ScreenRenderer.h"
 
-// Size : 64
+// Size : 8
 class GuiComponent
 {
 public:
