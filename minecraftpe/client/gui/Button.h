@@ -1,12 +1,20 @@
 #pragma once
 
 #include "GuiElement.h"
+#include "Color.h"
 
 // Size : 108
 class Button : public GuiElement
 {
 public:
-	char filler1[60];		// 48
+	Color unclickedTextColor;		// 48
+	Color clickedTextColor;			// 64
+	Color shadowColor;				// 80
+	std::string displayString;		// 96
+	int id;							// 100
+	bool toggled;					// 104
+	bool pressed;					// 105
+	bool overrideScreenRendering;	// 106
 
 public:
 	Button(int, int, int, int, int, std::string const &, bool);

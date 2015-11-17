@@ -2,13 +2,16 @@
 
 #include "Button.h"
 
+class NinePatchLayer;
+
 namespace Touch
 {
 // Size : 116
 class TButton : public Button
 {
 public:
-	char filler1[8];	// 108
+	NinePatchLayer* unclickedNinePatchLayer;		// 108
+	NinePatchLayer* clickedNinePatchLayer;			// 112
 
 public:
 	TButton(int, int, int, int, int, std::string const &, MinecraftClient *, bool, int);

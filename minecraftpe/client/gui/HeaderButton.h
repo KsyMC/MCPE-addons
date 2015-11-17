@@ -8,7 +8,9 @@ namespace Touch
 class HeaderButton : public TButton
 {
 public:
-	char filler1[12];		// 116
+	bool isRightSided;		// 116
+	int screenWidth;		// 120
+	MinecraftClient* mc;	// 124
 
 public:
 	HeaderButton(int, MinecraftClient &, std::string const &, bool, bool);
