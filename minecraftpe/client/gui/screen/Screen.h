@@ -1,7 +1,8 @@
 #pragma once
 
+#include <memory>
 #include <vector>
-#include "GuiComponent.h"
+#include "../GuiComponent.h"
 
 namespace Touch
 {
@@ -24,17 +25,17 @@ class MojangConnectionStatus;
 class Screen : public BaseScreen, public GuiComponent
 {
 public:
-	//void *vtable;							// 8
-	int width;								// 12
-	int height;								// 16
-	MinecraftClient *mc;					// 20
-	std::vector<Button *> buttonList;		// 24
-	std::vector<TextBox *> textboxList;		// 28
-	std::vector<Button *> buttonList2;		// 32
-	std::vector<GuiElement *> elementList;	// 36
-	std::vector<GuiElement *> elementList2;	// 40
-	Font *fontObj;							// 108
-	MaterialPtr ui_cubemap;					// 148
+	//void *vtable;											// 8
+	int width;												// 12
+	int height;												// 16
+	MinecraftClient *mc;									// 20
+	std::vector<std::shared_ptr<Button>> buttonList;		// 24
+	std::vector<std::shared_ptr<TextBox>> textboxList;		// 28
+	std::vector<std::shared_ptr<Button>> buttonList2;		// 32
+	std::vector<std::shared_ptr<GuiElement>> elementList;	// 36
+	std::vector<std::shared_ptr<GuiElement>> elementList2;	// 40
+	Font *fontObj;											// 108
+	MaterialPtr ui_cubemap;									// 148
 
 public:
 	Screen(MinecraftClient &);

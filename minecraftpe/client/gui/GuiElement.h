@@ -13,11 +13,16 @@ class Vec2;
 class GuiElement : public GuiComponent
 {
 public:
-	int xPosition;					// 8
-	int yPosition;					// 12
-	int width;						// 16
-	int height;						// 20
-	char filler1[24];				// 24
+	bool enabled;						// 4
+	bool visible;						// 5
+	int xPosition;						// 8
+	int yPosition;						// 12
+	int width;							// 16
+	int height;							// 20
+	Color backgroundColor;				// 24
+	NinePatchLayer *backgroundLayer;	// 40
+	bool selected;						// 44
+	bool focused;						// 45
 
 public:
 	GuiElement(bool, bool, int, int, int, int);

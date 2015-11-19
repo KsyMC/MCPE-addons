@@ -2,12 +2,11 @@
 
 #include "../renderer/ScreenRenderer.h"
 
-// Size : 8
-class GuiComponent
+// Size : 4
+class GuiComponent : public ScreenRenderer
 {
 public:
 	//void **vtable;				// 0
-	ScreenRenderer screenRenderer;	// 4
 
 public:
 	GuiComponent();
