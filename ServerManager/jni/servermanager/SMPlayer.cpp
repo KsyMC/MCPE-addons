@@ -307,7 +307,8 @@ void SMPlayer::handleDataPacket(Packet *packet)
 			if(len > 16 || len < 3)
 				valid = false;
 
-			if(!valid || !username.compare("rcon") || !username.compare("console"))
+			if(!valid || !username.compare("rcon") || !username.compare("console") ||
+					!Util::toLower(username).compare(Util::toLower(server->getHost()->getName())))
 			{
 				close(getLeaveMessage(), "disconnectionScreen.invalidName");
 				break;
@@ -332,7 +333,8 @@ void SMPlayer::handleDataPacket(Packet *packet)
 				break;
 			}
 
-			for(SMPlayer *p : server->getOnlinePlayers()){
+			for(SMPlayer *p : server->getOnlinePlayers())
+			{
 				if(p != this && !Util::toLower(p->getName()).compare(Util::toLower(username)))
 				{
 					p->kick("logged in from another location");
@@ -346,10 +348,7 @@ void SMPlayer::handleDataPacket(Packet *packet)
 			}
 
 			if(options->isShowIp())
-			{
-				std::vector<std::string> ipPart = Util::split(ip, '.');
-				server->getHost()->sendMessage(TextContainer("§a" + username + "'s IP:" + ipPart[0] + "." + ipPart[1] + "." + "***." + ipPart[3]));
-			}
+				server->broadcastMessage(TextContainer("§a" + username + "'s IP:" + ip));
 
 			loggedIn = true;
 

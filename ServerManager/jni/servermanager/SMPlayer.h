@@ -85,8 +85,8 @@ public:
 	virtual void sendPopup(std::string const &message, std::string const &subtitle = "");
 	virtual void sendTip(std::string const &message);
 
-	void kick(std::string const &reason, bool isAdmin = true);
-	void close(TextContainer const &message, std::string const &reason = "generic reason", bool notify = true);
+	virtual void kick(std::string const &reason, bool isAdmin = true);
+	virtual void close(TextContainer const &message, std::string const &reason = "generic reason", bool notify = true);
 
 	void handleDataPacket(Packet *packet);
 

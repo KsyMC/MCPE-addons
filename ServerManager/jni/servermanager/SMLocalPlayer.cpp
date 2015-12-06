@@ -51,6 +51,10 @@ void SMLocalPlayer::sendTip(std::string const &message)
 	((LocalPlayer *)realPlayer)->mc->getGui()->showTipMessage(message);
 }
 
+void SMLocalPlayer::kick(std::string const &reason, bool isAdmin) {}
+
+void SMLocalPlayer::close(TextContainer const &message, std::string const &reason, bool notify) {}
+
 bool SMLocalPlayer::isLocalPlayer() const
 {
 	return true;

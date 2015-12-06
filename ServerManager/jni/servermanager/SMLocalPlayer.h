@@ -12,5 +12,8 @@ public:
 	virtual void sendPopup(std::string const &message, std::string const &subtitle = "");
 	virtual void sendTip(std::string const &message);
 
+	virtual void kick(std::string const &reason, bool isAdmin = true);
+	virtual void close(TextContainer const &message, std::string const &reason = "generic reason", bool notify = true);
+
 	virtual bool isLocalPlayer() const;
 };
