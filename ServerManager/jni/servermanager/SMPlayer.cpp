@@ -285,18 +285,18 @@ void SMPlayer::handleDataPacket(Packet *packet)
 
 			if(loginPacket->protocol1 != SharedConstants::NetworkProtocolVersion)
 			{
-				PlayStatusPacket pk;
+				PlayStatusPacket statusPacket;
 				if(loginPacket->protocol1 < SharedConstants::NetworkProtocolVersion)
 				{
 					close(getLeaveMessage(), "disconnectionScreen.outdatedClient");
-					pk.status = PlayStatusPacket::LOGIN_FAILED_CLIENT;
+					statusPacket.status = PlayStatusPacket::LOGIN_FAILED_CLIENT;
 				}
 				else
 				{
 					close(getLeaveMessage(), "disconnectionScreen.outdatedServer");
-					pk.status = PlayStatusPacket::LOGIN_FAILED_SERVER;
+					statusPacket.status = PlayStatusPacket::LOGIN_FAILED_SERVER;
 				}
-				dataPacket(pk);
+				dataPacket(statusPacket);
 
 				break;
 			}
@@ -348,13 +348,19 @@ void SMPlayer::handleDataPacket(Packet *packet)
 			}
 
 			if(options->isShowIp())
-				server->broadcastMessage(TextContainer("§a" + username + "'s IP:" + ip));
+			{
+				for(SMPlayer *player : server->getOnlinePlayers())
+				{
+					if(player->isLocalPlayer() || player->isOp())
+						player->sendMessage(TextContainer("§a" + username + "'s IP:" + ip));
+				}
+			}
 
 			loggedIn = true;
 
-			PlayStatusPacket pk;
-			pk.status = PlayStatusPacket::LOGIN_SUCCESS;
-			dataPacket(pk);
+			PlayStatusPacket statusPacket;
+			statusPacket.status = PlayStatusPacket::LOGIN_SUCCESS;
+			dataPacket(statusPacket);
 
 			realPlayer = server->createNewPlayer(guid, loginPacket);
 
