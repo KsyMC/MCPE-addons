@@ -12,6 +12,7 @@ LOCAL_SRC_FILES :=                                        \
     servermanager/SMOfflinePlayer.cpp                     \
     servermanager/SMPlayer.cpp                            \
     servermanager/SMLocalPlayer.cpp                       \
+    servermanager/level/SMLevel.cpp                       \
     servermanager/command/SimpleCommandMap.cpp            \
     servermanager/command/Command.cpp                     \
     servermanager/command/defaults/GameModeCommand.cpp    \

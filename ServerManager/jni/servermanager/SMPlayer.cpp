@@ -1,5 +1,6 @@
 #include "SMPlayer.h"
 #include "ServerManager.h"
+#include "level/SMLevel.h"
 #include "utils/SMList.h"
 #include "utils/SMOptions.h"
 #include "network/PacketId.h"
@@ -15,14 +16,16 @@
 #include "minecraftpe/Util.h"
 #include "minecraftpe/I18n.h"
 
-SMPlayer::SMPlayer(ServerManager *sm, PacketSender *packetSender, RakNet::RakNetGUID const &guid, std::string const &ip, unsigned short port)
+SMPlayer::SMPlayer(ServerManager *server, PacketSender *packetSender, RakNet::RakNetGUID const &guid, std::string const &ip, unsigned short port)
 {
 	realPlayer = NULL;
 
 	spawned = false;
 	loggedIn = false;
 
-	server = sm;
+	setLevel(server->getLevel());
+
+	this->server = server;
 
 	realPlayer = NULL;
 	this->guid = guid;
@@ -162,14 +165,29 @@ bool SMPlayer::isLocalPlayer() const
 	return false;
 }
 
-Level *SMPlayer::getLevel() const
+void SMPlayer::setLevel(SMLevel *level)
 {
-	return realPlayer->level;
+	this->level = level;
+}
+
+SMLevel *SMPlayer::getLevel() const
+{
+	return level;
 }
 
 Inventory *SMPlayer::getInventory() const
 {
 	return realPlayer->inventory;
+}
+
+BlockSource *SMPlayer::getBlockSource() const
+{
+	return realPlayer->getRegion();
+}
+
+void SMPlayer::save()
+{
+	server->getLevel()->get()->getLevelStorage()->save(*realPlayer);
 }
 
 void SMPlayer::sendMessage(TextContainer const &message)
@@ -245,6 +263,9 @@ void SMPlayer::close(TextContainer const &message, std::string const &reason, bo
 			dataPacket(pk);
 		}
 		connected = false;
+
+		save();
+
 		loggedIn = false;
 
 		if(!username.empty() && spawned && !message.getText().empty())
@@ -256,9 +277,6 @@ void SMPlayer::close(TextContainer const &message, std::string const &reason, bo
 		{
 			ServerPlayer *serverPlayer = (ServerPlayer *)realPlayer;
 			serverPlayer->disconnect();
-
-			server->getLevel()->getLevelStorage()->save(*realPlayer);
-
 			serverPlayer->remove();
 		}
 	}
@@ -404,4 +422,9 @@ void SMPlayer::onUpdate()
 ServerManager *SMPlayer::getServer() const
 {
 	return server;
+}
+
+Player *SMPlayer::get() const
+{
+	return realPlayer;
 }

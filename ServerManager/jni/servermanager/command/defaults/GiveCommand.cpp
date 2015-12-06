@@ -1,17 +1,20 @@
 #include "GiveCommand.h"
 #include "../../ServerManager.h"
 #include "../../SMPlayer.h"
+#include "../../level/SMLevel.h"
 #include "minecraftpe/Item.h"
 #include "minecraftpe/Block.h"
+#include "minecraftpe/Player.h"
 #include "minecraftpe/ItemInstance.h"
 #include "minecraftpe/Inventory.h"
+#include "minecraftpe/Vec3.h"
 #include "minecraftpe/Util.h"
 
 GiveCommand::GiveCommand(std::string const &name)
 	: Command(name,
 			"Gives the specified player a certain amount of items",
 			"%commands.give.usage") {}
-#include "shared.h"
+
 bool GiveCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
 {
 	if((int)args.size() < 2)
@@ -27,19 +30,21 @@ bool GiveCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 		return true;
 	}
 
-	std::string prefix = "minecraft:";
 	std::string name = args[1];
-	name.replace(name.find(prefix), prefix.length(), "");
+
+	std::string prefix = "minecraft:";
+	if(name.find(prefix) != std::string::npos)
+		name.replace(name.find(prefix), prefix.length(), "");
 
 	int id;
 
-	Item *item = Item::lookupByName(args[1], true);
+	Item *item = Item::lookupByName(name, true);
 	if(!item)
 	{
-		Block *block = Block::lookupByName(args[1], true);
+		Block *block = Block::lookupByName(name, true);
 		if(!block)
 		{
-			if(Util::toInt(args[1], id))
+			if(Util::toInt(name, id))
 			{
 				sender->sendMessage(TextContainer("§c%commands.give.item.notFound", {args[1]}));
 				return true;
@@ -51,7 +56,7 @@ bool GiveCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 	else
 		id = item->id;
 
-	int count = -1;
+	int count = 0;
 	int auxValue = 0;
 
 	if((int)args.size() > 2)
@@ -67,17 +72,18 @@ bool GiveCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 
 	ItemInstance itemInst(id, count, auxValue);
 
-	if(count == -1)
-		itemInst.set(itemInst.getMaxStackSize());
+	if(count == 0)
+	{
+		count = itemInst.getMaxStackSize();
+		itemInst.set(count);
+	}
 
-	LOGI("%d %d %d", id, count, auxValue);
-	player->getInventory()->add(itemInst);
+	sender->getLevel()->dropItem(player, player->get()->getPos(), itemInst, 0);
 
-	/*Command::broadcastCommandMessage(sender, TextContainer("%commands.give.success", {
-		item->getName() + " (" + item->getId() + ":" + $item->getDamage() + ")",
-		Util::toString(item->getCount()),
-		player->getName()
-	}));*/
+	Command::broadcastCommandMessage(sender, TextContainer("commands.give.success", {
+			itemInst.getName() + " (" + Util::toString(itemInst.getId()) + ":" + Util::toString(itemInst.getAuxValue()) + ")",
+			Util::toString(count),
+			player->getName()}));
 
 	return true;
 }

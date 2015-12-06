@@ -1,6 +1,7 @@
 #include "TimeCommand.h"
 #include "../../ServerManager.h"
 #include "../../SMPlayer.h"
+#include "../../level/SMLevel.h"
 #include "minecraftpe/Level.h"
 #include "minecraftpe/Util.h"
 
@@ -19,18 +20,18 @@ bool TimeCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 
 	if(!args[0].compare("start"))
 	{
-		sender->getLevel()->setDayCycleActive(true);
+		sender->getLevel()->get()->setDayCycleActive(true);
 
 		Command::broadcastCommandMessage(sender, TextContainer("Restarted the time"));
 	}
 	else if(!args[0].compare("stop"))
 	{
-		sender->getLevel()->setDayCycleActive(false);
+		sender->getLevel()->get()->setDayCycleActive(false);
 
 		Command::broadcastCommandMessage(sender, TextContainer("Stopped the time"));
 	}
 	else if(!args[0].compare("query"))
-		sender->sendMessage(TextContainer("commands.time.query", {Util::toString(sender->getLevel()->getTime())}));
+		sender->sendMessage(TextContainer("commands.time.query", {Util::toString(sender->getLevel()->get()->getTime())}));
 	else if(!args[0].compare("set"))
 	{
 		if((int)args.size() < 2)
@@ -48,7 +49,7 @@ bool TimeCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 		else
 			value = getInteger(sender, args[1], 0);
 
-		sender->getLevel()->setTime(value);
+		sender->getLevel()->get()->setTime(value);
 
 		Command::broadcastCommandMessage(sender, TextContainer("commands.time.set", {Util::toString(value)}));
 	}
@@ -62,7 +63,7 @@ bool TimeCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 
 		int value = getInteger(sender, args[1], 0);
 
-		Level *level = sender->getLevel();
+		Level *level = sender->getLevel()->get();
 		level->setTime(level->getTime() + value);
 
 		Command::broadcastCommandMessage(sender, TextContainer("commands.time.added", {Util::toString(value)}));

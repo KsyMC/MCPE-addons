@@ -11,7 +11,7 @@ namespace RakNet
 };
 
 class ServerNetworkHandler;
-class Level;
+class SMLevel;
 class SMOptions;
 class SMList;
 class ISMPlayer;
@@ -29,7 +29,7 @@ private:
 
 	ServerNetworkHandler *network;
 
-	Level *level;
+	SMLevel *level;
 
 	SMOptions *options;
 	SMList *banList;
@@ -56,7 +56,7 @@ public:
 
 	ServerPlayer *createNewPlayer(const RakNet::RakNetGUID &guid, LoginPacket *packet);
 
-	Level *getLevel() const;
+	SMLevel *getLevel() const;
 
 	void addPlayer(SMPlayer *player);
 	SMPlayer *getPlayer(std::string const &name) const;

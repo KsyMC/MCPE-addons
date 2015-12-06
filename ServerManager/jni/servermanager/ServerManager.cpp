@@ -3,6 +3,7 @@
 #include "ServerManager.h"
 #include "SMLocalPlayer.h"
 #include "SMOfflinePlayer.h"
+#include "level/SMLevel.h"
 #include "command/SimpleCommandMap.h"
 #include "utils/SMOptions.h"
 #include "utils/SMList.h"
@@ -119,19 +120,21 @@ ServerPlayer *ServerManager::createNewPlayer(const RakNet::RakNetGUID &guid, Log
 	std::unique_ptr<ServerPlayer> playerPtr = network->createNewPlayer(guid, packet);
 	ServerPlayer *player = playerPtr.get();
 
+	Level *realLevel = level->get();
+
 	Dimension *dimension = player->getDimension();
 	if(!dimension)
-		dimension = level->createDimension(DIMENSION_NORMAL);
+		dimension = realLevel->createDimension(DIMENSION_NORMAL);
 
 	player->prepareRegion(*dimension->getChunkSource());
 	network->_sendLevelData(player, guid);
-	level->addPlayer(std::move(playerPtr));
+	realLevel->addPlayer(std::move(playerPtr));
 	network->_sendAdditionalLevelData(player, guid);
 
 	return player;
 }
 
-Level *ServerManager::getLevel() const
+SMLevel *ServerManager::getLevel() const
 {
 	return level;
 }
@@ -224,7 +227,8 @@ void ServerManager::startServer(LocalPlayer *hostPlayer)
 		return;
 
 	Minecraft *server = hostPlayer->mc->getServer();
-	level = server->getLevel();
+
+	level = new SMLevel(this, server->getLevel());
 
 	if(isOnlineClient())
 		return;
@@ -295,7 +299,7 @@ int ServerManager::getGamemodeFromString(std::string const &str)
 
 bool ServerManager::isOnlineClient() const
 {
-	return level->isClientSide();
+	return level->get()->isClientSide();
 }
 
 bool ServerManager::hasWhitelist() const

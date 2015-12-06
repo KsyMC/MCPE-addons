@@ -8,11 +8,12 @@
 #include "event/TextContainer.h"
 
 class ServerManager;
-class Level;
+class SMLevel;
 class Player;
 class Packet;
 class PacketSender;
 class Inventory;
+class BlockSource;
 
 class SMPlayer : public ISMPlayer
 {
@@ -20,6 +21,8 @@ public:
 	bool loggedIn;
 
 	bool spawned;
+
+	SMLevel *level;
 
 protected:
 	Player *realPlayer;
@@ -42,7 +45,7 @@ protected:
 	std::string iusername;
 
 public:
-	SMPlayer(ServerManager *sm, PacketSender *packetSender, RakNet::RakNetGUID const &guid, std::string const &ip, unsigned short port);
+	SMPlayer(ServerManager *server, PacketSender *packetSender, RakNet::RakNetGUID const &guid, std::string const &ip, unsigned short port);
 	virtual ~SMPlayer();
 
 	TextContainer getLeaveMessage() const;
@@ -76,9 +79,14 @@ public:
 
 	virtual bool isLocalPlayer() const;
 
-	Level *getLevel() const;
+	void setLevel(SMLevel *level);
+	SMLevel *getLevel() const;
 
 	Inventory *getInventory() const;
+
+	BlockSource *getBlockSource() const;
+
+	void save();
 
 	virtual void sendMessage(TextContainer const &message);
 	virtual void sendTranslation(std::string const &message, std::vector<std::string> const &parameters);
@@ -93,4 +101,6 @@ public:
 	virtual void onUpdate();
 
 	ServerManager *getServer() const;
+
+	Player *get() const;
 };
