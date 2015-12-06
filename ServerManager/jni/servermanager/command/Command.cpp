@@ -48,12 +48,6 @@ void Command::setAliases(std::vector<std::string> const &aliases)
 		activeAliases = aliases;
 }
 
-void Command::unregisterCommand(CommandMap *commandMap)
-{
-	this->commandMap = NULL;
-	activeAliases = aliases;
-}
-
 void Command::registerCommand(CommandMap *commandMap)
 {
 	this->commandMap = commandMap;

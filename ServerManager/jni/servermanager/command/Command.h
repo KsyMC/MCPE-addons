@@ -37,7 +37,6 @@ public:
 	std::vector<std::string> getAliases() const;
 	void setAliases(std::vector<std::string> const &);
 
-	void unregisterCommand(CommandMap *);
 	void registerCommand(CommandMap *);
 	bool isRegistered() const;
 

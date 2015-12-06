@@ -7,6 +7,9 @@ class MinecraftClient;
 
 class SimpleCommandMap : public CommandMap
 {
+private:
+	std::vector<Command *> commands;
+
 protected:
 	std::map<std::string, Command *> knownCommands;
 
@@ -21,7 +24,6 @@ public:
 
 	void setDefaultCommands();
 
-	void clearCommand();
 	Command *getCommand(std::string const &name);
 	std::map<std::string, Command *> getCommands();
 };

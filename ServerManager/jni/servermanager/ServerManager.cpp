@@ -66,6 +66,12 @@ ServerManager::ServerManager()
 
 ServerManager::~ServerManager()
 {
+	delete options;
+	delete banList;
+	delete banIpList;
+	delete whitelistList;
+	delete operatorsList;
+
 	delete commandMap;
 }
 

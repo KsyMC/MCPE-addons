@@ -13,6 +13,14 @@ HelpCommand::HelpCommand(std::string const &name)
 			"%commands.help.usage",
 			{"?"}) {}
 
+struct comp
+{
+	bool operator() (const std::string &left, const std::string &right) const
+	{
+		return left<right;
+	}
+};
+
 bool HelpCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
 {
 	std::string command;
@@ -34,13 +42,6 @@ bool HelpCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 
 	if(command.empty())
 	{
-		struct comp
-		{
-			bool operator() (const std::string &left, const std::string &right) const
-			{
-				return left<right;
-			}
-		};
 		std::map<std::string, Command *, comp> commandList;
 
 		for(auto &key : ((SimpleCommandMap *)sender->getServer()->getCommandMap())->getCommands())

@@ -23,10 +23,11 @@ SimpleCommandMap::SimpleCommandMap()
 
 SimpleCommandMap::~SimpleCommandMap()
 {
-	for(auto &e : knownCommands)
-		delete e.second;
+	for(Command *cmd : commands)
+		delete cmd;
 
 	knownCommands.clear();
+	commands.clear();
 }
 
 bool SimpleCommandMap::registerCommand(Command *command, std::string const &label)
@@ -43,7 +44,7 @@ bool SimpleCommandMap::registerCommand(Command *command, std::string const &labe
 	for(auto it = aliases.begin(); it != aliases.end(); ++it)
 	{
 		if(!registerAlias(command, true, *it))
-			aliases.erase(it);
+			it = aliases.erase(it);
 	}
 	command->setAliases(aliases);
 
@@ -81,7 +82,10 @@ bool SimpleCommandMap::registerAlias(Command *command, bool isAlias, std::string
 		return false;
 
 	if(!isAlias)
+	{
+		commands.push_back(command);
 		command->setLabel(label);
+	}
 
 	knownCommands[label] = command;
 
@@ -105,15 +109,6 @@ void SimpleCommandMap::setDefaultCommands()
 	registerCommand(new ListCommand("list"));
 	registerCommand(new TimeCommand("time"));
 	registerCommand(new GiveCommand("give"));
-}
-
-void SimpleCommandMap::clearCommand()
-{
-	for(auto &e : knownCommands)
-		e.second->unregisterCommand(this);
-
-	knownCommands.clear();
-	setDefaultCommands();
 }
 
 Command *SimpleCommandMap::getCommand(std::string const &name)
