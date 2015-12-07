@@ -4,8 +4,9 @@
 #include "Command.h"
 #include "../SMPlayer.h"
 #include "../ServerManager.h"
+#include "../utils/SMUtil.h"
+
 #include "minecraftpe/I18n.h"
-#include "minecraftpe/Util.h"
 
 int Command::MAX_COORD = 30000000;
 int Command::MIN_COORD = -30000000;
@@ -78,18 +79,6 @@ std::string Command::getUsage() const
 	return usageMessage;
 }
 
-std::string Command::implode(std::vector<std::string> const &v, std::string const &glue)
-{
-	std::stringstream ss;
-	for(size_t i = 0; i < v.size(); ++i)
-	{
-		if(i != 0)
-			ss << glue;
-		ss << v[i];
-	}
-	return ss.str();
-}
-
 void Command::broadcastCommandMessage(SMPlayer *source, TextContainer const &message, bool sendToSource)
 {
 	TextContainer newMessage = message;
@@ -106,15 +95,31 @@ void Command::broadcastCommandMessage(SMPlayer *source, TextContainer const &mes
 
 int Command::getInteger(SMPlayer *sender, std::string const &value, int min, int max) const
 {
-	int integer;
+	int result = SMUtil::toInt(value);
 
-	int result = Util::toInt(value, integer, min, max);
-	if(result == 1)
-		integer = 1;
-	else if(result == 2)
-		integer = min;
-	else if(result == 3)
-		integer = max;
+	if(result < min)
+		result = min;
+	else if(result > max)
+		result = max;
 
-	return integer;
+	return result;
+}
+
+double Command::getRelativeDouble(double original, SMPlayer *sender, std::string const &input, double min, double max) const
+{
+	if(input[0] == '~')
+		return original + getDouble(sender, input, min, max);
+	return getDouble(sender, input, min, max);
+}
+
+double Command::getDouble(SMPlayer *sender, std::string const &value, double min, double max) const
+{
+	double result = SMUtil::toDouble(value.c_str());
+
+	if(result < min)
+		result = min;
+	else if(result > max)
+		result = max;
+
+	return result;
 }

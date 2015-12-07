@@ -2,8 +2,9 @@
 #include "../../ServerManager.h"
 #include "../../SMPlayer.h"
 #include "../../level/SMLevel.h"
+#include "../../utils/SMUtil.h"
+
 #include "minecraftpe/Level.h"
-#include "minecraftpe/Util.h"
 
 TimeCommand::TimeCommand(std::string const &name)
 	: Command(name,
@@ -31,7 +32,7 @@ bool TimeCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 		Command::broadcastCommandMessage(sender, TextContainer("Stopped the time"));
 	}
 	else if(!args[0].compare("query"))
-		sender->sendMessage(TextContainer("commands.time.query", {Util::toString(sender->getLevel()->get()->getTime())}));
+		sender->sendMessage(TextContainer("commands.time.query", {SMUtil::toString(sender->getLevel()->get()->getTime())}));
 	else if(!args[0].compare("set"))
 	{
 		if((int)args.size() < 2)
@@ -51,7 +52,7 @@ bool TimeCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 
 		sender->getLevel()->get()->setTime(value);
 
-		Command::broadcastCommandMessage(sender, TextContainer("commands.time.set", {Util::toString(value)}));
+		Command::broadcastCommandMessage(sender, TextContainer("commands.time.set", {SMUtil::toString(value)}));
 	}
 	else if(!args[0].compare("add"))
 	{
@@ -66,7 +67,7 @@ bool TimeCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 		Level *level = sender->getLevel()->get();
 		level->setTime(level->getTime() + value);
 
-		Command::broadcastCommandMessage(sender, TextContainer("commands.time.added", {Util::toString(value)}));
+		Command::broadcastCommandMessage(sender, TextContainer("commands.time.added", {SMUtil::toString(value)}));
 	}
 	else
 		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));

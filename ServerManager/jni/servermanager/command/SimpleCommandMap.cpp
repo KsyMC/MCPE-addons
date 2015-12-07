@@ -14,7 +14,8 @@
 #include "defaults/ListCommand.h"
 #include "defaults/TimeCommand.h"
 #include "defaults/GiveCommand.h"
-#include "minecraftpe/Util.h"
+#include "defaults/TeleportCommand.h"
+#include "../utils/SMUtil.h"
 
 SimpleCommandMap::SimpleCommandMap()
 {
@@ -36,7 +37,7 @@ bool SimpleCommandMap::registerCommand(Command *command, std::string const &labe
 
 	if(newLabel.empty())
 		newLabel = command->getName();
-	newLabel = Util::toLower(Util::stringTrim(newLabel));
+	newLabel = SMUtil::toLower(SMUtil::trim(newLabel));
 
 	bool registered = registerAlias(command, false, newLabel);
 
@@ -58,11 +59,11 @@ bool SimpleCommandMap::registerCommand(Command *command, std::string const &labe
 
 bool SimpleCommandMap::dispatch(SMPlayer *sender, std::string const &cmdLine)
 {
-	std::vector<std::string> args = Util::split(cmdLine, ' ');
+	std::vector<std::string> args = SMUtil::split(cmdLine, ' ');
 	if((int)args.size() == 0)
 		return false;
 
-	std::string sendCmdLabel = Util::toLower(args.front());
+	std::string sendCmdLabel = SMUtil::toLower(args.front());
 	Command *target = getCommand(sendCmdLabel);
 	if(!target)
 		return false;
@@ -109,6 +110,7 @@ void SimpleCommandMap::setDefaultCommands()
 	registerCommand(new ListCommand("list"));
 	registerCommand(new TimeCommand("time"));
 	registerCommand(new GiveCommand("give"));
+	registerCommand(new TeleportCommand("tp"));
 }
 
 Command *SimpleCommandMap::getCommand(std::string const &name)

@@ -1,4 +1,5 @@
 #include "TextContainer.h"
+
 #include "minecraftpe/I18n.h"
 
 TextContainer::TextContainer(std::string const &text, bool needTranslation)

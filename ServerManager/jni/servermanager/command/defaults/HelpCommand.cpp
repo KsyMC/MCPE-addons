@@ -3,8 +3,9 @@
 #include "HelpCommand.h"
 #include "../../ServerManager.h"
 #include "../../SMPlayer.h"
+#include "../../utils/SMUtil.h"
 #include "../SimpleCommandMap.h"
-#include "minecraftpe/Util.h"
+
 #include "minecraftpe/I18n.h"
 
 HelpCommand::HelpCommand(std::string const &name)
@@ -15,9 +16,9 @@ HelpCommand::HelpCommand(std::string const &name)
 
 struct comp
 {
-	bool operator() (const std::string &left, const std::string &right) const
+	bool operator() (std::string const &left, std::string const &right) const
 	{
-		return left<right;
+		return left <right;
 	}
 };
 
@@ -29,15 +30,10 @@ bool HelpCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 
 	if((int)args.size() >= 1)
 	{
-		int number;
-		if(!Util::toInt(args[0], number))
-		{
-			pageNumber = number;
-			if(pageNumber <= 0)
-				pageNumber = 1;
-		}
+		if(SMUtil::is_number(args[0]))
+			pageNumber = getInteger(sender, args[0], 1);
 		else
-			command = Command::implode(args, " ");
+			command = SMUtil::join(args, " ");
 	}
 
 	if(command.empty())
@@ -56,10 +52,8 @@ bool HelpCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 			sortCommands.push_back(key.second);
 
 		pageNumber = std::min(pages, pageNumber);
-		if(pageNumber < 1)
-			pageNumber = 1;
 
-		sender->sendMessage(TextContainer("commands.help.header", {Util::toString(pageNumber), Util::toString(pages)}));
+		sender->sendMessage(TextContainer("commands.help.header", {SMUtil::toString(pageNumber), SMUtil::toString(pages)}));
 
 		int startIndex = pageHeight * (pageNumber - 1);
 		for(int i = startIndex; i < startIndex + pageHeight; i++)
@@ -80,11 +74,11 @@ bool HelpCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 			std::string message;
 			message += "§e--------- §fHelp: /" + cmd->getName() + " §e---------\n";
 			message += "§6Description: §f" + cmd->getDescription() + "\n";
-			message += "§6Usage: §f" + Command::implode(Util::split(cmd->getUsage(), '\n'), "\n§f") + "\n";
+			message += "§6Usage: §f" + SMUtil::join(SMUtil::split(cmd->getUsage(), '\n'), "\n§f") + "\n";
 			sender->sendMessage(TextContainer(message));
 		}
 		else
-			sender->sendMessage(TextContainer("§cNo help for " + Util::toLower(command)));
+			sender->sendMessage(TextContainer("§cNo help for " + SMUtil::toLower(command)));
 
 		return true;
 	}

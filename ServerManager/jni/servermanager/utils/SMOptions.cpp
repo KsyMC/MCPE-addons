@@ -1,7 +1,8 @@
 #include <fstream>
 
 #include "SMOptions.h"
-#include "minecraftpe/Util.h"
+#include "SMUtil.h"
+
 #include "minecraftpe/Options.h"
 #include "shared.h"
 
@@ -31,7 +32,7 @@ void SMOptions::load(std::string const &fileName)
 		if(strLine.empty())
 			continue;
 
-		std::vector<std::string> s = Util::split(strLine, ':');
+		std::vector<std::string> s = SMUtil::split(strLine, ':');
 
 		if(s.empty() || s.size() < 2 || s[0].empty() || s[1].empty())
 			continue;

@@ -46,9 +46,10 @@ public:
 	void setUsage(std::string const &usage);
 	std::string getUsage() const;
 
-	static std::string implode(std::vector<std::string> const &v, std::string const &c);
 	static void broadcastCommandMessage(SMPlayer *source, TextContainer const &message, bool sendToSource = true);
 
 protected:
 	int getInteger(SMPlayer *sender, std::string const &value, int min = MIN_COORD, int max = MAX_COORD) const;
+	double getRelativeDouble(double original, SMPlayer *sender, std::string const &input, double min = MIN_COORD, double max = MAX_COORD) const;
+	double getDouble(SMPlayer *sender, std::string const &value, double min = MIN_COORD, double max = MAX_COORD) const;
 };

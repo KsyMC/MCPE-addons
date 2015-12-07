@@ -1,7 +1,7 @@
 #include "KickCommand.h"
 #include "../../ServerManager.h"
 #include "../../SMPlayer.h"
-#include "minecraftpe/Util.h"
+#include "../../utils/SMUtil.h"
 
 KickCommand::KickCommand(std::string const &name)
 	: Command(name,
@@ -24,7 +24,7 @@ bool KickCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 		std::vector<std::string> newArgs = args;
 		newArgs.erase(newArgs.begin());
 
-		reason = Util::stringTrim(Command::implode(newArgs, " "));
+		reason = SMUtil::trim(SMUtil::join(newArgs, " "));
 	}
 
 	SMPlayer *player = sender->getServer()->getPlayer(name);

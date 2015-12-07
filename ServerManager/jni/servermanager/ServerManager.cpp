@@ -7,13 +7,14 @@
 #include "command/SimpleCommandMap.h"
 #include "utils/SMOptions.h"
 #include "utils/SMList.h"
+#include "utils/SMUtil.h"
+
 #include "minecraftpe/LocalPlayer.h"
 #include "minecraftpe/Minecraft.h"
 #include "minecraftpe/MinecraftClient.h"
 #include "minecraftpe/ServerNetworkHandler.h"
 #include "minecraftpe/ServerPlayer.h"
 #include "minecraftpe/Dimension.h"
-#include "minecraftpe/Util.h"
 
 static const std::vector<const char *> vecDataIps =
 {
@@ -99,6 +100,12 @@ int ServerManager::broadcastPopup(std::string const &popup)
 		player->sendPopup(popup);
 }
 
+void ServerManager::broadcastPacket(std::vector<SMPlayer *> const &players, Packet const &packet)
+{
+	for(SMPlayer *player : players)
+		player->dataPacket(packet);
+}
+
 bool ServerManager::dispatchCommand(SMPlayer *sender, std::string const &commandLine)
 {
 	if(!sender->isLocalPlayer() && !sender->isOp()) // 나중에 퍼미션 추가
@@ -147,12 +154,12 @@ void ServerManager::addPlayer(SMPlayer *player)
 SMPlayer *ServerManager::getPlayer(std::string const &name) const
 {
 	SMPlayer *found = NULL;
-	std::string newName = Util::toLower(name);
+	std::string newName = SMUtil::toLower(name);
 	int delta = 2147483647;
 
 	for(SMPlayer *player : players)
 	{
-		std::string n = Util::toLower(player->getName());
+		std::string n = SMUtil::toLower(player->getName());
 		if(n.find(newName) != std::string::npos)
 		{
 			int curDelta = n.length() - newName.length();
@@ -171,10 +178,10 @@ SMPlayer *ServerManager::getPlayer(std::string const &name) const
 
 SMPlayer *ServerManager::getPlayerExact(std::string const &name) const
 {
-	std::string newName = Util::toLower(name);
+	std::string newName = SMUtil::toLower(name);
 	for(SMPlayer *player : players)
 	{
-		if(!Util::toLower(player->getName()).compare(newName))
+		if(!SMUtil::toLower(player->getName()).compare(newName))
 			return player;
 	}
 	return NULL;
@@ -182,7 +189,7 @@ SMPlayer *ServerManager::getPlayerExact(std::string const &name) const
 
 ISMPlayer *ServerManager::getOfflinePlayer(std::string const &name)
 {
-	std::string newName = Util::toLower(name);
+	std::string newName = SMUtil::toLower(name);
 
 	SMPlayer *player = getPlayerExact(newName);
 	if(player)
@@ -284,7 +291,7 @@ std::string ServerManager::getGamemodeString(int mode)
 
 int ServerManager::getGamemodeFromString(std::string const &str)
 {
-	std::string newStr = Util::toLower(Util::stringTrim(str));
+	std::string newStr = SMUtil::toLower(SMUtil::trim(str.c_str()));
 
 	if(!newStr.compare("0") || !newStr.compare("survival") || !newStr.compare("s"))
 		return GameType::SURVIVAL;
@@ -309,36 +316,36 @@ bool ServerManager::hasWhitelist() const
 
 void ServerManager::addOp(std::string const &name)
 {
-	operatorsList->add(Util::toLower(name));
+	operatorsList->add(SMUtil::toLower(name));
 	operatorsList->save();
 }
 
 void ServerManager::removeOp(std::string const &name)
 {
-	operatorsList->remove(Util::toLower(name));
+	operatorsList->remove(SMUtil::toLower(name));
 	operatorsList->save();
 }
 
 bool ServerManager::isOp(std::string const &name) const
 {
-	return operatorsList->isExist(Util::toLower(name));
+	return operatorsList->isExist(SMUtil::toLower(name));
 }
 
 void ServerManager::addWhitelist(std::string const &name)
 {
-	whitelistList->add(Util::toLower(name));
+	whitelistList->add(SMUtil::toLower(name));
 	whitelistList->save();
 }
 
 void ServerManager::removeWhitelist(std::string const &name)
 {
-	whitelistList->remove(Util::toLower(name));
+	whitelistList->remove(SMUtil::toLower(name));
 	whitelistList->save();
 }
 
 bool ServerManager::isWhitelisted(std::string const &name) const
 {
-	return !options->isWhitelist() || operatorsList->isExist(Util::toLower(name)) || whitelistList->isExist(Util::toLower(name));
+	return !options->isWhitelist() || operatorsList->isExist(SMUtil::toLower(name)) || whitelistList->isExist(SMUtil::toLower(name));
 }
 
 void ServerManager::reloadWhitelist()
@@ -348,19 +355,19 @@ void ServerManager::reloadWhitelist()
 
 void ServerManager::addBanned(std::string const &name)
 {
-	banList->add(Util::toLower(name));
+	banList->add(SMUtil::toLower(name));
 	banList->save();
 }
 
 void ServerManager::removeBanned(std::string const &name)
 {
-	banList->remove(Util::toLower(name));
+	banList->remove(SMUtil::toLower(name));
 	banList->save();
 }
 
 bool ServerManager::isBanned(std::string const &name) const
 {
-	return banList->isExist(Util::toLower(name));
+	return banList->isExist(SMUtil::toLower(name));
 }
 
 SMList *ServerManager::getBanList() const
@@ -385,6 +392,6 @@ SMList *ServerManager::getOperatorsList() const
 
 bool ServerManager::isWifiIp(std::string const &ip) const
 {
-	std::vector<std::string> ipPart = Util::split(ip, '.');
+	std::vector<std::string> ipPart = SMUtil::split(ip, '.');
 	return std::find(vecDataIps.begin(), vecDataIps.end(), ipPart[0] + "." + ipPart[1]) == vecDataIps.end();
 }

@@ -1,8 +1,9 @@
 #include "SMLocalPlayer.h"
+#include "utils/SMUtil.h"
+
 #include "minecraftpe/MinecraftClient.h"
 #include "minecraftpe/LocalPlayer.h"
 #include "minecraftpe/Gui.h"
-#include "minecraftpe/Util.h"
 #include "minecraftpe/I18n.h"
 
 SMLocalPlayer::SMLocalPlayer(ServerManager *server, Player *player, RakNet::RakNetGUID const &guid)
@@ -12,10 +13,15 @@ SMLocalPlayer::SMLocalPlayer(ServerManager *server, Player *player, RakNet::RakN
 
 	username = player->username;
 	displayName = username;
-	iusername = Util::toLower(username);
+	iusername = SMUtil::toLower(username);
 
 	loggedIn = true;
 	spawned = true;
+}
+
+bool SMLocalPlayer::dataPacket(Packet const &packet)
+{
+	return false;
 }
 
 void SMLocalPlayer::sendMessage(TextContainer const &message)
@@ -27,7 +33,7 @@ void SMLocalPlayer::sendMessage(TextContainer const &message)
 	}
 
 	Gui *gui = ((LocalPlayer *)realPlayer)->mc->getGui();
-	for(std::string m : Util::split(I18n::get(message.getText()), '\n'))
+	for(std::string m : SMUtil::split(I18n::get(message.getText()), '\n'))
 	{
 		if(m.empty())
 			continue;

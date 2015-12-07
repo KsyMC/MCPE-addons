@@ -10,6 +10,7 @@ namespace RakNet
 	class RakNetGUID;
 };
 
+class Packet;
 class ServerNetworkHandler;
 class SMLevel;
 class SMOptions;
@@ -51,6 +52,8 @@ public:
 	int broadcastMessage(TextContainer const &message);
 	int broadcastTip(std::string const &tip);
 	int broadcastPopup(std::string const &popup);
+
+	static void broadcastPacket(std::vector<SMPlayer *> const &players, Packet const &packet);
 
 	bool dispatchCommand(SMPlayer *sender, std::string const &commandLine);
 

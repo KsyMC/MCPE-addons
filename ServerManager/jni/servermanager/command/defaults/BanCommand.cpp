@@ -1,8 +1,7 @@
 #include "BanCommand.h"
 #include "../../ServerManager.h"
 #include "../../SMPlayer.h"
-#include "../../utils/SMList.h"
-#include "minecraftpe/Util.h"
+#include "../../utils/SMUtil.h"
 
 BanCommand::BanCommand(std::string const &name)
 	: Command(name,
@@ -20,13 +19,10 @@ bool BanCommand::execute(SMPlayer *sender, std::string const &commandLabel, std:
 	std::string name = args[0];
 	std::string reason;
 
-	if((int)args.size() > 1)
-	{
-		std::vector<std::string> newArgs = args;
-		newArgs.erase(newArgs.begin());
+	std::vector<std::string> newArgs = args;
+	newArgs.erase(newArgs.begin());
 
-		reason = Util::stringTrim(Command::implode(newArgs, " "));
-	}
+	reason = SMUtil::trim(SMUtil::join(newArgs, " "));
 
 	ServerManager *server = sender->getServer();
 	SMPlayer *player = server->getPlayerExact(name);

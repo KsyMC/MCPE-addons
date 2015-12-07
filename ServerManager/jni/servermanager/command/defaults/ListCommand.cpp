@@ -1,7 +1,7 @@
 #include "ListCommand.h"
 #include "../../ServerManager.h"
 #include "../../SMPlayer.h"
-#include "minecraftpe/Util.h"
+#include "../../utils/SMUtil.h"
 
 ListCommand::ListCommand(std::string const &name)
 	: Command(name,
@@ -29,7 +29,9 @@ bool ListCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 		}
 	}
 
-	sender->sendMessage(TextContainer("commands.players.list", {Util::toString(onlineCount), Util::toString(server->getMaxPlayers())}));
+	sender->sendMessage(TextContainer("commands.players.list",
+			{SMUtil::toString(onlineCount), SMUtil::toString(server->getMaxPlayers())}));
+
 	sender->sendMessage(online);
 
 	return true;

@@ -3,7 +3,7 @@
 #include "../../SMPlayer.h"
 #include "../../utils/SMList.h"
 #include "../../utils/SMOptions.h"
-#include "minecraftpe/Util.h"
+#include "../../utils/SMUtil.h"
 
 WhitelistCommand::WhitelistCommand(std::string const &name)
 	: Command(name,
@@ -88,7 +88,7 @@ bool WhitelistCommand::execute(SMPlayer *sender, std::string const &commandLabel
 		for(i = 0; i < size; i++)
 			result += list[i] + (i != size - 1 ? ", " : "");
 
-		sender->sendMessage(TextContainer("commands.whitelist.list", {Util::toString(size), Util::toString(size)}));
+		sender->sendMessage(TextContainer("commands.whitelist.list", {SMUtil::toString(size), SMUtil::toString(size)}));
 
 		if(!result.empty())
 			sender->sendMessage(TextContainer(result));

@@ -1,19 +1,21 @@
 #include "SMPlayer.h"
 #include "ServerManager.h"
 #include "level/SMLevel.h"
+#include "network/PacketId.h"
 #include "utils/SMList.h"
 #include "utils/SMOptions.h"
-#include "network/PacketId.h"
+#include "utils/SMUtil.h"
+
 #include "minecraftpe/ServerPlayer.h"
 #include "minecraftpe/PacketSender.h"
 #include "minecraftpe/LoginPacket.h"
 #include "minecraftpe/TextPacket.h"
 #include "minecraftpe/DisconnectPacket.h"
 #include "minecraftpe/PlayStatusPacket.h"
+#include "minecraftpe/MovePlayerPacket.h"
 #include "minecraftpe/Level.h"
 #include "minecraftpe/LevelStorage.h"
 #include "minecraftpe/SharedConstants.h"
-#include "minecraftpe/Util.h"
 #include "minecraftpe/I18n.h"
 
 SMPlayer::SMPlayer(ServerManager *server, PacketSender *packetSender, RakNet::RakNetGUID const &guid, std::string const &ip, unsigned short port)
@@ -190,6 +192,25 @@ void SMPlayer::save()
 	server->getLevel()->get()->getLevelStorage()->save(*realPlayer);
 }
 
+void SMPlayer::teleport(SMPlayer *target)
+{
+	teleport(target->get()->getPos(), target->get()->getRotation());
+}
+
+void SMPlayer::teleport(Vec3 const &pos, Vec2 const &rot)
+{
+	realPlayer->moveTo(pos, rot);
+
+	MovePlayerPacket pk;
+	pk.id = realPlayer->getUniqueID();
+	pk.pos = pos;
+	pk.rot = rot;
+	pk.bodyYaw = rot.y;
+	pk.mode = MovePlayerPacket::MODE_RESET;
+	pk.onGround = true;
+	dataPacket(pk);
+}
+
 void SMPlayer::sendMessage(TextContainer const &message)
 {
 	if(message.isNeedTranslation())
@@ -198,7 +219,7 @@ void SMPlayer::sendMessage(TextContainer const &message)
 		return;
 	}
 
-	for(std::string m : Util::split(I18n::get(message.getText()), '\n'))
+	for(std::string m : SMUtil::split(I18n::get(message.getText()), '\n'))
 	{
 		if(m.empty())
 			continue;
@@ -299,7 +320,7 @@ void SMPlayer::handleDataPacket(Packet *packet)
 
 			username = loginPacket->username;
 			displayName = username;
-			iusername = Util::toLower(username);
+			iusername = SMUtil::toLower(username);
 
 			if(loginPacket->protocol1 != SharedConstants::NetworkProtocolVersion)
 			{
@@ -326,7 +347,7 @@ void SMPlayer::handleDataPacket(Packet *packet)
 				valid = false;
 
 			if(!valid || !username.compare("rcon") || !username.compare("console") ||
-					!Util::toLower(username).compare(Util::toLower(server->getHost()->getName())))
+					!SMUtil::toLower(username).compare(SMUtil::toLower(server->getHost()->getName())))
 			{
 				close(getLeaveMessage(), "disconnectionScreen.invalidName");
 				break;
@@ -339,13 +360,13 @@ void SMPlayer::handleDataPacket(Packet *packet)
 			}
 
 			SMOptions *options = server->getOptions();
-			if(options->isWhitelist() && !server->getWhitelistList()->isExist(Util::toLower(username)))
+			if(options->isWhitelist() && !server->getWhitelistList()->isExist(SMUtil::toLower(username)))
 			{
 				close(getLeaveMessage(), "Server is white-listed");
 				break;
 			}
 
-			if(server->getBanList()->isExist(Util::toLower(username)) || server->getBanIpList()->isExist(ip))
+			if(server->getBanList()->isExist(SMUtil::toLower(username)) || server->getBanIpList()->isExist(ip))
 			{
 				close(getLeaveMessage(), "You are banned");
 				break;
@@ -353,7 +374,7 @@ void SMPlayer::handleDataPacket(Packet *packet)
 
 			for(SMPlayer *p : server->getOnlinePlayers())
 			{
-				if(p != this && !Util::toLower(p->getName()).compare(Util::toLower(username)))
+				if(p != this && !SMUtil::toLower(p->getName()).compare(SMUtil::toLower(username)))
 				{
 					p->kick("logged in from another location");
 					break;
@@ -388,17 +409,16 @@ void SMPlayer::handleDataPacket(Packet *packet)
 		}
 		case PacketId::TEXT_PACKET:
 		{
-			if(!spawned)
+			if(!spawned || !realPlayer->isAlive())
 				break;
 
 			TextPacket *textPacket = (TextPacket *)packet;
 			if(textPacket->type != TextPacket::TYPE_CHAT)
 				break;
 
-			for(std::string message : Util::split(textPacket->message, '\n'))
+			for(std::string message : SMUtil::split(textPacket->message, '\n'))
 			{
-				message = Util::stringTrim(message);
-				if(message.empty() || message.length() >= 255 || messageCounter-- <= 0)
+				if(SMUtil::trim(message).empty() || message.length() >= 255 || messageCounter-- <= 0)
 					continue;
 
 				if(message[0] == '/')

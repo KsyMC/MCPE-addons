@@ -1,6 +1,7 @@
 #include "TellCommand.h"
 #include "../../ServerManager.h"
 #include "../../SMPlayer.h"
+#include "../../utils/SMUtil.h"
 
 TellCommand::TellCommand(std::string const &name)
 	: Command(name,
@@ -26,7 +27,7 @@ bool TellCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 	std::vector<std::string> newArgs = args;
 	newArgs.erase(newArgs.begin());
 
-	std::string message = Command::implode(newArgs, " ");
+	std::string message = SMUtil::join(newArgs, " ");
 
 	if(player)
 	{

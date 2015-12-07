@@ -2,10 +2,10 @@
 
 #include "SMLevel.h"
 #include "../SMPlayer.h"
+
 #include "minecraftpe/Level.h"
 #include "minecraftpe/ItemEntity.h"
 #include "minecraftpe/Vec3.h"
-#include "shared.h"
 
 SMLevel::SMLevel(ServerManager *server, Level *level)
 {

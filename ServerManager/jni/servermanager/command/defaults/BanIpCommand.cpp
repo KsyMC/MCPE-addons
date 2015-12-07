@@ -4,8 +4,7 @@
 #include "../../ServerManager.h"
 #include "../../SMPlayer.h"
 #include "../../utils/SMList.h"
-#include "minecraftpe/Util.h"
-#include "shared.h"
+#include "../../utils/SMUtil.h"
 
 BanIpCommand::BanIpCommand(std::string const &name)
 	: Command(name,
@@ -25,13 +24,10 @@ bool BanIpCommand::execute(SMPlayer *sender, std::string const &commandLabel, st
 	std::string value = args[0];
 	std::string reason;
 
-	if((int)args.size() > 1)
-	{
-		std::vector<std::string> newArgs = args;
-		newArgs.erase(newArgs.begin());
+	std::vector<std::string> newArgs = args;
+	newArgs.erase(newArgs.begin());
 
-		reason = Util::stringTrim(Command::implode(newArgs, " "));
-	}
+	reason = SMUtil::trim(SMUtil::join(newArgs, " "));
 
 	std::regex rx("\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b");
 	if(std::regex_match(value, rx))

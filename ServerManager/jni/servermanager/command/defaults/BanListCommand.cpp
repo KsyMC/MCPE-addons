@@ -2,7 +2,7 @@
 #include "../../ServerManager.h"
 #include "../../SMPlayer.h"
 #include "../../utils/SMList.h"
-#include "minecraftpe/Util.h"
+#include "../../utils/SMUtil.h"
 
 BanListCommand::BanListCommand(std::string const &name)
 	: Command(name,
@@ -17,7 +17,7 @@ bool BanListCommand::execute(SMPlayer *sender, std::string const &commandLabel, 
 	std::string arg;
 	if(args.size() >= 1)
 	{
-		arg = Util::toLower(args[0]);
+		arg = SMUtil::toLower(args[0]);
 		if(!arg.compare("ips"))
 			banList = server->getBanIpList();
 		else if(!arg.compare("players"))
@@ -44,9 +44,9 @@ bool BanListCommand::execute(SMPlayer *sender, std::string const &commandLabel, 
 		message += list[i] + (i != size - 1 ? ", " : "");
 
 	if(!arg.compare("ips"))
-		sender->sendMessage(TextContainer("commands.banlist.ips", {Util::toString(size)}));
+		sender->sendMessage(TextContainer("commands.banlist.ips", {SMUtil::toString(size)}));
 	else if(!arg.compare("players"))
-		sender->sendMessage(TextContainer("commands.banlist.players", {Util::toString(size)}));
+		sender->sendMessage(TextContainer("commands.banlist.players", {SMUtil::toString(size)}));
 
 	if(!message.empty())
 		sender->sendMessage(TextContainer(message));

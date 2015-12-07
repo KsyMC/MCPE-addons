@@ -2,13 +2,14 @@
 #include "../../ServerManager.h"
 #include "../../SMPlayer.h"
 #include "../../level/SMLevel.h"
+#include "../../utils/SMUtil.h"
+
 #include "minecraftpe/Item.h"
 #include "minecraftpe/Block.h"
 #include "minecraftpe/Player.h"
 #include "minecraftpe/ItemInstance.h"
 #include "minecraftpe/Inventory.h"
 #include "minecraftpe/Vec3.h"
-#include "minecraftpe/Util.h"
 
 GiveCommand::GiveCommand(std::string const &name)
 	: Command(name,
@@ -44,11 +45,13 @@ bool GiveCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 		Block *block = Block::lookupByName(name, true);
 		if(!block)
 		{
-			if(Util::toInt(name, id))
+			if(!SMUtil::is_number(name))
 			{
 				sender->sendMessage(TextContainer("§c%commands.give.item.notFound", {args[1]}));
 				return true;
 			}
+			else
+				id = SMUtil::toInt(name);
 		}
 		else
 			id = block->id;
@@ -59,11 +62,11 @@ bool GiveCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 	int count = 0;
 	int auxValue = 0;
 
-	if((int)args.size() > 2)
-		Util::toInt(args[2], count);
+	if((int)args.size() > 2 && SMUtil::toInt(args[2]))
+		count = SMUtil::toInt(args[2]);
 
-	if((int)args.size() > 3)
-		Util::toInt(args[2], auxValue);
+	if((int)args.size() > 3 && SMUtil::toInt(args[3]))
+		auxValue = SMUtil::toInt(args[3]);
 
 	if((int)args.size() > 4)// tag
 	{
@@ -80,10 +83,10 @@ bool GiveCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 
 	sender->getLevel()->dropItem(player, player->get()->getPos(), itemInst, 0);
 
-	Command::broadcastCommandMessage(sender, TextContainer("commands.give.success", {
-			itemInst.getName() + " (" + Util::toString(itemInst.getId()) + ":" + Util::toString(itemInst.getAuxValue()) + ")",
-			Util::toString(count),
-			player->getName()}));
+	Command::broadcastCommandMessage(sender, TextContainer("commands.give.success",
+			{itemInst.getName() + " (" + SMUtil::toString(itemInst.getId()) + ":"
+					+ SMUtil::toString(itemInst.getAuxValue()) + ")"
+					+ SMUtil::toString(count), player->getName()}));
 
 	return true;
 }

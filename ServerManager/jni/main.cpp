@@ -20,7 +20,6 @@
 #include "minecraftpe/TextPacket.h"
 #include "minecraftpe/ServerPlayer.h"
 #include "minecraftpe/LocalPlayer.h"
-#include "minecraftpe/Util.h"
 #include "minecraftpe/I18n.h"
 #include "raknet/RakPeer.h"
 
@@ -28,6 +27,7 @@
 #include "servermanager/SMLocalPlayer.h"
 #include "servermanager/utils/SMOptions.h"
 #include "servermanager/utils/SMList.h"
+#include "servermanager/utils/SMUtil.h"
 
 Options::Option Options::Option::MOTD;
 Options::Option Options::Option::SERVER_PORT;
@@ -176,17 +176,9 @@ static void Options$setString_hook(Options * _this, const Options::Option *optio
 
 	if(option == &Options::Option::MOTD) options->setServerName(value);
 	else if(option == &Options::Option::SERVER_PORT)
-	{
-		int port;
-		Util::toInt(value, port);
-		options->setServerPort((unsigned short)port);
-	}
+		options->setServerPort((unsigned short)SMUtil::toInt(value));
 	else if(option == &Options::Option::MAX_PLAYERS)
-	{
-		int players;
-		Util::toInt(value, players);
-		options->setServerPlayers(players);
-	}
+		options->setServerPlayers(SMUtil::toInt(value));
 	else Options$setString_real(_this, option, value);
 }
 
@@ -196,8 +188,8 @@ static std::string Options$getStringValue_hook(Options * _this, const Options::O
 	SMOptions *options = server->getOptions();
 
 	if(option == &Options::Option::MOTD) return options->getServerName();
-	else if(option == &Options::Option::SERVER_PORT) return Util::toString(options->getServerPort());
-	else if(option == &Options::Option::MAX_PLAYERS) return Util::toString(options->getServerPlayers());
+	else if(option == &Options::Option::SERVER_PORT) return SMUtil::toString(options->getServerPort());
+	else if(option == &Options::Option::MAX_PLAYERS) return SMUtil::toString(options->getServerPlayers());
 	else return Options$getStringValue_real(_this, option);
 }
 

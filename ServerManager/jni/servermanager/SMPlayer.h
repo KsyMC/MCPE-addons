@@ -6,6 +6,8 @@
 #include "ISMPlayer.h"
 #include "raknet/RakNetTypes.h"
 #include "event/TextContainer.h"
+#include "minecraftpe/Vec2.h"
+#include "minecraftpe/Vec3.h"
 
 class ServerManager;
 class SMLevel;
@@ -68,7 +70,7 @@ public:
 	std::string getAddress() const;
 	unsigned short getPort() const;
 
-	bool dataPacket(Packet const &packet);
+	virtual bool dataPacket(Packet const &packet);
 
 	int getGamemode() const;
 	void setGamemode(int mode);
@@ -87,6 +89,9 @@ public:
 	BlockSource *getBlockSource() const;
 
 	void save();
+
+	void teleport(SMPlayer *target);
+	void teleport(Vec3 const &pos, Vec2 const &rot);
 
 	virtual void sendMessage(TextContainer const &message);
 	virtual void sendTranslation(std::string const &message, std::vector<std::string> const &parameters);

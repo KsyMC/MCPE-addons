@@ -1,6 +1,5 @@
 #include "SMOfflinePlayer.h"
 #include "ServerManager.h"
-#include "utils/SMList.h"
 
 SMOfflinePlayer::SMOfflinePlayer(ServerManager *server, std::string const &name)
 {

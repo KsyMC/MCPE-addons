@@ -1,8 +1,8 @@
 #include "GameModeCommand.h"
 #include "../../SMPlayer.h"
 #include "../../ServerManager.h"
+
 #include "minecraftpe/Level.h"
-#include "shared.h"
 
 GameModeCommand::GameModeCommand(std::string const &name)
 	: Command(name,
