@@ -83,10 +83,10 @@ bool GiveCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 
 	sender->getLevel()->dropItem(player, player->get()->getPos(), itemInst, 0);
 
-	Command::broadcastCommandMessage(sender, TextContainer("commands.give.success",
-			{itemInst.getName() + " (" + SMUtil::toString(itemInst.getId()) + ":"
-					+ SMUtil::toString(itemInst.getAuxValue()) + ")"
-					+ SMUtil::toString(count), player->getName()}));
+	Command::broadcastCommandMessage(sender, TextContainer("commands.give.success", {
+			itemInst.getName() + " (" + SMUtil::toString(itemInst.getId()) + ":"
+			+ SMUtil::toString(itemInst.getAuxValue()) + ")"
+			+ SMUtil::toString(count), player->getName()}));
 
 	return true;
 }

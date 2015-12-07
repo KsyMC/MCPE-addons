@@ -16,8 +16,7 @@ bool ListCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 	int onlineCount = 0;
 
 	std::vector<SMPlayer *> list = server->getOnlinePlayers();
-	std::vector<SMPlayer *>::size_type i;
-	for(i = 0; i < list.size(); i++)
+	for(size_t i = 0; i < list.size(); i++)
 	{
 		SMPlayer *player = list[i];
 		if(player->isOnline())

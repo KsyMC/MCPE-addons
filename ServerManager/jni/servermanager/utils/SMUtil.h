@@ -50,7 +50,7 @@ public:
 	static std::string join(std::vector<std::string> const &v, std::string const &g)
 	{
 		std::stringstream ss;
-		for(std::vector<std::string>::size_type i = 0; i < v.size(); i++)
+		for(size_t i = 0; i < v.size(); i++)
 		{
 			if(i != 0)
 				ss << g;

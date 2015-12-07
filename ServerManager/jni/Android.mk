@@ -31,6 +31,8 @@ LOCAL_SRC_FILES :=                                        \
     servermanager/command/defaults/TimeCommand.cpp        \
     servermanager/command/defaults/GiveCommand.cpp        \
     servermanager/command/defaults/TeleportCommand.cpp    \
+    servermanager/command/defaults/MeCommand.cpp          \
+    servermanager/command/defaults/KillCommand.cpp        \
     servermanager/event/TextContainer.cpp                 \
     servermanager/utils/SMList.cpp                        \
     servermanager/utils/SMOptions.cpp                     \

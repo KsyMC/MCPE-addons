@@ -15,6 +15,8 @@
 #include "defaults/TimeCommand.h"
 #include "defaults/GiveCommand.h"
 #include "defaults/TeleportCommand.h"
+#include "defaults/MeCommand.h"
+#include "defaults/KillCommand.h"
 #include "../utils/SMUtil.h"
 
 SimpleCommandMap::SimpleCommandMap()
@@ -111,6 +113,8 @@ void SimpleCommandMap::setDefaultCommands()
 	registerCommand(new TimeCommand("time"));
 	registerCommand(new GiveCommand("give"));
 	registerCommand(new TeleportCommand("tp"));
+	registerCommand(new MeCommand("me"));
+	registerCommand(new KillCommand("kill"));
 }
 
 Command *SimpleCommandMap::getCommand(std::string const &name)

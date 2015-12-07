@@ -88,7 +88,8 @@ bool TeleportCommand::execute(SMPlayer *sender, std::string const &commandLabel,
 		target->teleport(position, rotation);
 
 		Command::broadcastCommandMessage(sender, TextContainer("commands.tp.success.coordinates", {
-				target->getName(), SMUtil::toString(position.x), SMUtil::toString(position.y), SMUtil::toString(position.z)}));
+				target->getName(),
+				SMUtil::toString(round(position.x)), SMUtil::toString(round(position.y)), SMUtil::toString(round(position.z))}));
 
 		return true;
 	}

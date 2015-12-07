@@ -31,7 +31,11 @@ bool HelpCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 	if((int)args.size() >= 1)
 	{
 		if(SMUtil::is_number(args[0]))
+		{
 			pageNumber = getInteger(sender, args[0], 1);
+			if(pageNumber < 1)
+				pageNumber = 1;
+		}
 		else
 			command = SMUtil::join(args, " ");
 	}
