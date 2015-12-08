@@ -189,7 +189,8 @@ BlockSource *SMPlayer::getBlockSource() const
 
 void SMPlayer::save()
 {
-	server->getLevel()->get()->getLevelStorage()->save(*realPlayer);
+	if(realPlayer)
+		server->getLevel()->get()->getLevelStorage()->save(*realPlayer);
 }
 
 void SMPlayer::teleport(SMPlayer *target)

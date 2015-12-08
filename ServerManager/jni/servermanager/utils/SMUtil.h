@@ -97,7 +97,7 @@ public:
 		return ltrim(rtrim(s));
 	}
 
-	static std::string format(char const *format)
+	static std::string format(char const *format, ...)
 	{
 		char buffer[256];
 		va_list args;

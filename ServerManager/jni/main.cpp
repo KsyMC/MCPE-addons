@@ -161,7 +161,9 @@ static void OptionsScreen$_generateOptionScreensDefault_hook(OptionsScreen *_thi
 {
 	OptionsScreen$_generateOptionScreensDefault_real(_this);
 
-	OptionsGroup *pMainGroup = _this->vectorPanes[0]->createOptionsGroup("ServerManager V4.1 by KsyMC", true);
+	std::string groupName = SMUtil::format("SM V%s / Made by %s", VERSION, MADE_BY);
+
+	OptionsGroup *pMainGroup = _this->vectorPanes[0]->createOptionsGroup(groupName, true);
 	pMainGroup->addOptionItem(Options::Option::MOTD, *_this->client);
 	pMainGroup->addOptionItem(Options::Option::SERVER_PORT, *_this->client);
 	pMainGroup->addOptionItem(Options::Option::MAX_PLAYERS, *_this->client);

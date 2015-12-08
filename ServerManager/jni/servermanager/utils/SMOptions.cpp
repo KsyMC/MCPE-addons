@@ -8,7 +8,7 @@
 
 SMOptions::SMOptions()
 {
-	serverName = "ServerManager";
+	serverName = "A Minecraft PE Server";
 	serverPort = 19132;
 	serverPlayers = 4;
 
