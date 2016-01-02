@@ -2,7 +2,7 @@
 
 enum MaterialType
 {
-  DIRT = 1,
+	DIRT = 1,
 	WOOD,
 	STONE,
 	IRON,
