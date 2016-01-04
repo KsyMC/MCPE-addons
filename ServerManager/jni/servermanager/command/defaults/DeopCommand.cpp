@@ -1,27 +1,30 @@
-#include "DeopCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
+#include "servermanager/command/defaults/DeopCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/level/SMLevel.h"
+#include "servermanager/entity/SMPlayer.h"
 
-DeopCommand::DeopCommand(std::string const &name)
-	: Command(name,
-			"Takes the specified player's operator status",
-			"%commands.deop.usage") {}
-
-bool DeopCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+DeopCommand::DeopCommand()
+	: VanillaCommand("deop")
 {
-	if((int)args.size() == 0)
+	description = "Takes the specified player's operator status";
+	usageMessage = "%commands.deop.usage";
+}
+
+bool DeopCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args)
+{
+	if((int)args.size() != 1 || args[0].empty())
 	{
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 		return false;
 	}
 
-	ISMPlayer *player = sender->getServer()->getOfflinePlayer(args[0]);
-	player->setOp(false);
+	ServerManager::getServer()->removeOp(args[0]);
 
-	if(player->isOnline())
-		player->getPlayer()->sendMessage(TextContainer("§7You are no longer op!"));
+	SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
+	if(player)
+		player->sendMessage("§7You are no longer op!");
 
-	Command::broadcastCommandMessage(sender, TextContainer("commands.deop.success", {player->getName()}));
+	Command::broadcastCommandTranslation(sender, "commands.deop.success", {args[0]});
 
 	return true;
 }

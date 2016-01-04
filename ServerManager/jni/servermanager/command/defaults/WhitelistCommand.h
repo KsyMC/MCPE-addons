@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../Command.h"
+#include "servermanager/command/defaults/VanillaCommand.h"
 
-class WhitelistCommand : public Command
+class WhitelistCommand : public VanillaCommand
 {
 public:
-	WhitelistCommand(std::string const &name);
+	WhitelistCommand();
 
-	virtual bool execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args);
+	bool execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args);
 };

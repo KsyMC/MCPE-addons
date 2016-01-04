@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../Command.h"
+#include "servermanager/command/defaults/VanillaCommand.h"
 
-class ToogleDownFallCommand : public Command
+class ToogleDownFallCommand : public VanillaCommand
 {
 public:
-	ToogleDownFallCommand(std::string const &name);
+	ToogleDownFallCommand();
 
-	virtual bool execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args);
+	bool execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args);
 };

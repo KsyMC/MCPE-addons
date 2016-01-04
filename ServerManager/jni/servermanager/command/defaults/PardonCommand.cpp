@@ -1,24 +1,25 @@
-#include "PardonCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
-#include "../../utils/SMList.h"
+#include "servermanager/command/defaults/PardonCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/client/resources/BanList.h"
 
-PardonCommand::PardonCommand(std::string const &name)
-	: Command(name,
-			"Allows the specified player to use this server",
-			"%commands.unban.usage") {}
-
-bool PardonCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+PardonCommand::PardonCommand()
+	: VanillaCommand("pardon")
 {
-	if((int)args.size() == 0)
+	description = "Allows the specified player to use this server";
+	usageMessage = "%commands.unban.usage";
+}
+
+bool PardonCommand::execute(SMPlayer *sender, std::string &commandLabel, std::vector<std::string> &args)
+{
+	if((int)args.size() != 1)
 	{
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 		return false;
 	}
 
-	sender->getServer()->removeBanned(args[0]);
-
-	Command::broadcastCommandMessage(sender, TextContainer("commands.unban.success", {args[0]}));
+	ServerManager::getBanList(BanList::NAME)->pardon(args[0]);
+	Command::broadcastCommandTranslation(sender, "commands.unban.success", {args[0]});
 
 	return true;
 }

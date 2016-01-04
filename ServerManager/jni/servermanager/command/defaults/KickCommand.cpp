@@ -1,45 +1,41 @@
-#include "KickCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
-#include "../../utils/SMUtil.h"
+#include "servermanager/command/defaults/KickCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/level/SMLevel.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/util/SMUtil.h"
 
-KickCommand::KickCommand(std::string const &name)
-	: Command(name,
-			"Removes the specified player from the server",
-			"%commands.kick.usage") {}
-
-bool KickCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+KickCommand::KickCommand()
+	: VanillaCommand("kick")
 {
-	if((int)args.size() == 0)
+	description = "Removes the specified player from the server";
+	usageMessage = "%commands.kick.usage";
+}
+
+bool KickCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args)
+{
+	if((int)args.size() < 1 || args[0].empty())
 	{
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 		return false;
 	}
 
-	std::string name = args[0];
-	std::string reason;
+	SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
 
-	if((int)args.size() > 1)
+	args.erase(args.begin());
+	std::string reason = SMUtil::trim(SMUtil::join(args, " "));
+
+	if(!player)
 	{
-		std::vector<std::string> newArgs = args;
-		newArgs.erase(newArgs.begin());
-
-		reason = SMUtil::trim(SMUtil::join(newArgs, " "));
-	}
-
-	SMPlayer *player = sender->getServer()->getPlayer(name);
-	if(!player || player->isLocalPlayer())
-	{
-		sender->sendMessage(TextContainer("§c%commands.generic.player.notFound", true));
+		sender->sendTranslation("§c%commands.generic.player.notFound", {});
 		return true;
 	}
 
 	if(!reason.empty())
-		Command::broadcastCommandMessage(sender, TextContainer("commands.kick.success.reason", {player->getName(), reason}));
+		Command::broadcastCommandTranslation(sender, "commands.kick.success.reason", {player->getName(), reason});
 	else
-		Command::broadcastCommandMessage(sender, TextContainer("commands.kick.success", {player->getName()}));
+		Command::broadcastCommandTranslation(sender, "commands.kick.success", {player->getName()});
 
-	player->kick(reason);
+	ServerManager::kickPlayer(player, reason);
 
 	return true;
 }

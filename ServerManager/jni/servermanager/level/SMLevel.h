@@ -1,22 +1,28 @@
 #pragma once
 
-class SMPlayer;
-class Vec3;
-class ServerManager;
+#include <vector>
+#include <string>
+
 class Level;
-class ItemInstance;
+class SMPlayer;
 
 class SMLevel
 {
 private:
-	Level *realLevel;
-
-	ServerManager *server;
+	Level *level;
+	std::vector<SMPlayer *> players;
 
 public:
-	SMLevel(ServerManager *server, Level *level);
+	SMLevel(Level *level);
+	~SMLevel();
 
-	void dropItem(SMPlayer *player, Vec3 const &source, ItemInstance const &item, int delay);
+	std::vector<SMPlayer *> &getPlayers();
+	SMPlayer *getPlayer(const std::string &name) const;
+	std::vector<SMPlayer *> matchPlayer(const std::string &partialName) const;
+	SMPlayer *getPlayerExact(const std::string &name) const;
 
-	Level *get() const;
+	void addPlayer(SMPlayer *player);
+	void removePlayer(SMPlayer *player);
+
+	Level *getHandle() const;
 };

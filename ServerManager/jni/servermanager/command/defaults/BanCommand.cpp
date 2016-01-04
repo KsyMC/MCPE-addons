@@ -1,38 +1,35 @@
-#include "BanCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
-#include "../../utils/SMUtil.h"
+#include "servermanager/command/defaults/BanCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/client/resources/BanList.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/util/SMUtil.h"
+#include "servermanager/level/SMLevel.h"
 
-BanCommand::BanCommand(std::string const &name)
-	: Command(name,
-			"Prevents the specified player from using this server",
-			"%commands.ban.usage") {}
-
-bool BanCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+BanCommand::BanCommand()
+	: VanillaCommand("ban")
 {
-	if((int)args.size() == 0)
+	description = "Prevents the specified player from using this server";
+	usageMessage = "%commands.ban.usage";
+}
+
+bool BanCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args)
+{
+	if(args.empty())
 	{
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 		return false;
 	}
 
-	std::string name = args[0];
-	std::string reason;
+	args.erase(args.begin());
+	std::string reason = SMUtil::trim(SMUtil::join(args, " "));
 
-	std::vector<std::string> newArgs = args;
-	newArgs.erase(newArgs.begin());
+	ServerManager::getBanList(BanList::NAME)->addBan(args[0], reason, sender->getName());
 
-	reason = SMUtil::trim(SMUtil::join(newArgs, " "));
+	Command::broadcastCommandTranslation(sender, "commands.ban.success", {args[0]});
 
-	ServerManager *server = sender->getServer();
-	SMPlayer *player = server->getPlayerExact(name);
-
-	server->addBanned(name);
-
-	Command::broadcastCommandMessage(sender, TextContainer("commands.ban.success", {player ? player->getName() : name}));
-
-	if(player && !player->isLocalPlayer())
-		player->kick(!reason.empty() ? "Banned by admin. Reason: " + reason : "Banned by admin.");
+	SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
+	if(player)
+		ServerManager::kickPlayer(player, "Banned by admin.");
 
 	return true;
 }

@@ -1,15 +1,12 @@
 #pragma once
 
-#include "../Command.h"
+#include "servermanager/command/defaults/VanillaCommand.h"
 
-class ServerManager;
-
-class BanIpCommand : public Command
+class BanIpCommand : public VanillaCommand
 {
 public:
-	BanIpCommand(std::string const &name);
+	BanIpCommand();
 
-	virtual bool execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args);
-
-	void processIPBan(std::string const &ip, ServerManager *server, std::string const &reason);
+	bool execute(SMPlayer *player, std::string &label, std::vector<std::string> &args);
+	void processIPBan(const std::string &ip, SMPlayer *player, const std::string &reason);
 };

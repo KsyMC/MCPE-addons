@@ -1,66 +1,58 @@
 #include <regex>
 
-#include "BanIpCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
-#include "../../utils/SMList.h"
-#include "../../utils/SMUtil.h"
+#include "servermanager/command/defaults/BanIpCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/level/SMLevel.h"
+#include "servermanager/client/resources/BanList.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/util/SMUtil.h"
 
-BanIpCommand::BanIpCommand(std::string const &name)
-	: Command(name,
-			"Prevents the specified IP address from using this server",
-			"%commands.banip.usage") {}
-
-bool BanIpCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+BanIpCommand::BanIpCommand()
+	: VanillaCommand("ban-ip")
 {
-	if((int)args.size() == 0)
+	description = "Prevents the specified IP address from using this server",
+	usageMessage = "%commands.banip.usage";
+}
+
+bool BanIpCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args)
+{
+	if((int)args.size() < 1)
 	{
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 		return false;
 	}
 
-	ServerManager *server = sender->getServer();
-
-	std::string value = args[0];
-	std::string reason;
-
-	std::vector<std::string> newArgs = args;
-	newArgs.erase(newArgs.begin());
-
-	reason = SMUtil::trim(SMUtil::join(newArgs, " "));
+	args.erase(args.begin());
+	std::string reason = SMUtil::trim(SMUtil::join(args, " "));
 
 	std::regex rx("\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b");
-	if(std::regex_match(value, rx))
+	if(std::regex_match(args[0], rx))
 	{
-		Command::broadcastCommandMessage(sender, TextContainer("commands.banip.success", {value}));
-		processIPBan(value, server, reason);
+		Command::broadcastCommandTranslation(sender, "commands.banip.success", {args[0]});
+		processIPBan(args[0], sender, reason);
 	}
 	else
 	{
-		SMPlayer *player = server->getPlayer(value);
-		if(player && !player->isLocalPlayer())
+		SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
+		if(!player)
 		{
-			Command::broadcastCommandMessage(sender, TextContainer("commands.banip.success.players", {player->getAddress(), player->getName()}));
-			processIPBan(player->getAddress(), server, reason);
-		}
-		else
-		{
-			sender->sendMessage(TextContainer("commands.banip.invalid", true));
+			player->sendTranslation("§c%commands.banip.invalid", {});
 			return false;
 		}
+
+		std::string ip = player->getAddress();
+
+		Command::broadcastCommandTranslation(sender, "commands.banip.success.players", {ip, player->getName()});
+		processIPBan(ip, sender, reason);
 	}
 	return true;
 }
 
-void BanIpCommand::processIPBan(std::string const &ip, ServerManager *server, std::string const &reason)
+void BanIpCommand::processIPBan(const std::string &ip, SMPlayer *player, const std::string &reason)
 {
-	SMList *banIpList = server->getBanIpList();
-	banIpList->add(ip);
-	banIpList->save();
+	ServerManager::getBanList(BanList::IP)->addBan(ip, reason, player->getName());
 
-	for(SMPlayer *player : server->getOnlinePlayers())
-	{
-		if(!player->getAddress().compare(ip))
-			player->kick(!reason.empty() ? reason : "IP banned.");
-	}
+	for(SMPlayer *p : ServerManager::getLevel()->getPlayers())
+		if(!ip.compare(p->getAddress()))
+			ServerManager::kickPlayer(p, "You have been IP banned.");
 }

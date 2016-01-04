@@ -1,28 +1,97 @@
-#include <memory>
+#include <algorithm>
 
-#include "SMLevel.h"
-#include "../SMPlayer.h"
+#include "servermanager/level/SMLevel.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/util/SMUtil.h"
 
-#include "minecraftpe/Level.h"
-#include "minecraftpe/ItemEntity.h"
-#include "minecraftpe/Vec3.h"
-
-SMLevel::SMLevel(ServerManager *server, Level *level)
+SMLevel::SMLevel(Level *level)
 {
-	realLevel = level;
-
-	this->server = server;
+	this->level = level;
 }
 
-void SMLevel::dropItem(SMPlayer *player, Vec3 const &source, ItemInstance const &item, int delay)
+SMLevel::~SMLevel()
 {
-	ItemEntity *itemEntity = new ItemEntity(*player->getBlockSource(), source, item, delay);
-	itemEntity->setSourceEntity(player->get());
+	for(SMPlayer *player : players)
+		delete player;
 
-	realLevel->addEntity(std::unique_ptr<Entity>(itemEntity));
+	players.clear();
 }
 
-Level *SMLevel::get() const
+std::vector<SMPlayer *> &SMLevel::getPlayers()
 {
-	return realLevel;
+	return players;
+}
+
+SMPlayer *SMLevel::getPlayer(const std::string &name) const
+{
+	SMPlayer *found = NULL;
+	std::string lowerName = SMUtil::toLower(name);
+	int delta = 2147483647;
+
+	for(SMPlayer *player : players)
+	{
+		std::string n = SMUtil::toLower(player->getName());
+		if(n.find(lowerName) != std::string::npos)
+		{
+			int curDelta = n.length() - lowerName.length();
+			if(curDelta < delta)
+			{
+				found = player;
+				delta = curDelta;
+			}
+
+			if(curDelta == 0)
+				break;
+		}
+	}
+	return found;
+}
+
+std::vector<SMPlayer *> SMLevel::matchPlayer(const std::string &partialName) const
+{
+	std::string lname = SMUtil::toLower(partialName);
+	std::vector<SMPlayer *> matchedPlayers;
+
+	for(auto iterPlayer : players)
+	{
+		std::string iterPlayerName = iterPlayer->getName();
+		if(!iterPlayerName.compare(lname))
+		{
+			matchedPlayers.clear();
+			matchedPlayers.push_back(iterPlayer);
+
+			break;
+		}
+		else if(iterPlayerName.find(lname))
+			matchedPlayers.push_back(iterPlayer);
+	}
+	return matchedPlayers;
+}
+
+SMPlayer *SMLevel::getPlayerExact(const std::string &name) const
+{
+	std::string lname = SMUtil::toLower(name);
+
+	for(SMPlayer *player : players)
+	{
+		if(!SMUtil::toLower(player->getName()).compare(lname))
+			return player;
+	}
+	return NULL;
+}
+
+void SMLevel::addPlayer(SMPlayer *player)
+{
+	players.push_back(player);
+}
+
+void SMLevel::removePlayer(SMPlayer *player)
+{
+	players.erase(std::find(players.begin(), players.end(), player));
+	delete player;
+}
+
+Level *SMLevel::getHandle() const
+{
+	return level;
 }

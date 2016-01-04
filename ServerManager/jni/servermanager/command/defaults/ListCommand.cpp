@@ -1,36 +1,30 @@
-#include "ListCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
-#include "../../utils/SMUtil.h"
+#include "servermanager/command/defaults/ListCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/level/SMLevel.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/util/SMUtil.h"
 
-ListCommand::ListCommand(std::string const &name)
-	: Command(name,
-			"Lists all online players",
-			"%commands.players.usage") {}
-
-bool ListCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+ListCommand::ListCommand()
+	: VanillaCommand("list")
 {
-	ServerManager *server = sender->getServer();
+	description = "Lists all online players";
+	usageMessage = "%commands.players.usage";
+}
 
+bool ListCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args)
+{
 	std::string online;
-	int onlineCount = 0;
 
-	std::vector<SMPlayer *> list = server->getOnlinePlayers();
-	for(size_t i = 0; i < list.size(); i++)
+	std::vector<SMPlayer *> players = ServerManager::getLevel()->getPlayers();
+	for(size_t i = 0; i < players.size(); i++)
 	{
-		SMPlayer *player = list[i];
-		if(player->isOnline())
-		{
-			online += player->getDisplayName() + (i != (int)list.size() - 1 ? ", " : "");
+		if(i > 0)
+			online += ", ";
 
-			if(!player->isLocalPlayer())
-				onlineCount++;
-		}
+		SMPlayer *player = players[i];
+		online += player->getDisplayName();
 	}
-
-	sender->sendMessage(TextContainer("commands.players.list",
-			{SMUtil::toString(onlineCount), SMUtil::toString(server->getMaxPlayers())}));
-
+	sender->sendTranslation("commands.players.list", {SMUtil::toString(players.size()), SMUtil::toString(ServerManager::getMaxPlayers())});
 	sender->sendMessage(online);
 
 	return true;

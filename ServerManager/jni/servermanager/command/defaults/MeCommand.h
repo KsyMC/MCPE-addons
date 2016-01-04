@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../Command.h"
+#include "servermanager/command/defaults/VanillaCommand.h"
 
-class MeCommand : public Command
+class MeCommand : public VanillaCommand
 {
 public:
-	MeCommand(std::string const &name);
+	MeCommand();
 
-	virtual bool execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args);
+	bool execute(SMPlayer *player, std::string &label, std::vector<std::string> &args);
 };

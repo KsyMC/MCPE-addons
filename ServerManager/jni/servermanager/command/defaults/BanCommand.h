@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../Command.h"
+#include "servermanager/command/defaults/VanillaCommand.h"
 
-class BanCommand : public Command
+class BanCommand : public VanillaCommand
 {
 public:
-	BanCommand(std::string const &name);
+	BanCommand();
 
-	virtual bool execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args);
+	bool execute(SMPlayer *player, std::string &label, std::vector<std::string> &args);
 };

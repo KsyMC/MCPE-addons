@@ -1,108 +1,36 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include "event/TextContainer.h"
-#include "minecraftpe/GameType.h"
-
-namespace RakNet
-{
-	class RakNetGUID;
-};
-
-class Packet;
-class ServerNetworkHandler;
-class SMLevel;
-class SMOptions;
-class SMList;
-class ISMPlayer;
-class SMPlayer;
-class CommandMap;
-class MinecraftClient;
-class LocalPlayer;
-class ServerPlayer;
-class LoginPacket;
+#include "servermanager/Server.h"
 
 class ServerManager
 {
 private:
-	bool started;
-
-	ServerNetworkHandler *network;
-
-	SMLevel *level;
-
-	SMOptions *options;
-	SMList *banList;
-	SMList *banIpList;
-	SMList *whitelistList;
-	SMList *operatorsList;
-
-	SMPlayer *host;
-	std::vector<SMPlayer *> players;
-
-	CommandMap *commandMap;
+	static Server *server;
 
 public:
-	ServerManager();
-	~ServerManager();
-
-	int getMaxPlayers() const;
-
-	int broadcastMessage(TextContainer const &message);
-	int broadcastTip(std::string const &tip);
-	int broadcastPopup(std::string const &popup);
-
-	static void broadcastPacket(std::vector<SMPlayer *> const &players, Packet const &packet);
-
-	bool dispatchCommand(SMPlayer *sender, std::string const &commandLine);
-
-	ServerPlayer *createNewPlayer(const RakNet::RakNetGUID &guid, LoginPacket *packet);
-
-	SMLevel *getLevel() const;
-
-	void addPlayer(SMPlayer *player);
-	SMPlayer *getPlayer(std::string const &name) const;
-	SMPlayer *getPlayerExact(std::string const &name) const;
-	ISMPlayer *getOfflinePlayer(std::string const &name);
-	std::vector<SMPlayer *> getOnlinePlayers() const;
-	void removePlayer(SMPlayer *player);
-	SMPlayer *getHost() const;
-
-	SMOptions *getOptions() const;
-
-	void load(std::string const &filePath);
-
-	void startServer(LocalPlayer *hostPlayer);
-	bool isStarted() const;
-	void leaveServer();
-
-	CommandMap *getCommandMap() const;
-
-	static std::string getGamemodeString(int mode);
-	static int getGamemodeFromString(std::string const &str);
-
-	bool isOnlineClient() const;
-
-	bool hasWhitelist() const;
-
-	void addOp(std::string const &name);
-	void removeOp(std::string const &name);
-	bool isOp(std::string const &name) const;
-
-	void addWhitelist(std::string const &name);
-	void removeWhitelist(std::string const &name);
-	bool isWhitelisted(std::string const &name) const;
-	void reloadWhitelist();
-
-	void addBanned(std::string const &name);
-	void removeBanned(std::string const &name);
-	bool isBanned(std::string const &name) const;
-
-	SMList *getBanList() const;
-	SMList *getBanIpList() const;
-	SMList *getWhitelistList() const;
-	SMList *getOperatorsList() const;
-
-	bool isWifiIp(std::string const &ip) const;
+	static Server *getServer();
+	static void setServer(Server *server);
+	static int getMaxPlayers();
+	static int getPort();
+	static int getViewDistance();
+	static std::string getServerName();
+	static void broadcastMessage(const std::string &message);
+	static void broadcastTranslation(const std::string &message, const std::vector<std::string> &params);
+	static void broadcastTip(const std::string &message);
+	static void broadcastPopup(const std::string &message, const std::string &subtitle = "");
+	static bool hasWhitelist();
+	static bool isWhitelisted(const std::string &name);
+	static bool dispatchCommand(SMPlayer *sender, const std::string &commandLine);
+	static PluginCommand *getPluginCommand(const std::string &name);
+	static void banIP(const std::string &address);
+	static void unbanIP(const std::string &address);
+	static BanList *getBanList(int type);
+	static void setWhitelist(bool value);
+	static SMList *getWhitelist();
+	static void reloadWhitelist();
+	static SMLevel *getLevel();
+	static PluginManager *getPluginManager();
+	static SMLocalPlayer *getLocalPlayer();
+	static void kickPlayer(SMPlayer *player, const std::string &reason);
+	static void registerPlugin(Plugin *plugin);
 };

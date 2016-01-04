@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../Command.h"
+#include "servermanager/command/defaults/VanillaCommand.h"
 
-class PardonCommand : public Command
+class PardonCommand : public VanillaCommand
 {
 public:
-	PardonCommand(std::string const &name);
+	PardonCommand();
 
-	virtual bool execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args);
+	bool execute(SMPlayer *player, std::string &label, std::vector<std::string> &args);
 };

@@ -1,108 +1,83 @@
-#include "WhitelistCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
-#include "../../utils/SMList.h"
-#include "../../utils/SMOptions.h"
-#include "../../utils/SMUtil.h"
+#include "servermanager/command/defaults/WhitelistCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/client/resources/SMList.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/util/SMUtil.h"
 
-WhitelistCommand::WhitelistCommand(std::string const &name)
-	: Command(name,
-			"Manages the list of players allowed to use this server",
-			"%commands.whitelist.usage") {}
-
-bool WhitelistCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+WhitelistCommand::WhitelistCommand()
+	: VanillaCommand("whitelist")
 {
-	if((int)args.size() == 0 || (int)args.size() > 2)
+	description = "Manages the list of players allowed to use this server";
+	usageMessage = "%commands.whitelist.usage";
+}
+
+bool WhitelistCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args)
+{
+	if(args.empty() || (int)args.size() > 2)
 	{
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 		return true;
 	}
 
-	ServerManager *server = sender->getServer();
-	if(!args[0].compare("on"))
+	if((int)args.size() == 1)
 	{
-		if(!server->hasWhitelist())
-			server->getOptions()->toggleWhitelist();
-
-		Command::broadcastCommandMessage(sender, TextContainer("commands.whitelist.enabled", true));
-
-		return true;
-	}
-	else if(!args[0].compare("off"))
-	{
-		if(server->hasWhitelist())
-			server->getOptions()->toggleWhitelist();
-
-		Command::broadcastCommandMessage(sender, TextContainer("commands.whitelist.disabled", true));
-
-		return true;
-	}
-	else if(!args[0].compare("add"))
-	{
-		if((int)args.size() < 2)
+		if(!args[0].compare("reload"))
 		{
-			sender->sendMessage(TextContainer("commands.whitelist.add.usage", true));
+			ServerManager::reloadWhitelist();
+			Command::broadcastCommandTranslation(sender, "commands.whitelist.reloaded", {});
+
 			return true;
 		}
-
-		std::string name = args[1];
-
-		ISMPlayer *player = server->getOfflinePlayer(name);
-		player->setWhitelisted(true);
-
-		Command::broadcastCommandMessage(sender, TextContainer("commands.whitelist.add.success", {player->getName()}));
-
-		if(!player->isOnline())
-			delete player;
-
-		return true;
-	}
-	else if(!args[0].compare("remove"))
-	{
-		if((int)args.size() < 2)
+		else if(!args[0].compare("on"))
 		{
-			sender->sendMessage(TextContainer("commands.whitelist.remove.usage", true));
+			ServerManager::setWhitelist(true);
+			Command::broadcastCommandTranslation(sender, "commands.whitelist.enabled", {});
+
 			return true;
 		}
+		else if(!args[0].compare("off"))
+		{
+			ServerManager::setWhitelist(false);
+			Command::broadcastCommandTranslation(sender, "commands.whitelist.disabled", {});
 
-		std::string name = args[1];
+			return true;
+		}
+		else if(!args[0].compare("list"))
+		{
+			std::string result;
 
-		ISMPlayer *player = server->getOfflinePlayer(name);
-		player->setWhitelisted(false);
+			std::vector<std::string> players = ServerManager::getWhitelist()->getAll();
+			for(size_t i = 0; i < players.size(); i++)
+			{
+				if(i > 0)
+					result += ", ";
 
-		Command::broadcastCommandMessage(sender, TextContainer("commands.whitelist.remove.success", {name}));
+				result += players[i];
+			}
+			sender->sendTranslation("commands.whitelist.list", {SMUtil::toString(players.size()), SMUtil::toString(players.size())});
+			sender->sendMessage(result);
 
-		if(!player->isOnline())
-			delete player;
-
-		return true;
+			return true;
+		}
 	}
-	else if(!args[0].compare("list"))
+	else if((int) args.size() == 2)
 	{
-		std::string result;
+		if(!args[0].compare("add"))
+		{
+			ServerManager::getWhitelist()->add(args[1]);
+			Command::broadcastCommandTranslation(sender, "commands.whitelist.add.success", {args[1]});
 
-		std::vector<std::string> list = server->getWhitelistList()->getAll();
-		int size = (int)list.size();
+			return true;
+		}
+		else if(!args[0].compare("remove"))
+		{
+			ServerManager::getWhitelist()->remove(args[1]);
+			Command::broadcastCommandTranslation(sender, "commands.whitelist.remove.success", {args[1]});
 
-		std::vector<std::string>::size_type i;
-		for(i = 0; i < size; i++)
-			result += list[i] + (i != size - 1 ? ", " : "");
-
-		sender->sendMessage(TextContainer("commands.whitelist.list", {SMUtil::toString(size), SMUtil::toString(size)}));
-
-		if(!result.empty())
-			sender->sendMessage(TextContainer(result));
-
-		return true;
+			return true;
+		}
 	}
-	else if(!args[0].compare("reload"))
-	{
-		server->reloadWhitelist();
-		Command::broadcastCommandMessage(sender, TextContainer("commands.whitelist.reloaded", true));
+	sender->sendTranslation("commands.generic.usage", {usageMessage});
 
-		return true;
-	}
-	sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
-
-	return true;
+	return false;
 }

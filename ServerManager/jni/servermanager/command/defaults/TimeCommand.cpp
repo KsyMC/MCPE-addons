@@ -1,43 +1,43 @@
-#include "TimeCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
-#include "../../level/SMLevel.h"
-#include "../../utils/SMUtil.h"
+#include "servermanager/command/defaults/TimeCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/Server.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/level/SMLevel.h"
+#include "servermanager/util/SMUtil.h"
+#include "minecraftpe/level/Level.h"
 
-#include "minecraftpe/Level.h"
+TimeCommand::TimeCommand()
+	: VanillaCommand("time")
+{
+	description = "Changes the time on each world";
+	usageMessage = "/time <set|add> <value> OR /time <start|stop|query>";
+}
 
-TimeCommand::TimeCommand(std::string const &name)
-	: Command(name,
-			"Changes the time on each world",
-			"/time <set|add> <value> OR /time <start|stop|query>") {}
-
-bool TimeCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+bool TimeCommand::execute(SMPlayer *sender, std::string &commandLabel, std::vector<std::string> &args)
 {
 	if((int)args.size() < 1)
 	{
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 		return false;
 	}
 
 	if(!args[0].compare("start"))
 	{
-		sender->getLevel()->get()->setDayCycleActive(true);
-
-		Command::broadcastCommandMessage(sender, TextContainer("Restarted the time"));
+		ServerManager::getLevel()->getHandle()->setDayCycleActive(true);
+		Command::broadcastCommandMessage(sender, "Restarted the time");
 	}
 	else if(!args[0].compare("stop"))
 	{
-		sender->getLevel()->get()->setDayCycleActive(false);
-
-		Command::broadcastCommandMessage(sender, TextContainer("Stopped the time"));
+		ServerManager::getLevel()->getHandle()->setDayCycleActive(false);
+		Command::broadcastCommandMessage(sender, "Stopped the time");
 	}
 	else if(!args[0].compare("query"))
-		sender->sendMessage(TextContainer("commands.time.query", {SMUtil::toString(sender->getLevel()->get()->getTime())}));
+		sender->sendTranslation("commands.time.query", {SMUtil::toString(ServerManager::getLevel()->getHandle()->getTime())});
 	else if(!args[0].compare("set"))
 	{
 		if((int)args.size() < 2)
 		{
-			sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+			sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 			return false;
 		}
 
@@ -50,27 +50,24 @@ bool TimeCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 		else
 			value = getInteger(sender, args[1], 0);
 
-		sender->getLevel()->get()->setTime(value);
-
-		Command::broadcastCommandMessage(sender, TextContainer("commands.time.set", {SMUtil::toString(value)}));
+		ServerManager::getLevel()->getHandle()->setTime(value);
+		Command::broadcastCommandTranslation(sender, "commands.time.set", {SMUtil::toString(value)});
 	}
 	else if(!args[0].compare("add"))
 	{
 		if((int)args.size() < 2)
 		{
-			sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+			sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 			return false;
 		}
 
 		int value = getInteger(sender, args[1], 0);
 
-		Level *level = sender->getLevel()->get();
-		level->setTime(level->getTime() + value);
-
-		Command::broadcastCommandMessage(sender, TextContainer("commands.time.added", {SMUtil::toString(value)}));
+		ServerManager::getLevel()->getHandle()->setTime(ServerManager::getLevel()->getHandle()->getTime() + value);
+		Command::broadcastCommandTranslation(sender, "commands.time.added", {SMUtil::toString(value)});
 	}
 	else
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 
 	return true;
 }

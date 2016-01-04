@@ -1,22 +1,23 @@
-#include "MeCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
-#include "../../utils/SMUtil.h"
+#include "servermanager/command/defaults/MeCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/util/SMUtil.h"
 
-MeCommand::MeCommand(std::string const &name)
-	: Command(name,
-			"Performs the specified action in chat",
-			"%commands.me.usage") {}
-
-bool MeCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+MeCommand::MeCommand()
+	: VanillaCommand("me")
 {
-	if((int)args.size() == 0)
+	description = "Performs the specified action in chat";
+	usageMessage = "%commands.me.usage";
+}
+
+bool MeCommand::execute(SMPlayer *player, std::string &label, std::vector<std::string> &args)
+{
+	if(args.size() < 1)
 	{
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		player->sendTranslation("§c%commands.generic.usage", {usageMessage});
 		return false;
 	}
-
-	sender->getServer()->broadcastMessage(TextContainer("chat.type.emote", {sender->getDisplayName(), SMUtil::join(args, " ")}));
+	ServerManager::broadcastMessage("* " + player->getName() + " " + SMUtil::join(args, " "));
 
 	return true;
 }

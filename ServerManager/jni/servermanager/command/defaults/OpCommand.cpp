@@ -1,29 +1,30 @@
-#include "OpCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
+#include "servermanager/command/defaults/OpCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/level/SMLevel.h"
+#include "servermanager/entity/SMPlayer.h"
 
-OpCommand::OpCommand(std::string const &name)
-	: Command(name,
-			"Gives the specified player operator status",
-			"%commands.op.usage") {}
-
-bool OpCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+OpCommand::OpCommand()
+	: VanillaCommand("op")
 {
-	if((int)args.size() == 0)
+	description = "Gives the specified player's operator status";
+	usageMessage = "%commands.op.usage";
+}
+
+bool OpCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args)
+{
+	if((int)args.size() != 1 || args[0].empty())
 	{
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 		return false;
 	}
 
-	ISMPlayer *player = sender->getServer()->getOfflinePlayer(args[0]);
-	player->setOp(true);
+	ServerManager::getServer()->addOp(args[0]);
 
-	Command::broadcastCommandMessage(sender, TextContainer("commands.op.success", {player->getName()}));
+	SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
+	if(player)
+		player->sendMessage("§7You are now op!");
 
-	if(player->isOnline())
-		player->getPlayer()->sendMessage(TextContainer("§7You are now op!"));
-	else
-		delete player;
+	Command::broadcastCommandTranslation(sender, "commands.op.success", {args[0]});
 
 	return true;
 }

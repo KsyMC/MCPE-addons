@@ -1,38 +1,38 @@
-#include "GiveCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
-#include "../../level/SMLevel.h"
-#include "../../utils/SMUtil.h"
+#include "servermanager/command/defaults/GiveCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/level/SMLevel.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/level/SMBlockSource.h"
+#include "servermanager/util/SMUtil.h"
+#include "minecraftpe/entity/player/Player.h"
+#include "minecraftpe/item/Item.h"
+#include "minecraftpe/item/ItemInstance.h"
+#include "minecraftpe/block/Block.h"
+#include "minecraftpe/util/Vec3.h"
 
-#include "minecraftpe/Item.h"
-#include "minecraftpe/Block.h"
-#include "minecraftpe/Player.h"
-#include "minecraftpe/ItemInstance.h"
-#include "minecraftpe/Inventory.h"
-#include "minecraftpe/Vec3.h"
+GiveCommand::GiveCommand()
+	: VanillaCommand("give")
+{
+	description = "Gives the specified player a certain amount of items";
+	usageMessage = "%commands.give.usage";
+}
 
-GiveCommand::GiveCommand(std::string const &name)
-	: Command(name,
-			"Gives the specified player a certain amount of items",
-			"%commands.give.usage") {}
-
-bool GiveCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+bool GiveCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args)
 {
 	if((int)args.size() < 2)
 	{
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 		return false;
 	}
 
-	SMPlayer *player = sender->getServer()->getPlayer(args[0]);
+	SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
 	if(!player)
 	{
-		sender->sendMessage(TextContainer("§c%commands.generic.player.notFound", true));
+		sender->sendTranslation("§c%commands.generic.player.notFound", {});
 		return true;
 	}
 
 	std::string name = args[1];
-
 	std::string prefix = "minecraft:";
 	if(name.find(prefix) != std::string::npos)
 		name.replace(name.find(prefix), prefix.length(), "");
@@ -47,7 +47,7 @@ bool GiveCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 		{
 			if(!SMUtil::is_number(name))
 			{
-				sender->sendMessage(TextContainer("§c%commands.give.item.notFound", {args[1]}));
+				sender->sendTranslation("§c%commands.give.item.notFound", {args[1]});
 				return true;
 			}
 			else
@@ -70,7 +70,7 @@ bool GiveCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 
 	if((int)args.size() > 4)// tag
 	{
-		sender->sendMessage(TextContainer("commands.give.tagError", {"Invalid tag conversion"}));
+		player->sendTranslation("commands.give.tagError", {"Invalid tag conversion"});
 	}
 
 	ItemInstance itemInst(id, count, auxValue);
@@ -81,12 +81,11 @@ bool GiveCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 		itemInst.set(count);
 	}
 
-	sender->getLevel()->dropItem(player, player->get()->getPos(), itemInst, 0);
+	player->getRegion()->dropItem(player->getHandle()->getPos(), itemInst, 0);
 
-	Command::broadcastCommandMessage(sender, TextContainer("commands.give.success", {
-			itemInst.getName() + " (" + SMUtil::toString(itemInst.getId()) + ":"
-			+ SMUtil::toString(itemInst.getAuxValue()) + ")"
-			+ SMUtil::toString(count), player->getName()}));
+	Command::broadcastCommandTranslation(sender, "commands.give.success", {
+			itemInst.getName() + " (" + SMUtil::toString(itemInst.getId()) + ":" + SMUtil::toString(itemInst.getAuxValue()) + ")",
+			SMUtil::toString(count), player->getName()});
 
 	return true;
 }

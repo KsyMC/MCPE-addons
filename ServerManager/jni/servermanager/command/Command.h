@@ -2,54 +2,55 @@
 
 #include <string>
 #include <vector>
-#include "../event/TextContainer.h"
 
-class CommandMap;
 class SMPlayer;
+class CommandMap;
 
 class Command
 {
-public:
-	static int MAX_COORD;
-	static int MIN_COORD;
-
 private:
-	CommandMap *commandMap;
-
 	std::string name;
+	std::string nextLabel;
 	std::string label;
-
 	std::vector<std::string> aliases;
 	std::vector<std::string> activeAliases;
+	CommandMap *commandMap;
 
 protected:
 	std::string description;
 	std::string usageMessage;
 
+	Command(const std::string &name, const std::string &description = "", const std::string &usageMessage = "", const std::vector<std::string> &aliases = {});
+
 public:
-	Command(std::string const &name, std::string const &description = "", std::string const &usageMessage = "", std::vector<std::string> const &aliases = {});
 	virtual ~Command();
 
-	virtual bool execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args) = 0;
+	virtual bool execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args) = 0;
+
+	virtual bool isVanillaCommand() const;
+	virtual bool isPluginCommand() const;
 
 	std::string getName() const;
-	std::string getDescription() const;
-	std::vector<std::string> getAliases() const;
-	void setAliases(std::vector<std::string> const &);
 
-	void registerCommand(CommandMap *);
+	std::string getDescription() const;
+	void setDescription(const std::string &description);
+
+	std::vector<std::string> getAliases() const;
+	bool setAliases(const std::vector<std::string> &aliases);
+
+	bool registerCommand(CommandMap *commandMap);
+	bool unregister(CommandMap *commandMap);
 	bool isRegistered() const;
 
-	void setLabel(std::string const &label);
+	bool setLabel(const std::string &name);
 	std::string getLabel() const;
 
-	void setUsage(std::string const &usage);
+	void setUsage(const std::string &usage);
 	std::string getUsage() const;
 
-	static void broadcastCommandMessage(SMPlayer *source, TextContainer const &message, bool sendToSource = true);
+	static void broadcastCommandMessage(SMPlayer *source, const std::string &message, bool sendToSource = true);
+	static void broadcastCommandTranslation(SMPlayer *source, const std::string &message, const std::vector<std::string> &params, bool sendToSource = true);
 
-protected:
-	int getInteger(SMPlayer *sender, std::string const &value, int min = MIN_COORD, int max = MAX_COORD) const;
-	double getRelativeDouble(double original, SMPlayer *sender, std::string const &input, double min = MIN_COORD, double max = MAX_COORD) const;
-	double getDouble(SMPlayer *sender, std::string const &value, double min = MIN_COORD, double max = MAX_COORD) const;
+private:
+	bool allowChangesFrom(CommandMap *commandMap);
 };

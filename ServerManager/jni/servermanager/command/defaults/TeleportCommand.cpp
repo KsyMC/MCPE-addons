@@ -1,22 +1,24 @@
-#include "TeleportCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
-#include "../../utils/SMUtil.h"
+#include "servermanager/command/defaults/TeleportCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/level/SMLevel.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/util/SMUtil.h"
+#include "minecraftpe/entity/player/Player.h"
+#include "minecraftpe/util/Vec3.h"
+#include "minecraftpe/util/Vec2.h"
 
-#include "minecraftpe/Player.h"
-#include "minecraftpe/Vec3.h"
-#include "minecraftpe/Vec2.h"
+TeleportCommand::TeleportCommand()
+	: VanillaCommand("tp")
+{
+	description = "Teleports the given player (or yourself) to another player or coordinates";
+	usageMessage = "%commands.tp.usage";
+}
 
-TeleportCommand::TeleportCommand(std::string const &name)
-	: Command(name,
-			"Teleports the given player (or yourself) to another player or coordinates",
-			"%commands.tp.usage") {}
-
-bool TeleportCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+bool TeleportCommand::execute(SMPlayer *sender, std::string &commandLabel, std::vector<std::string> &args)
 {
 	if((int)args.size() < 1 || (int)args.size() > 6)
 	{
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		sender->sendTranslation("commands.generic.usage", {usageMessage});
 		return false;
 	}
 
@@ -25,34 +27,34 @@ bool TeleportCommand::execute(SMPlayer *sender, std::string const &commandLabel,
 
 	if((int)args.size() == 1 || (int)args.size() == 3)
 	{
-		target = sender;
+		target = (SMPlayer *)sender;
 
 		if((int)args.size() == 1)
 		{
-			target = sender->getServer()->getPlayer(args[0]);
+			target = ServerManager::getLevel()->getPlayer(args[0]);
 			if(!target)
 			{
-				sender->sendMessage(TextContainer("§c%commands.generic.player.notFound", true));
+				sender->sendTranslation("§c%commands.generic.player.notFound", {});
 				return true;
 			}
 		}
 	}
 	else
 	{
-		target = sender->getServer()->getPlayer(args[0]);
+		target = ServerManager::getLevel()->getPlayer(args[0]);
 		if(!target)
 		{
-			sender->sendMessage(TextContainer("§c%commands.generic.player.notFound", true));
+			sender->sendTranslation("§c%commands.generic.player.notFound", {});
 			return true;
 		}
 
 		if((int)args.size() == 2)
 		{
 			origin = target;
-			target = sender->getServer()->getPlayer(args[1]);
+			target = ServerManager::getLevel()->getPlayer(args[1]);
 			if(!target)
 			{
-				sender->sendMessage(TextContainer("§c%commands.generic.player.notFound", true));
+				sender->sendTranslation("§c%commands.generic.player.notFound", {});
 				return true;
 			}
 		}
@@ -61,7 +63,7 @@ bool TeleportCommand::execute(SMPlayer *sender, std::string const &commandLabel,
 	if((int)args.size() < 3)
 	{
 		origin->teleport(target);
-		Command::broadcastCommandMessage(sender, TextContainer("commands.tp.success", {origin->getName(), target->getName()}));
+		Command::broadcastCommandTranslation(sender, "commands.tp.success", {origin->getName(), target->getName()});
 
 		return true;
 	}
@@ -74,12 +76,12 @@ bool TeleportCommand::execute(SMPlayer *sender, std::string const &commandLabel,
 		else
 			pos = 0;
 
-		Vec3 position = target->get()->getPos();
+		Vec3 position = target->getHandle()->getPos();
 		position.x = getRelativeDouble(position.x, sender, args[pos++]);
 		position.y = getRelativeDouble(position.y, sender, args[pos++], 0, 128);
 		position.z = getRelativeDouble(position.z, sender, args[pos++]);
 
-		Vec2 rotation = target->get()->getRotation();
+		Vec2 rotation = target->getHandle()->getRotation();
 		if((int)args.size() == 6 || ((int)args.size() == 5 && pos == 3))
 		{
 			rotation.x = getDouble(sender, args[pos++]);
@@ -87,14 +89,16 @@ bool TeleportCommand::execute(SMPlayer *sender, std::string const &commandLabel,
 		}
 		target->teleport(position, rotation);
 
-		Command::broadcastCommandMessage(sender, TextContainer("commands.tp.success.coordinates", {
+		Command::broadcastCommandTranslation(sender, "commands.tp.success.coordinates", {
 				target->getName(),
-				SMUtil::toString(round(position.x)), SMUtil::toString(round(position.y)), SMUtil::toString(round(position.z))}));
+				SMUtil::toString(round(position.x)),
+				SMUtil::toString(round(position.y)),
+				SMUtil::toString(round(position.z))
+		});
 
 		return true;
 	}
-
-	sender->sendMessage(TextContainer("§c%commands.generic.player.notFound", true));
+	sender->sendTranslation("§c%commands.generic.player.notFound", {});
 
 	return true;
 }

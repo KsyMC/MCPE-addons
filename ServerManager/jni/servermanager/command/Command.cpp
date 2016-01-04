@@ -1,20 +1,16 @@
-#include <sstream>
-#include <map>
+#include "servermanager/command/Command.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/level/SMLevel.h"
+#include "servermanager/command/CommandMap.h"
+#include "servermanager/util/SMUtil.h"
+#include "minecraftpe/client/resources/I18n.h"
 
-#include "Command.h"
-#include "../SMPlayer.h"
-#include "../ServerManager.h"
-#include "../utils/SMUtil.h"
-
-#include "minecraftpe/I18n.h"
-
-int Command::MAX_COORD = 30000000;
-int Command::MIN_COORD = -30000000;
-
-Command::Command(std::string const &name, std::string const &description, std::string const &usageMessage, std::vector<std::string> const &aliases)
+Command::Command(const std::string &name, const std::string &description, const std::string &usageMessage, const std::vector<std::string> &aliases)
 {
 	commandMap = NULL;
 	this->name = name;
+	nextLabel = name;
 	this->label = name;
 	this->description = description;
 	this->usageMessage = usageMessage.empty() ? "/" + name : usageMessage;
@@ -24,7 +20,16 @@ Command::Command(std::string const &name, std::string const &description, std::s
 
 Command::~Command()
 {
+}
 
+bool Command::isVanillaCommand() const
+{
+	return false;
+}
+
+bool Command::isPluginCommand() const
+{
+	return false;
 }
 
 std::string Command::getName() const
@@ -37,21 +42,46 @@ std::string Command::getDescription() const
 	return description;
 }
 
+void Command::setDescription(const std::string &description)
+{
+	this->description = description;
+}
+
 std::vector<std::string> Command::getAliases() const
 {
 	return activeAliases;
 }
 
-void Command::setAliases(std::vector<std::string> const &aliases)
+bool Command::setAliases(const std::vector<std::string> &aliases)
 {
 	this->aliases = aliases;
 	if(!isRegistered())
 		activeAliases = aliases;
+
+	return true;
 }
 
-void Command::registerCommand(CommandMap *commandMap)
+bool Command::registerCommand(CommandMap *commandMap)
 {
-	this->commandMap = commandMap;
+	if(allowChangesFrom(commandMap))
+	{
+		this->commandMap = commandMap;
+		return true;
+	}
+	return false;
+}
+
+bool Command::unregister(CommandMap *commandMap)
+{
+	if(allowChangesFrom(commandMap))
+	{
+		delete commandMap;
+		commandMap = NULL;
+		activeAliases = aliases;
+		label = nextLabel;
+		return true;
+	}
+	return false;
 }
 
 bool Command::isRegistered() const
@@ -59,9 +89,15 @@ bool Command::isRegistered() const
 	return commandMap != NULL;
 }
 
-void Command::setLabel(std::string const &label)
+bool Command::setLabel(const std::string &name)
 {
-	this->label = label;
+	nextLabel = label;
+	if(!isRegistered())
+	{
+		label = name;
+		return true;
+	}
+	return false;
 }
 
 std::string Command::getLabel() const
@@ -69,7 +105,7 @@ std::string Command::getLabel() const
 	return label;
 }
 
-void Command::setUsage(std::string const &usage)
+void Command::setUsage(const std::string &usage)
 {
 	usageMessage = usage;
 }
@@ -79,12 +115,12 @@ std::string Command::getUsage() const
 	return usageMessage;
 }
 
-void Command::broadcastCommandMessage(SMPlayer *source, TextContainer const &message, bool sendToSource)
+void Command::broadcastCommandMessage(SMPlayer *source, const std::string &message, bool sendToSource)
 {
-	TextContainer newMessage = message;
-	newMessage.setText("§7§o[" + source->getName() + ": " + (I18n::get(message.getText()).compare(message.getText()) ? "%" : "") + message.getText() + "]");
+	std::string newMessage = message;
+	newMessage = "§7§o[" + source->getName() + ": " + (I18n::get(message).compare(message) ? "%" : "") + message + "]";
 
-	for(SMPlayer *player : source->getServer()->getOnlinePlayers())
+	for(SMPlayer *player : ServerManager::getLevel()->getPlayers())
 	{
 		if(player == source && !sendToSource)
 			continue;
@@ -93,33 +129,21 @@ void Command::broadcastCommandMessage(SMPlayer *source, TextContainer const &mes
 	}
 }
 
-int Command::getInteger(SMPlayer *sender, std::string const &value, int min, int max) const
+void Command::broadcastCommandTranslation(SMPlayer *source, const std::string &message, const std::vector<std::string> &params, bool sendToSource)
 {
-	int result = SMUtil::toInt(value);
+	std::string newMessage = message;
+	newMessage = "§7§o[" + source->getName() + ": " + (I18n::get(message).compare(message) ? "%" : "") + message + "]";
 
-	if(result < min)
-		result = min;
-	else if(result > max)
-		result = max;
+	for(SMPlayer *player : ServerManager::getLevel()->getPlayers())
+	{
+		if(player == source && !sendToSource)
+			continue;
 
-	return result;
+		player->sendTranslation(newMessage, params);
+	}
 }
 
-double Command::getRelativeDouble(double original, SMPlayer *sender, std::string const &input, double min, double max) const
+bool Command::allowChangesFrom(CommandMap *commandMap)
 {
-	if(input[0] == '~')
-		return original + getDouble(sender, input, min, max);
-	return getDouble(sender, input, min, max);
-}
-
-double Command::getDouble(SMPlayer *sender, std::string const &value, double min, double max) const
-{
-	double result = SMUtil::toDouble(value.c_str());
-
-	if(result < min)
-		result = min;
-	else if(result > max)
-		result = max;
-
-	return result;
+	return !this->commandMap || this->commandMap == commandMap;
 }

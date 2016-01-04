@@ -1,34 +1,27 @@
 #include <cmath>
 
-#include "HelpCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
-#include "../../utils/SMUtil.h"
-#include "../SimpleCommandMap.h"
+#include "servermanager/command/defaults/HelpCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/command/CommandMap.h"
+#include "servermanager/util/SMUtil.h"
+#include "minecraftpe/client/resources/I18n.h"
 
-#include "minecraftpe/I18n.h"
-
-HelpCommand::HelpCommand(std::string const &name)
-	: Command(name,
-			"Shows the help menu",
-			"%commands.help.usage",
-			{"?"}) {}
-
-struct comp
+HelpCommand::HelpCommand()
+	: VanillaCommand("help")
 {
-	bool operator() (std::string const &left, std::string const &right) const
-	{
-		return left <right;
-	}
-};
+	description = "Shows the help menu";
+	usageMessage = "%commands.help.usage";
+	setAliases({"?"});
+}
 
-bool HelpCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+bool HelpCommand::execute(SMPlayer *sender, std::string &commandLabel, std::vector<std::string> &args)
 {
 	std::string command;
 	int pageNumber = 1;
 	int pageHeight = 5;
 
-	if((int)args.size() >= 1)
+	if((int) args.size() >= 1)
 	{
 		if(SMUtil::is_number(args[0]))
 		{
@@ -42,9 +35,17 @@ bool HelpCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 
 	if(command.empty())
 	{
+		struct comp
+		{
+			bool operator() (const std::string &left, const std::string &right) const
+			{
+				return left <right;
+			}
+		};
+
 		std::map<std::string, Command *, comp> commandList;
 
-		for(auto &key : ((SimpleCommandMap *)sender->getServer()->getCommandMap())->getCommands())
+		for(auto &key : ServerManager::getServer()->getCommandMap()->getCommands())
 		{
 			Command *command = key.second;
 			commandList[command->getName()] = command;
@@ -57,7 +58,7 @@ bool HelpCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 
 		pageNumber = std::min(pages, pageNumber);
 
-		sender->sendMessage(TextContainer("commands.help.header", {SMUtil::toString(pageNumber), SMUtil::toString(pages)}));
+		sender->sendTranslation("commands.help.header", {SMUtil::toString(pageNumber), SMUtil::toString(pages)});
 
 		int startIndex = pageHeight * (pageNumber - 1);
 		for(int i = startIndex; i < startIndex + pageHeight; i++)
@@ -66,23 +67,23 @@ bool HelpCommand::execute(SMPlayer *sender, std::string const &commandLabel, std
 				break;
 
 			Command *command = sortCommands[i];
-			sender->sendMessage(TextContainer("§2/" + command->getName() + ": §f" + command->getDescription()));
+			sender->sendTranslation("§2/" + command->getName() + ": §f" + command->getDescription(), {});
 		}
 		return true;
 	}
 	else
 	{
-		Command *cmd = ((SimpleCommandMap *)sender->getServer()->getCommandMap())->getCommand(command);
+		Command *cmd = ServerManager::getServer()->getCommandMap()->getCommand(command);
 		if(cmd)
 		{
 			std::string message;
 			message += "§e--------- §fHelp: /" + cmd->getName() + " §e---------\n";
 			message += "§6Description: §f" + cmd->getDescription() + "\n";
 			message += "§6Usage: §f" + SMUtil::join(SMUtil::split(cmd->getUsage(), '\n'), "\n§f") + "\n";
-			sender->sendMessage(TextContainer(message));
+			sender->sendMessage(message);
 		}
 		else
-			sender->sendMessage(TextContainer("§cNo help for " + SMUtil::toLower(command)));
+			sender->sendMessage("§cNo help for " + SMUtil::toLower(command));
 
 		return true;
 	}

@@ -1,54 +1,59 @@
-#include "GameModeCommand.h"
-#include "../../SMPlayer.h"
-#include "../../ServerManager.h"
+#include "servermanager/command/defaults/GameModeCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/level/SMLevel.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/util/SMUtil.h"
 
-#include "minecraftpe/Level.h"
-
-GameModeCommand::GameModeCommand(std::string const &name)
-	: Command(name,
-			"Changes the player to a specific game mode",
-			"%commands.gamemode.usage",
-			{"gm"}) {}
-
-bool GameModeCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+GameModeCommand::GameModeCommand()
+	: VanillaCommand("gamemode")
 {
-	if((int)args.size() == 0)
+	description = "Changes the player to a specific game mode";
+	usageMessage = "%commands.gamemode.usage";
+}
+
+bool GameModeCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args)
+{
+	if(args.empty())
 	{
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 		return false;
 	}
 
-	int gameMode = ServerManager::getGamemodeFromString(args[0]);
-	if(gameMode == -1)
+	std::string modeArg = args[0];
+	std::string playerArg = sender->getName();
+
+	if((int)args.size() >= 2)
+		playerArg = args[1];
+
+	SMPlayer *player = ServerManager::getLevel()->getPlayer(playerArg);
+	if(!player)
 	{
-		sender->sendMessage(TextContainer("Unknown game mode"));
+		sender->sendTranslation("commands.generic.player.notFound", {});
+		return false;
+	}
+
+	GameType gametype = Server::getGamemodeFromString(args[0]);
+	if(gametype == -1)
+	{
+		sender->sendMessage("Unknown game mode");
 		return true;
 	}
 
-	SMPlayer *target = sender;
-	if((int)args.size() >= 2)
+	if(player->getGameType() == gametype)
 	{
-		std::string name = args[1];
-		target = sender->getServer()->getPlayer(name);
-		if(!target)
-		{
-			sender->sendMessage(TextContainer("commands.generic.player.notFound", true));
-			return true;
-		}
+		sender->sendMessage(player->getName() + " already has game mode " + SMUtil::toString(gametype));
+		return true;
 	}
-	target->setGamemode(gameMode);
+	player->setGameType(gametype);
 
-	if(gameMode != target->getGamemode())
-		sender->sendMessage("Game mode change for " + target->getName() + " failed!");
+	if(gametype != player->getGameType())
+		sender->sendMessage("Game mode change for " + player->getName() + " failed!");
 	else
 	{
-		if(target == sender)
-			Command::broadcastCommandMessage(sender, TextContainer("commands.gamemode.success.self", {ServerManager::getGamemodeString(gameMode)}));
+		if(sender == player)
+			Command::broadcastCommandTranslation(sender, "commands.gamemode.success.self", {Server::getGamemodeString(gametype)});
 		else
-		{
-			target->sendMessage(TextContainer("gameMode.changed", true));
-			Command::broadcastCommandMessage(sender, TextContainer("commands.gamemode.success.other", {target->getName(), ServerManager::getGamemodeString(gameMode)}));
-		}
+			Command::broadcastCommandTranslation(sender, "commands.gamemode.success.other", {player->getName(), Server::getGamemodeString(gametype)});
 	}
 	return true;
 }

@@ -1,55 +1,53 @@
-#include "BanListCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
-#include "../../utils/SMList.h"
-#include "../../utils/SMUtil.h"
+#include "servermanager/command/defaults/BanListCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/client/resources/BanList.h"
+#include "servermanager/client/resources/BanEntry.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/util/SMUtil.h"
 
-BanListCommand::BanListCommand(std::string const &name)
-	: Command(name,
-			"View all players banned from this server",
-			"%commands.banlist.usage") {}
-
-bool BanListCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+BanListCommand::BanListCommand()
+	: VanillaCommand("banlist")
 {
-	ServerManager *server = sender->getServer();
-	SMList *banList;
+	description = "View all players banned from this server",
+	usageMessage = "%commands.banlist.usage";
+}
 
-	std::string arg;
-	if(args.size() >= 1)
+bool BanListCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args)
+{
+	BanList::Type banType = BanList::NAME;
+	if(args.size() > 0)
 	{
-		arg = SMUtil::toLower(args[0]);
-		if(!arg.compare("ips"))
-			banList = server->getBanIpList();
-		else if(!arg.compare("players"))
-			banList = server->getBanList();
-		else
+		if(!args[0].compare("ips"))
+			banType = BanList::IP;
+		else if(args[0].compare("players"))
 		{
-			sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+			sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 			return false;
 		}
 	}
-	else
-	{
-		banList = server->getBanList();
-		arg = "players";
-	}
 
 	std::string message;
+	std::vector<BanEntry *> banList = ServerManager::getBanList(banType)->getBanEntries();
 
-	std::vector<std::string> list = banList->getAll();
-	int size = (int)list.size();
+	for(size_t i = 0; i < banList.size(); i++)
+	{
+		if(i != 0)
+		{
+			if(i == (int)banList.size() - 1)
+				message += " and ";
+			else
+				message += ", ";
+		}
 
-	std::vector<std::string>::size_type i;
-	for(i = 0; i < size; i++)
-		message += list[i] + (i != size - 1 ? ", " : "");
+		message += banList[i]->getTarget();
+	}
 
-	if(!arg.compare("ips"))
-		sender->sendMessage(TextContainer("commands.banlist.ips", {SMUtil::toString(size)}));
-	else if(!arg.compare("players"))
-		sender->sendMessage(TextContainer("commands.banlist.players", {SMUtil::toString(size)}));
+	if(banType == BanList::IP)
+		sender->sendTranslation("commands.banlist.ips", {SMUtil::toString(banList.size())});
+	else if(banType == BanList::NAME)
+		sender->sendTranslation("commands.banlist.players", {SMUtil::toString(banList.size())});
 
-	if(!message.empty())
-		sender->sendMessage(TextContainer(message));
+	sender->sendMessage(message);
 
 	return true;
 }

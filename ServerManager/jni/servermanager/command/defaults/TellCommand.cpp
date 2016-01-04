@@ -1,41 +1,43 @@
-#include "TellCommand.h"
-#include "../../ServerManager.h"
-#include "../../SMPlayer.h"
-#include "../../utils/SMUtil.h"
+#include "servermanager/command/defaults/TellCommand.h"
+#include "servermanager/ServerManager.h"
+#include "servermanager/level/SMLevel.h"
+#include "servermanager/entity/SMPlayer.h"
+#include "servermanager/util/SMUtil.h"
 
-TellCommand::TellCommand(std::string const &name)
-	: Command(name,
-			"Sends a private message to the given player",
-			"%commands.message.usage",
-			{"m", "msg"}) {}
+TellCommand::TellCommand()
+	: VanillaCommand("tell")
+{
+	description = "Sends a private message to the given player",
+	usageMessage = "%commands.message.usage",
+	setAliases({"w", "msg"});
+}
 
-bool TellCommand::execute(SMPlayer *sender, std::string const &commandLabel, std::vector<std::string> const &args)
+bool TellCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args)
 {
 	if((int)args.size() < 2)
 	{
-		sender->sendMessage(TextContainer("commands.generic.usage", {usageMessage}));
+		sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 		return false;
 	}
 
-	SMPlayer *player = sender->getServer()->getPlayer(args[0]);
-	if(player == sender)
+	SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
+	if(sender == player)
 	{
-		sender->sendMessage(TextContainer("§c%commands.message.sameTarget", true));
+		sender->sendTranslation("§c%commands.message.sameTarget", {});
 		return true;
 	}
 
-	std::vector<std::string> newArgs = args;
-	newArgs.erase(newArgs.begin());
-
-	std::string message = SMUtil::join(newArgs, " ");
-
-	if(player)
+	if(!player)
 	{
-		sender->sendMessage(TextContainer("commands.message.display.outgoing", {player->getDisplayName(), message}));
-		player->sendMessage(TextContainer("commands.message.display.incoming", {sender->getDisplayName(), message}));
+		sender->sendTranslation("§c%commands.generic.player.notFound", {});
+		return true;
 	}
-	else
-		sender->sendMessage(TextContainer("commands.generic.player.notFound", true));
+
+	args.erase(args.begin());
+	std::string message = SMUtil::join(args, " ");
+
+	sender->sendTranslation("commands.message.display.outgoing", {player->getName(), message});
+	player->sendTranslation("commands.message.display.incoming", {player->getName(), message});
 
 	return true;
 }
