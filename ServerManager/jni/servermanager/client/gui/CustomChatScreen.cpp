@@ -16,11 +16,11 @@ FUNCTION_HOOK_CPP(void, CustomChatScreen, sendChatMessage, ChatScreen *real)
 		return;
 	}
 
-	if(real->message[0] != ' ' && real->message[1] != '/')
+	if(real->message[0] != '#')
 		sendChatMessage_real(real);
 	else
 	{
-		ServerManager::dispatchCommand(ServerManager::getServer()->getLocalPlayer(), real->message.erase(0, 2));
+		ServerManager::dispatchCommand(ServerManager::getServer()->getLocalPlayer(), real->message.erase(0, 1));
 
 		real->message = "";
 

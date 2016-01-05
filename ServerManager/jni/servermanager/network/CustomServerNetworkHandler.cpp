@@ -186,8 +186,8 @@ FUNCTION_HOOK_CPP(void, CustomServerNetworkHandler, handleText, ServerNetworkHan
 		{
 			if(!SMUtil::trim(message).empty() && message.length() < 255)
 			{
-				if(message[0] == ' ' && message[1] == '/')
-					ServerManager::dispatchCommand(player, message.erase(0, 2));
+				if(message[0] == '#')
+					ServerManager::dispatchCommand(player, message.erase(0, 1));
 				else
 					real->_displayGameMessage(username.c_str(), message.c_str());
 			}
