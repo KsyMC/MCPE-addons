@@ -96,14 +96,19 @@ FUNCTION_HOOK_CPP(void, CustomServerNetworkHandler, handleLogin, ServerNetworkHa
 	for(int i = 0; i < len; i++)
 	{
 		char c = username[i];
-		if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9' && c == '_'))
+		if((c >= 'a' && c <= 'z') ||
+				(c >= 'A' && c <= 'Z') ||
+				(c >= '0' && c <= '9') || c == '_')
 			continue;
 
 		valid = false;
 		break;
 	}
 
-	if(!valid || !iusername.compare(SMUtil::toLower(ServerManager::getLocalPlayer()->getName())))
+	if(!valid || !iusername.compare(SMUtil::toLower(ServerManager::getLocalPlayer()->getName())) ||
+			!iusername.compare("rcon") ||
+			!iusername.compare("console") ||
+			!iusername.compare("server"))
 	{
 		real->disconnectClient(guid, "disconnectionScreen.invalidName");
 		return;
@@ -232,34 +237,7 @@ FUNCTION_HOOK_CPP(void, CustomServerNetworkHandler, handleInteract, ServerNetwor
 
 FUNCTION_HOOK_CPP(void, CustomServerNetworkHandler, handleUseItem, ServerNetworkHandler *real, const RakNet::RakNetGUID &guid, UseItemPacket *packet)
 {
-	/*Player *player = real->_getPlayer(guid);
-	if(!player || !player->isAlive())
-		return;
-
-	bool undo = false;
-	BlockPos oldPos = packet->pos;
-	FullBlock oldBlock;
-
-	switch (packet->face)
-	{
-		case 0: oldPos.y--; break;
-		case 1: oldPos.y++; break;
-		case 2: oldPos.z--; break;
-		case 3: oldPos.z++; break;
-		case 4: oldPos.x--; break;
-		case 5: oldPos.x++; break;
-	}
-
-	packet->item = *player->getSelectedItem();
-	if(packet->item.getId() == 1)
-	{
-		oldBlock = player->getRegion()->getBlockAndData(oldPos);
-		undo = true;
-	}*/
 	handleUseItem_real(real, guid, packet);
-
-	/*if(undo)
-		player->getRegion()->setBlockAndData(oldPos, oldBlock, 2);*/
 }
 
 FUNCTION_HOOK_CPP(void, CustomServerNetworkHandler, handlePlayerAction, ServerNetworkHandler *real, const RakNet::RakNetGUID &guid, PlayerActionPacket *packet)
