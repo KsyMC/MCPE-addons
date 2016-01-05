@@ -73,6 +73,7 @@ void HandlerList::unregister(RegisteredListener *listener)
 	auto it = std::find(list.begin(), list.end(), listener);
 	if(it != list.end())
 	{
+		delete listener;
 		list.erase(it);
 		needBake = true;
 	}
@@ -82,12 +83,13 @@ void HandlerList::unregister(Plugin *plugin)
 {
 	for(auto &listIter : handlerslots)
 	{
-		std::vector<RegisteredListener *> &list = listIter.second;
-		for(auto it = list.begin(); it != list.end();)
+		for(auto it = listIter.second.begin(); it != listIter.second.end();)
 		{
-			if((*it)->getPlugin() == plugin)
+			RegisteredListener *listener = *it;
+			if(listener->getPlugin() == plugin)
 			{
-				it = list.erase(it);
+				delete listener;
+				it = listIter.second.erase(it);
 				needBake = true;
 			}
 			else
@@ -101,12 +103,13 @@ void HandlerList::unregister(Listener *listener)
 	bool changed = false;
 	for(auto &listIter : handlerslots)
 	{
-		std::vector<RegisteredListener *> &list = listIter.second;
-		for(auto it = list.begin(); it != list.end();)
+		for(auto it = listIter.second.begin(); it != listIter.second.end();)
 		{
-			if((*it)->getListener() == listener)
+			RegisteredListener *registeredListener = *it;
+			if(registeredListener->getListener() == listener)
 			{
-				it = list.erase(it);
+				delete registeredListener;
+				it = listIter.second.erase(it);
 				needBake = true;
 			}
 			else
@@ -119,6 +122,8 @@ void HandlerList::bake()
 {
 	if(!needBake)
 		return;
+
+	handlers.clear();
 
 	for(auto &it : handlerslots)
 		for(RegisteredListener *listener : it.second)
