@@ -22,8 +22,9 @@ bool BanIpCommand::execute(SMPlayer *sender, std::string &label, std::vector<std
 		return false;
 	}
 
-	args.erase(args.begin());
-	std::string reason = SMUtil::trim(SMUtil::join(args, " "));
+	std::vector<std::string> reasons = args;
+	reasons.erase(args.begin());
+	std::string reason = SMUtil::trim(SMUtil::join(reasons, " "));
 
 	std::regex rx("\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b");
 	if(std::regex_match(args[0], rx))
@@ -48,9 +49,9 @@ bool BanIpCommand::execute(SMPlayer *sender, std::string &label, std::vector<std
 	return true;
 }
 
-void BanIpCommand::processIPBan(const std::string &ip, SMPlayer *player, const std::string &reason)
+void BanIpCommand::processIPBan(const std::string &ip, SMPlayer *source, const std::string &reason)
 {
-	ServerManager::getBanList(BanList::IP)->addBan(ip, reason, player->getName());
+	ServerManager::getBanList(BanList::IP)->addBan(ip, reason, source->getName());
 
 	for(SMPlayer *p : ServerManager::getLevel()->getPlayers())
 		if(!ip.compare(p->getAddress()))

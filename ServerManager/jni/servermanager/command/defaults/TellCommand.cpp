@@ -37,7 +37,7 @@ bool TellCommand::execute(SMPlayer *sender, std::string &label, std::vector<std:
 	std::string message = SMUtil::join(args, " ");
 
 	sender->sendTranslation("commands.message.display.outgoing", {player->getName(), message});
-	player->sendTranslation("commands.message.display.incoming", {player->getName(), message});
+	player->sendTranslation("commands.message.display.incoming", {sender->getName(), message});
 
 	return true;
 }

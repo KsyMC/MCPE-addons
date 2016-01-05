@@ -20,10 +20,10 @@ bool BanCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::
 		return false;
 	}
 
-	args.erase(args.begin());
-	std::string reason = SMUtil::trim(SMUtil::join(args, " "));
+	std::vector<std::string> reasons = args;
+	reasons.erase(reasons.begin());
 
-	ServerManager::getBanList(BanList::NAME)->addBan(args[0], reason, sender->getName());
+	ServerManager::getBanList(BanList::NAME)->addBan(args[0], SMUtil::trim(SMUtil::join(reasons, " ")), sender->getName());
 
 	Command::broadcastCommandTranslation(sender, "commands.ban.success", {args[0]});
 

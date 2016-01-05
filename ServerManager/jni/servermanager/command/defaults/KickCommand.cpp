@@ -21,8 +21,9 @@ bool KickCommand::execute(SMPlayer *sender, std::string &label, std::vector<std:
 
 	SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
 
-	args.erase(args.begin());
-	std::string reason = SMUtil::trim(SMUtil::join(args, " "));
+	std::vector<std::string> reasons = args;
+	reasons.erase(args.begin());
+	std::string reason = SMUtil::trim(SMUtil::join(reasons, " "));
 
 	if(!player)
 	{
