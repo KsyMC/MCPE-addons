@@ -70,7 +70,7 @@ bool GiveCommand::execute(SMPlayer *sender, std::string &label, std::vector<std:
 
 	if((int)args.size() > 4)// tag
 	{
-		player->sendTranslation("commands.give.tagError", {"Invalid tag conversion"});
+		sender->sendTranslation("commands.give.tagError", {"Invalid tag conversion"});
 	}
 
 	ItemInstance itemInst(id, count, auxValue);

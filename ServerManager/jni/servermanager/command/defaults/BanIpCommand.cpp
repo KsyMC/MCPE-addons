@@ -22,22 +22,23 @@ bool BanIpCommand::execute(SMPlayer *sender, std::string &label, std::vector<std
 		return false;
 	}
 
-	std::vector<std::string> reasons = args;
-	reasons.erase(args.begin());
-	std::string reason = SMUtil::trim(SMUtil::join(reasons, " "));
+	std::string nameOrIP = args[0];
+
+	args.erase(args.begin());
+	std::string reason = SMUtil::trim(SMUtil::join(args, " "));
 
 	std::regex rx("\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b");
-	if(std::regex_match(args[0], rx))
+	if(std::regex_match(nameOrIP, rx))
 	{
-		Command::broadcastCommandTranslation(sender, "commands.banip.success", {args[0]});
-		processIPBan(args[0], sender, reason);
+		Command::broadcastCommandTranslation(sender, "commands.banip.success", {nameOrIP});
+		processIPBan(nameOrIP, sender, reason);
 	}
 	else
 	{
-		SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
+		SMPlayer *player = ServerManager::getLevel()->getPlayer(nameOrIP);
 		if(!player)
 		{
-			player->sendTranslation("§c%commands.banip.invalid", {});
+			sender->sendTranslation("§c%commands.banip.invalid", {});
 			return false;
 		}
 

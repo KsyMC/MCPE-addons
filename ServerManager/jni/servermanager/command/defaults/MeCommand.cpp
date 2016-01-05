@@ -10,14 +10,14 @@ MeCommand::MeCommand()
 	usageMessage = "%commands.me.usage";
 }
 
-bool MeCommand::execute(SMPlayer *player, std::string &label, std::vector<std::string> &args)
+bool MeCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::string> &args)
 {
 	if(args.size() < 1)
 	{
-		player->sendTranslation("§c%commands.generic.usage", {usageMessage});
+		sender->sendTranslation("§c%commands.generic.usage", {usageMessage});
 		return false;
 	}
-	ServerManager::broadcastMessage("* " + player->getName() + " " + SMUtil::join(args, " "));
+	ServerManager::broadcastMessage("* " + sender->getName() + " " + SMUtil::join(args, " "));
 
 	return true;
 }

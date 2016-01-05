@@ -20,10 +20,10 @@ bool KickCommand::execute(SMPlayer *sender, std::string &label, std::vector<std:
 	}
 
 	SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
+	std::string reason;
 
-	std::vector<std::string> reasons = args;
-	reasons.erase(args.begin());
-	std::string reason = SMUtil::trim(SMUtil::join(reasons, " "));
+	args.erase(args.begin());
+	reason = SMUtil::trim(SMUtil::join(args, " "));
 
 	if(!player)
 	{

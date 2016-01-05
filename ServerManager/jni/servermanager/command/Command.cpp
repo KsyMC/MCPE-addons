@@ -13,7 +13,7 @@ Command::Command(const std::string &name, const std::string &description, const 
 	nextLabel = name;
 	this->label = name;
 	this->description = description;
-	this->usageMessage = usageMessage.empty() ? "/" + name : usageMessage;
+	this->usageMessage = usageMessage.empty() ? "#" + name : usageMessage;
 	this->aliases = aliases;
 	activeAliases = aliases;
 }
