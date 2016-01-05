@@ -4,8 +4,8 @@
 BanEntry::BanEntry(const std::string &target)
 {
 	this->target = target;
-	this->reason = "Generic reason";
-	this->source = "Unknown";
+	this->reason = "(Unknown)";
+	this->source = "Banned by an operator.";
 }
 
 std::string BanEntry::getTarget() const
@@ -39,12 +39,18 @@ BanEntry *BanEntry::fromString(const std::string &str)
 		return NULL;
 
 	std::vector<std::string> strs = SMUtil::split(SMUtil::trim(str), '|');
-
 	BanEntry *entry = new BanEntry(SMUtil::trim(strs[0]));
-	if(strs.size() >= 3)
+
+	strs.erase(strs.begin());
+	if(strs.size() > 0)
 	{
-		entry->setSource(SMUtil::trim(strs[1]));
-		entry->setReason(SMUtil::trim(strs[2]));
+		entry->setSource(SMUtil::trim(strs[0]));
+
+		strs.erase(strs.begin());
+		if(strs.size() > 0)
+		{
+			entry->setReason(SMUtil::trim(strs[0]));
+		}
 	}
 	return entry;
 }

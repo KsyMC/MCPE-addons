@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "servermanager/client/resources/BanList.h"
 #include "servermanager/plugin/PluginLoadOrder.h"
 #include "minecraftpe/gamemode/GameType.h"
 
@@ -91,7 +92,7 @@ public:
 
 	SMLevel *getLevel() const;
 
-	BanList *getBanList(int type) const;
+	BanList *getBanList(BanList::Type type) const;
 	SMList *getWhitelistList() const;
 	SMList *getOPList() const;
 

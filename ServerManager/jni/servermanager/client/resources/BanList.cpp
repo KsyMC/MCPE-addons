@@ -35,8 +35,10 @@ void BanList::add(BanEntry *entry)
 BanEntry *BanList::addBan(const std::string &target, const std::string &reason, const std::string &source)
 {
 	BanEntry *entry = new BanEntry(target);
-	entry->setReason(reason);
-	entry->setSource(source);
+	if(!reason.empty())
+		entry->setReason(reason);
+	if(!source.empty())
+		entry->setSource(source);
 
 	banEntries.push_back(entry);
 

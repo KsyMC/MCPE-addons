@@ -14,6 +14,7 @@
 #include "servermanager/event/player/PlayerJoinEvent.h"
 #include "servermanager/event/player/PlayerQuitEvent.h"
 #include "servermanager/util/SMUtil.h"
+#include "servermanager/version.h"
 
 PluginManager::PluginManager(Server *instance, CommandMap *commandMap)
 {
@@ -46,6 +47,15 @@ std::vector<Plugin *> PluginManager::loadPlugins(const std::string &pluginDir)
 
 		}
 		if(!description.isLoaded() || !name.compare("servermanager") || !name.compare("minecraft") || !name.compare("mojang"))
+			continue;
+
+		bool compatible = false;
+
+		for(int smVersion : description.getSMVersions())
+			if(smVersion == VERSION_CODE)
+				compatible = true;
+
+		if(!compatible)
 			continue;
 
 		plugins[description.getName()] = plugin;

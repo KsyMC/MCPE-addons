@@ -93,8 +93,6 @@ void PluginBase::init(Server *server, PluginDescriptionFile *description, const 
 	this->description = description;
 	this->dataFolder = dataFolder;
 	this->confingFile = dataFolder + "config.json";
-
-	File::createFolder(dataFolder);
 }
 
 bool PluginBase::onCommand(SMPlayer *sender, Command *command, std::string &label, std::vector<std::string> &args)

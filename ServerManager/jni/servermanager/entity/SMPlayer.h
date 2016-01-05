@@ -25,7 +25,7 @@ protected:
 
 public:
 	SMPlayer(Player *entity, const std::string &ipAddress);
-	virtual ~SMPlayer();
+	~SMPlayer();
 
 	virtual void sendMessage(const std::string &message);
 	virtual void sendTranslation(const std::string &message, const std::vector<std::string> &params);

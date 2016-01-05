@@ -83,7 +83,7 @@ void ServerManager::unbanIP(const std::string &address)
 	server->unbanIP(address);
 }
 
-BanList *ServerManager::getBanList(int type)
+BanList *ServerManager::getBanList(BanList::Type type)
 {
 	return server->getBanList(type);
 }

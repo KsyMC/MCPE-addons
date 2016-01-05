@@ -3,9 +3,9 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <json/json.h>
 
 #include "servermanager/plugin/PluginLoadOrder.h"
+#include "json/json.h"
 
 class PluginDescriptionFile
 {
@@ -21,10 +21,11 @@ private:
 	bool loaded;
 
 	std::string name;
+	std::string version;
+	std::vector<int> smVersions;
 	std::vector<std::string> depend;
 	std::vector<std::string> softDepend;
 	std::vector<std::string> loadBefore;
-	std::string version;
 	std::map<std::string, std::map<std::string, CommandDescValue>> commands;
 	std::string description;
 	std::vector<std::string> authors;
@@ -45,6 +46,7 @@ public:
 
 	const std::string &getName() const;
 	const std::string &getVersion() const;
+	std::vector<int> getSMVersions() const;
 	const std::string &getDescription() const;
 	PluginLoadOrder getLoad() const;
 	const std::vector<std::string> &getAuthors() const;

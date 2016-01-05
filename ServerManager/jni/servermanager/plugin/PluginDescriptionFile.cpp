@@ -1,6 +1,7 @@
 #include <fstream>
 
 #include "servermanager/plugin/PluginDescriptionFile.h"
+#include "servermanager/version.h"
 
 PluginDescriptionFile::PluginDescriptionFile(const std::string &path)
 {
@@ -35,11 +36,21 @@ void PluginDescriptionFile::loadJson(const std::string &path)
 	ifs >> root;
 	ifs.close();
 
-	if(!root.isMember("name") || !root.isMember("version"))
+	if(!root.isMember("name") ||
+			!root.isMember("version") ||
+			!root.isMember("sm_version"))
 		return;
 
 	name = root.get("name", "").asString("");
 	version = root.get("version", "").asString("");
+
+	if(root.isArray())
+	{
+		for(Json::Value smVersion : root["sm_version"])
+			smVersions.push_back(smVersion.asInt(0));
+	}
+	else
+		smVersions.push_back(root.get("sm_version", 0).asInt(0));
 
 	if(root.isMember("commands"))
 	{
@@ -134,6 +145,11 @@ const std::string &PluginDescriptionFile::getName() const
 const std::string &PluginDescriptionFile::getVersion() const
 {
 	return version;
+}
+
+std::vector<int> PluginDescriptionFile::getSMVersions() const
+{
+	return smVersions;
 }
 
 const std::string &PluginDescriptionFile::getDescription() const

@@ -139,7 +139,6 @@ void Server::enablePlugins(PluginLoadOrder type)
 {
 	if(type == PluginLoadOrder::STARTUP)
 	{
-
 	}
 
 	for(Plugin *plugin : pluginManager->getPlugins())
@@ -160,7 +159,6 @@ void Server::disablePlugins()
 
 void Server::setVanillaCommands()
 {
-
 }
 
 void Server::loadPlugin(Plugin *plugin)
@@ -290,14 +288,16 @@ SMLevel *Server::getLevel() const
 	return level;
 }
 
-BanList *Server::getBanList(int type) const
+BanList *Server::getBanList(BanList::Type type) const
 {
-	if(type == BanList::NAME)
-		return banByName;
-	else if(type == BanList::IP)
+	switch(type)
+	{
+	case BanList::IP:
 		return banByIP;
-
-	return NULL;
+	case BanList::NAME:
+	default:
+		return banByName;
+	}
 }
 
 SMList *Server::getWhitelistList() const

@@ -24,7 +24,7 @@ public:
 	static PluginCommand *getPluginCommand(const std::string &name);
 	static void banIP(const std::string &address);
 	static void unbanIP(const std::string &address);
-	static BanList *getBanList(int type);
+	static BanList *getBanList(BanList::Type type);
 	static void setWhitelist(bool value);
 	static SMList *getWhitelist();
 	static void reloadWhitelist();
