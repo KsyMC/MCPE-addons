@@ -6,7 +6,7 @@ HandlerList *PlayerQuitEvent::handlers = new HandlerList;
 PlayerQuitEvent::PlayerQuitEvent(SMPlayer *who, const std::string &quitMessage, const std::vector<std::string> &quitParams)
 	: PlayerEvent(who)
 {
-	this->quitMessage;
+	this->quitMessage = quitMessage;
 	this->quitParams = quitParams;
 }
 

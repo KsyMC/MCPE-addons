@@ -1,3 +1,3 @@
-#define VERSION_CODE 13
-#define VERSION_NAME 4.2
+#define VERSION_CODE 14
+#define VERSION_NAME 4.2.1
 #define MADE_BY "KsyMC"

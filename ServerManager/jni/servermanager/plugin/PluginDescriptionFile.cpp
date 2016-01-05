@@ -4,12 +4,14 @@
 
 PluginDescriptionFile::PluginDescriptionFile(const std::string &path)
 {
+	loaded = false;
 	order = PluginLoadOrder::POSTWORLD;
 	loadJson(path);
 }
 
 PluginDescriptionFile::PluginDescriptionFile(const std::string &pluginName, const std::string &pluginVersion)
 {
+	loaded = false;
 	name = pluginName;
 	version = pluginVersion;
 
