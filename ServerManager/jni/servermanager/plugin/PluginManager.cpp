@@ -44,7 +44,6 @@ std::vector<Plugin *> PluginManager::loadPlugins(const std::string &pluginDir)
 		std::string name = SMUtil::toLower(description.getName());
 		if(name.find(' ') != std::string::npos)
 		{
-
 		}
 		if(!description.isLoaded() || !name.compare("servermanager") || !name.compare("minecraft") || !name.compare("mojang"))
 			continue;

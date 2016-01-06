@@ -3,9 +3,9 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <json/json.h>
 
 #include "servermanager/plugin/PluginLoadOrder.h"
-#include "json/json.h"
 
 class PluginDescriptionFile
 {

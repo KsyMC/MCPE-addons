@@ -38,19 +38,19 @@ void PluginDescriptionFile::loadJson(const std::string &path)
 
 	if(!root.isMember("name") ||
 			!root.isMember("version") ||
-			!root.isMember("sm_version"))
+			!root.isMember("sm-version"))
 		return;
 
 	name = root.get("name", "").asString("");
 	version = root.get("version", "").asString("");
 
-	if(root.isArray())
+	if(root["sm-version"].isArray())
 	{
-		for(Json::Value smVersion : root["sm_version"])
+		for(Json::Value smVersion : root["sm-version"])
 			smVersions.push_back(smVersion.asInt(0));
 	}
 	else
-		smVersions.push_back(root.get("sm_version", 0).asInt(0));
+		smVersions.push_back(root.get("sm-version", 0).asInt(0));
 
 	if(root.isMember("commands"))
 	{
@@ -115,7 +115,6 @@ void PluginDescriptionFile::loadJson(const std::string &path)
 			authors.push_back(author.asString(""));
 
 	prefix = root.get("prefix", "").asString("");
-
 	loaded = true;
 }
 
