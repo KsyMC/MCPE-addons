@@ -1,3 +1,6 @@
+#include <curl/curl.h>
+#include <json/json.h>
+
 #include "servermanager/Server.h"
 #include "servermanager/ServerManager.h"
 #include "servermanager/client/settings/SMOptions.h"
@@ -13,7 +16,9 @@
 #include "servermanager/plugin/Plugin.h"
 #include "servermanager/plugin/PluginDescriptionFile.h"
 #include "servermanager/util/SMUtil.h"
+#include "servermanager/version.h"
 #include "minecraftpe/client/Minecraft.h"
+#include "minecraftpe/entity/player/LocalPlayer.h"
 #include "minecraftpe/network/PacketSender.h"
 #include "minecraftpe/network/protocol/TextPacket.h"
 #include "minecraftpe/network/ServerNetworkHandler.h"
@@ -75,6 +80,50 @@ void Server::load(const std::string &path)
 	whitelist->load(path);
 }
 
+bool Server::updateCheck(std::string &version, int &versionCode, std::vector<std::string> &changelog)
+{
+	std::string data;
+	CURL *curl = curl_easy_init();
+	if(!curl)
+		return false;
+
+	struct Writer
+	{
+		static size_t write(char *data, size_t size, size_t nmemb, std::string *writerData)
+		{
+			writerData->append(data, size * nmemb);
+			return size * nmemb;
+		}
+	};
+
+	curl_easy_setopt(curl, CURLOPT_URL, "https://rawgit.com/KsyMC/9e8670ccfaa9c8b1dfd4/raw/servermanager.json");
+	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &data);
+	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, Writer::write);
+
+	CURLcode rc = curl_easy_perform(curl);
+	if(CURLE_OK != rc)
+		return false;
+
+	curl_easy_cleanup(curl);
+
+	if(!data.empty())
+	{
+		Json::Value root;
+		Json::Reader reader;
+		if(!reader.parse(data, root))
+			return false;
+
+		version = root.get("version", "").asString("");
+		versionCode = root.get("version-code", 0).asInt(0);
+		for(Json::Value log : root["changelog"])
+			changelog.push_back(log.asString(""));
+	}
+	return true;
+}
+
 void Server::start(LocalPlayer *localPlayer, Level *level)
 {
 	if(started)
@@ -88,6 +137,25 @@ void Server::start(LocalPlayer *localPlayer, Level *level)
 	started = true;
 
 	enablePlugins(PluginLoadOrder::POSTWORLD);
+
+	std::string version;
+	int versionCode;
+	std::vector<std::string> changelog;
+
+	if(updateCheck(version, versionCode, changelog))
+	{
+		if(versionCode != VERSION_CODE)
+		{
+			if(versionCode > VERSION_CODE)
+			{
+				this->localPlayer->sendMessage("[SM] 새로운 버전이 있습니다 : v" + version + " Changelog:");
+				for(int i = 0; i < changelog.size(); i++)
+					this->localPlayer->sendMessage(" " + SMUtil::toString(i + 1) + ". " + changelog[i]);
+			}
+			else
+				this->localPlayer->sendMessage("[SM] 현재 개발 버전을 사용중입니다.");
+		}
+	}
 }
 
 void Server::stop()

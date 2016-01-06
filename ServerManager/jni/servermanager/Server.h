@@ -49,6 +49,7 @@ public:
 
 	void init(Minecraft *server, const std::string &path);
 	void load(const std::string &path);
+	bool updateCheck(std::string &version, int &versionCode, std::vector<std::string> &changelog);
 
 	void start(LocalPlayer *localPlayer, Level *level);
 	void stop();
