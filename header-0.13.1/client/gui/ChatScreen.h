@@ -1,6 +1,6 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
 
 class MinecraftClient;
 
@@ -10,7 +10,7 @@ public:
 	char filler1[20];		// 0
 	MinecraftClient *mc;	// 20
 	char filler2[136];		// 24
-	string message;			// 160
+	std::string message;	// 160
 
 	void sendChatMessage();
 };

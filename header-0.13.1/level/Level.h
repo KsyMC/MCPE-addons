@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "minecraftpe/level/BlockSourceListener.h"
 #include "minecraftpe/client/AppPlatformListener.h"
 #include "minecraftpe/entity/player/Player.h"
@@ -20,31 +22,31 @@ class LevelData;
 class Level : public BlockSourceListener, public AppPlatformListener
 {
 public:
-	//void **vtable;					// 4
-	char filler[4];						// 8
-	vector<unique_ptr<Player>> players;	// 12
+	//void **vtable;								// 4
+	char filler[4];									// 8
+	std::vector<std::unique_ptr<Player>> players;// 12
 
 	virtual ~Level();
 	virtual void onSourceCreated(BlockSource &);
 	virtual void onSourceDestroyed(BlockSource &);
-	virtual void onBlockChanged(BlockSource &, BlockPos const &, FullBlock, FullBlock, int);
-	virtual void addEntity(unique_ptr<Entity>);
-	virtual void addPlayer(unique_ptr<Player>);
-	virtual void addGlobalEntity(unique_ptr<Entity>);
-	virtual void onPlayerDeath(Player &, EntityDamageSource const &);
+	virtual void onBlockChanged(BlockSource &, const BlockPos &, FullBlock, FullBlock, int);
+	virtual void addEntity(std::unique_ptr<Entity>);
+	virtual void addPlayer(std::unique_ptr<Player>);
+	virtual void addGlobalEntity(std::unique_ptr<Entity>);
+	virtual void onPlayerDeath(Player &, const EntityDamageSource &);
 	virtual void tick();
 	virtual void directTickEntities(BlockSource &);
 	virtual void updateSleepingPlayerList();
 	virtual void setDifficulty(Difficulty);
-	virtual void runLightUpdates(BlockSource &, LightLayer const &, BlockPos const &, BlockPos const &);
+	virtual void runLightUpdates(BlockSource &, const LightLayer &, const BlockPos &, const BlockPos &);
 	virtual void onNewChunkFor(Player &, LevelChunk &);
 	virtual void onChunkLoaded(LevelChunk &);
-	virtual void removeEntity(unique_ptr<Entity> &&, bool);
+	virtual void removeEntity(std::unique_ptr<Entity> &&, bool);
 	virtual void removeEntity(Entity &, bool);
 	virtual void onAppSuspended();
-	Player *getPlayer(string const &) const;
+	Player *getPlayer(const std::string &) const;
 	LocalPlayer *getLocalPlayer() const;
-	vector<unique_ptr<Player>> &getPlayers();
+	std::vector<std::unique_ptr<Player>> &getPlayers();
 	Dimension *createDimension(DimensionId);
 	LevelStorage *getLevelStorage();
 	bool isClientSide() const;

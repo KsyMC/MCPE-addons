@@ -1,6 +1,5 @@
 #pragma once
 
-#include "shared.h"
 #include "minecraftpe/inventory/ContainerType.h"
 
 class ItemInstance;

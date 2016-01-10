@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "minecraftpe/client/AppPlatformListener.h"
 
 // Size : 28
@@ -18,7 +20,7 @@ public:
 	virtual void loadState(void *, int);
 	virtual void saveState(void **, int *);
 	virtual void useTouchscreen();
-	virtual void setTextboxText(string const &);
+	virtual void setTextboxText(const std::string &);
 	virtual void draw();
 	virtual void update();
 	virtual void setSize(int, int, float);

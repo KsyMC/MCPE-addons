@@ -1,12 +1,13 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
+#include <raknet/RakPeer.h>
 
 class RakNetInstance
 {
 public:
 	RakNet::RakPeer *getPeer();
 	void _startupIfNeeded(unsigned short, int);
-	void host(string const &, int, int);
-	void announceServer(string const &);
+	void host(const std::string &, int, int);
+	void announceServer(const std::string &);
 };

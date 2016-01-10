@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "minecraftpe/network/NetEventCallback.h"
 #include "minecraftpe/level/LevelListener.h"
 #include "minecraftpe/entity/player/ServerPlayer.h"
@@ -31,50 +33,50 @@ public:
 	BatchPacket *batchPacket;			// 64
 	Player *player;						// 68
 
-	ServerNetworkHandler(GameCallbacks &, Level &, GameMode *, RakNetInstance &, PacketSender &, SkinInfoFactory &, Whitelist const &, Player *);
+	ServerNetworkHandler(GameCallbacks &, Level &, GameMode *, RakNetInstance &, PacketSender &, SkinInfoFactory &, const Whitelist &, Player *);
 	virtual void onPlayerReady(Player &);
 	virtual ~ServerNetworkHandler();
-	virtual void onNewClient(RakNet::RakNetGUID const &);
-	virtual void onDisconnect(RakNet::RakNetGUID const &, string const &);
-	virtual void allowIncomingPacketId(RakNet::RakNetGUID const &, int);
-	virtual void handle(RakNet::RakNetGUID const &, LoginPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, TextPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, MoveEntityPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, MovePlayerPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, RemoveBlockPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, EntityEventPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, MobEquipmentPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, MobArmorEquipmentPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, InteractPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, UseItemPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, PlayerActionPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, DropItemPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, ContainerClosePacket *);
-	virtual void handle(RakNet::RakNetGUID const &, ContainerSetSlotPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, ContainerSetContentPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, CraftingEventPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, AnimatePacket *);
-	virtual void handle(RakNet::RakNetGUID const &, BlockEntityDataPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, PlayerInputPacket *);
-	virtual void handle(RakNet::RakNetGUID const &, SpawnExperienceOrbPacket *);
+	virtual void onNewClient(const RakNet::RakNetGUID &);
+	virtual void onDisconnect(const RakNet::RakNetGUID &, const std::string &);
+	virtual void allowIncomingPacketId(const RakNet::RakNetGUID &, int);
+	virtual void handle(const RakNet::RakNetGUID &, LoginPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, TextPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, MoveEntityPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, MovePlayerPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, RemoveBlockPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, EntityEventPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, MobEquipmentPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, MobArmorEquipmentPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, InteractPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, UseItemPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, PlayerActionPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, DropItemPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, ContainerClosePacket *);
+	virtual void handle(const RakNet::RakNetGUID &, ContainerSetSlotPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, ContainerSetContentPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, CraftingEventPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, AnimatePacket *);
+	virtual void handle(const RakNet::RakNetGUID &, BlockEntityDataPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, PlayerInputPacket *);
+	virtual void handle(const RakNet::RakNetGUID &, SpawnExperienceOrbPacket *);
 	virtual void addBatchPacket(Packet *);
 	virtual void sendAndClearBatchedPackets();
 	virtual void onEntityAdded(Entity &);
 	virtual void onEntityRemoved(Entity &);
 	virtual void onNewChunkFor(Player &, LevelChunk &);
-	void _displayGameMessage(string const &, string const &);
+	void _displayGameMessage(const std::string &, const std::string &);
 	Player *_getPlayer(const RakNet::RakNetGUID &);
 	Player *_getPlayer(const RakNet::RakNetGUID &, const EntityUniqueID &);
 
-	void allowIncomingConnections(string const &, bool);
+	void allowIncomingConnections(const std::string &, bool);
 	void disallowIncomingConnections();
 
-	void disconnectClient(RakNet::RakNetGUID const &, string const &);
+	void disconnectClient(const RakNet::RakNetGUID &, const std::string &);
 	unsigned short numberOfConnections();
-	void onReady_ClientGeneration(Player *, RakNet::RakNetGUID const &);
+	void onReady_ClientGeneration(Player *, const RakNet::RakNetGUID &);
 
-	unique_ptr<ServerPlayer> createNewPlayer(RakNet::RakNetGUID const &, LoginPacket *);
-	void sendLoginMessageLocal(int, RakNet::RakNetGUID const &, LoginPacket *);
-	void _sendAdditionalLevelData(ServerPlayer *, RakNet::RakNetGUID const &);
-	void _sendLevelData(ServerPlayer *, RakNet::RakNetGUID const &);
+	std::unique_ptr<ServerPlayer> createNewPlayer(const RakNet::RakNetGUID &, LoginPacket *);
+	void sendLoginMessageLocal(int, const RakNet::RakNetGUID &, LoginPacket *);
+	void _sendAdditionalLevelData(ServerPlayer *, const RakNet::RakNetGUID &);
+	void _sendLevelData(ServerPlayer *, const RakNet::RakNetGUID &);
 };

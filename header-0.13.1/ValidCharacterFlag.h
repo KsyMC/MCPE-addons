@@ -2,8 +2,8 @@
 
 namespace UI
 {
-enum ValidCharacterFlag
-{
+	enum ValidCharacterFlag
+	{
 
-};
+	};
 };

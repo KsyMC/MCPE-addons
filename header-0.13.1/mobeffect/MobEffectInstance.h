@@ -1,6 +1,7 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
+#include <vector>
 
 class Mob;
 class CompoundTag;
@@ -14,16 +15,16 @@ public:
 	MobEffectInstance(int, int, int);
 	MobEffectInstance(int, int, int, bool, bool);
 	void applyEffect(Mob *);
-	void areAllEffectsAmbient(const vector<MobEffectInstance *> &);
+	void areAllEffectsAmbient(const std::vector<MobEffectInstance *> &);
 	bool equals(MobEffectInstance *) const;
-	void getColorValue(const vector<MobEffectInstance *> &);
-	string getDescriptionId() const;
-	string getDisplayName() const;
+	void getColorValue(const std::vector<MobEffectInstance *> &);
+	std::string getDescriptionId() const;
+	std::string getDisplayName() const;
 	bool isNoCounter() const;
 	void load(CompoundTag *);
 	void save() const;
 	void setNoCounter(bool);
 	void tick(Mob *);
-	string toString() const;
+	std::string toString() const;
 	void update(const MobEffectInstance &);
 };

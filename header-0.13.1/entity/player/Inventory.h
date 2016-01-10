@@ -9,9 +9,10 @@ public:
 	virtual ~Inventory();
 	virtual int getContainerSize() const;
 	virtual void add(ItemInstance &);
-	virtual bool canAdd(ItemInstance const &) const;
+	virtual bool canAdd(const ItemInstance &) const;
 	virtual void clearSlot(int);
 	virtual void doDrop(ItemInstance &, bool);
 	virtual void getEmptySlotsCount() const;
 	virtual void setContainerSize(int);
+	int getSelectedSlot() const;
 };

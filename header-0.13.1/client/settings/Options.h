@@ -1,6 +1,6 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
 
 class Options
 {
@@ -16,26 +16,26 @@ public:
 			TYPE_STEP
 		};
 
-		int type;		// 0
-		string desc;	// 4
+		int type;			// 0
+		std::string desc;	// 4
 
 		~Option();
 	};
 
-	string filepath;	// 0
+	std::string filepath;	// 0
 
-	void set(Option const *, string const &);
+	void set(const Option *, const std::string &);
 
-	string getStringValue(Option const *);
-	bool getBooleanValue(Option const *);
-	void toggle(Option const *, int);
+	std::string getStringValue(const Option *);
+	bool getBooleanValue(const Option *);
+	void toggle(const Option *, int);
 
 	void save();
 	void _load();
 
-	string getUsername() const;
+	std::string getUsername() const;
 
-	static void _readBool(string const &, bool &);
-	static void _readFloat(string const &, float &);
-	static void _readInt(string const &, int &);
+	static void _readBool(const std::string &, bool &);
+	static void _readFloat(const std::string &, float &);
+	static void _readInt(const std::string &, int &);
 };

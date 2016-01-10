@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "minecraftpe/entity/player/Player.h"
 #include "minecraftpe/inventory/IContainerListener.h"
 #include "minecraftpe/item/ItemInstance.h"
@@ -23,30 +25,30 @@ public:
 	char filler[20];		// 3568
 	char containerCounter;	// 3588
 
-	ServerPlayer(Level &, PacketSender &, GameType, RakNet::RakNetGUID const &, function<void (ServerPlayer &)>, unique_ptr<SkinInfoData>, mce::UUID);
+	ServerPlayer(Level &, PacketSender &, GameType, const RakNet::RakNetGUID &, std::function<void (ServerPlayer &)>, std::unique_ptr<SkinInfoData>, mce::UUID);
 	virtual ~ServerPlayer();
 	virtual void normalTick();
-	virtual void push(Vec3 const &);
+	virtual void push(const Vec3 &);
 	virtual void changeDimension(DimensionId);
 	virtual void knockback(Entity *, int, float, float);
 	virtual void aiStep();
 	virtual void hurtArmor(int);
 	virtual void onEffectAdded(MobEffectInstance &);
-	virtual void onEffectUpdated(MobEffectInstance const &);
+	virtual void onEffectUpdated(const MobEffectInstance &);
 	virtual void onEffectRemoved(MobEffectInstance &);
-	virtual void tickWorld(Tick const &);
+	virtual void tickWorld(const Tick &);
 	virtual void hasResource(int);
-	virtual void openContainer(int, BlockPos const &);
-	virtual void openFurnace(int, BlockPos const &);
-	virtual void openEnchanter(int, BlockPos const &);
-	virtual void openAnvil(BlockPos const &);
-	virtual void openBrewingStand(int, BlockPos const &);
-	virtual void displayLocalizableMessage(string const &, vector<string> const &);
+	virtual void openContainer(int, const BlockPos &);
+	virtual void openFurnace(int, const BlockPos &);
+	virtual void openEnchanter(int, const BlockPos &);
+	virtual void openAnvil(const BlockPos &);
+	virtual void openBrewingStand(int, const BlockPos &);
+	virtual void displayLocalizableMessage(const std::string &, const std::vector<std::string> &);
 	virtual void stopSleepInBed(bool, bool);
 	virtual void setPlayerGameType(GameType);
 	virtual void closeContainer();
 	virtual void setContainerData(BaseContainerMenu &, int, int);
-	virtual void slotChanged(BaseContainerMenu &, int, ItemInstance const &, bool);
-	virtual void refreshContainer(BaseContainerMenu &, vector<ItemInstance> const &);
+	virtual void slotChanged(BaseContainerMenu &, int, const ItemInstance &, bool);
+	virtual void refreshContainer(BaseContainerMenu &, const std::vector<ItemInstance> &);
 	void disconnect();
 };

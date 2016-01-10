@@ -1,10 +1,11 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
+#include <vector>
 
 class I18n
 {
 public:
-	static string get(string const &);
-	static string get(string const &, vector<string> const &);
+	static std::string get(const std::string &);
+	static std::string get(const std::string &, const std::vector<std::string> &);
 };

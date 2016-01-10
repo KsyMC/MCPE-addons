@@ -1,6 +1,8 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
+#include <memory>
+
 #include "minecraftpe/level/Level.h"
 #include "minecraftpe/network/NetEventCallback.h"
 #include "minecraftpe/gamemode/GameMode.h"
@@ -17,6 +19,6 @@ public:
 	Level *getLevel();
 	RakNetInstance *getRakNetInstance();
 	NetEventCallback *getNetEventCallback();
-	string getServerName();
-	void hostMultiplayer(unique_ptr<Level>, unique_ptr<GameMode>, Player *, unique_ptr<NetEventCallback>, bool, int, int);
+	std::string getServerName();
+	void hostMultiplayer(std::unique_ptr<Level>, std::unique_ptr<GameMode>, Player *, std::unique_ptr<NetEventCallback>, bool, int, int);
 };

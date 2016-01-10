@@ -2,10 +2,10 @@
 
 #include "minecraftpe/entity/Entity.h"
 #include "minecraftpe/network/Packet.h"
+#include "minecraftpe/item/ItemInstance.h"
 
 class BlockSource;
 class Vec3;
-class ItemInstance;
 class Player;
 class EntityDamageSource;
 class CompoundTag;
@@ -14,21 +14,24 @@ class CompoundTag;
 class ItemEntity : public Entity
 {
 public:
-	char filler1[264];	// 120
+	ItemInstance item;	// 340
+	char filler2[8];	// 360
+	int pickupDelay;	// 368
+	char filler3[12];	// 372
 
 	ItemEntity(BlockSource &);
-	ItemEntity(BlockSource &, Vec3 const &, ItemInstance const &, int);
+	ItemEntity(BlockSource &, const Vec3 &, const ItemInstance &, int);
 	virtual ~ItemEntity();
-	virtual unique_ptr<Packet> getAddPacket();
+	virtual std::unique_ptr<Packet> getAddPacket();
 	virtual void normalTick();
 	virtual void playerTouch(Player &);
 	virtual bool isPushable() const;
-	virtual void hurt(EntityDamageSource const &, int);
-	virtual int getEntityTypeId() const;
+	virtual void hurt(const EntityDamageSource &, int);
+	virtual EntityType getEntityTypeId() const;
 	virtual EntityUniqueID getSourceUniqueID();
 	virtual void getHandleWaterAABB() const;
 	virtual void burn(int);
-	virtual void readAdditionalSaveData(CompoundTag const &);
+	virtual void readAdditionalSaveData(const CompoundTag &);
 	virtual void addAdditionalSaveData(CompoundTag &);
-	void setSourceEntity(Entity const *);
+	void setSourceEntity(const Entity *);
 };

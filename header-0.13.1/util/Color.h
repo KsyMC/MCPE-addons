@@ -1,7 +1,5 @@
 #pragma once
 
-#include "shared.h"
-
 // Size : 16
 class Color
 {

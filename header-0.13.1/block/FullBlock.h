@@ -8,8 +8,8 @@ public:
 	static FullBlock AIR;
 
 public:
-	BlockID id;
-	unsigned char aux;
+	BlockID id;			// 0
+	unsigned char aux;	// 4
 
 public:
 	FullBlock() : id(0), aux(0) {};

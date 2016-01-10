@@ -10,10 +10,10 @@ class AddEntityPacket : public Packet
 public:
 	char filler[72];	// 16
 
-	AddEntityPacket(Entity const &);
+	AddEntityPacket(const Entity &);
 	virtual ~AddEntityPacket();
-	virtual int getId() const ;
+	virtual int getId() const;
 	virtual void write(RakNet::BitStream *) const;
 	virtual void read(RakNet::BitStream *);
-	virtual void handle(RakNet::RakNetGUID const &, NetEventCallback *) const;
+	virtual void handle(const RakNet::RakNetGUID &, NetEventCallback *) const;
 };

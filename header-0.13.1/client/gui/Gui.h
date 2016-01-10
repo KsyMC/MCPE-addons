@@ -1,14 +1,15 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
+#include <vector>
 
 class Gui
 {
 public:
-	void displayClientMessage(string const &);
-	void displayChatMessage(string const &, string const &);
-	void displayLocalizableMessage(string const &, vector<string> const &);
-	void showPopupNotice(string const &, string const &);
-	void showTipMessage(string const &);
-	void displaySystemMessage(string const &);
+	void displayClientMessage(const std::string &);
+	void displayChatMessage(const std::string &, const std::string &);
+	void displayLocalizableMessage(const std::string &, const std::vector<std::string> &);
+	void showPopupNotice(const std::string &, const std::string &);
+	void showTipMessage(const std::string &);
+	void displaySystemMessage(const std::string &);
 };

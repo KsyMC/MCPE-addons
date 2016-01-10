@@ -1,6 +1,6 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
 
 class Mob;
 
@@ -37,20 +37,20 @@ public:
 	int id;				// 4
 	bool isBadEffect;	// 8
 	int liquidColor;	// 12
-	string name;	// 16
+	std::string name;	// 16
 	int statusIconIndex;// 20
 	float effectiveness;// 24
 	bool usable;		// 28
 
 public:
-	MobEffect(int, const string &, bool, int, int);
+	MobEffect(int, const std::string &, bool, int, int);
 	virtual ~MobEffect();
 	virtual void applyEffectTick(Mob *, int) const;
 	virtual void applyInstantenousEffect(Mob *, int, float) const;
 	virtual bool isInstantenous() const;
 	virtual bool isDurationEffectTick(int, int) const;
 	int getColor() const;
-	string getDescriptionId();
+	std::string getDescriptionId();
 	void getDurationModifier() const;
 	int getIcon() const;
 	int getId() const;
@@ -59,5 +59,5 @@ public:
 	bool isHarmful() const;
 	bool isInstantenous() const;
 	static void initEffects();
-	static string formatDuration(const MobEffectInstance *);
+	static std::string formatDuration(const MobEffectInstance *);
 };

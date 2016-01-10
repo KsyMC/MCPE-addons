@@ -1,7 +1,5 @@
 #pragma once
 
-#include "shared.h"
-
 class CompoundTag;
 
 // Size : 16
@@ -19,7 +17,7 @@ public:
 
 	Abilities();
 	void addSaveData(CompoundTag &) const;
-	void loadSaveData(CompoundTag const &);
+	void loadSaveData(const CompoundTag &);
 	float getFlyingSpeed() const;
 	float getWalkingSpeed() const;
 	void setFlyingSpeed(float);

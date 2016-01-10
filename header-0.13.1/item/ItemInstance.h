@@ -1,6 +1,6 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
 
 class Block;
 class Item;
@@ -19,23 +19,26 @@ public:
 
 	ItemInstance();
 	ItemInstance(bool);
+	ItemInstance(const ItemInstance &itemInstance);
 
-	ItemInstance(Block const *block);
-	ItemInstance(Block const *block, int count);
-	ItemInstance(Block const *block, int count, int auxValue);
+	ItemInstance(const Block *block);
+	ItemInstance(const Block *block, int count);
+	ItemInstance(const Block *block, int count, int auxValue);
 
-	ItemInstance(Item const *item);
-	ItemInstance(Item const *item, int count);
-	ItemInstance(Item const *item, int count, int auxValue);
-	ItemInstance(Item const *item, int count, int auxValue, CompoundTag const *tag);
+	ItemInstance(const Item *item);
+	ItemInstance(const Item *item, int count);
+	ItemInstance(const Item *item, int count, int auxValue);
+	ItemInstance(const Item *item, int count, int auxValue, const CompoundTag *tag);
 
 	ItemInstance(int id, int count, int auxValue);
-	ItemInstance(int id, int count, int auxValue, CompoundTag const *tag);
+	ItemInstance(int id, int count, int auxValue, const CompoundTag *tag);
 
-	bool operator!=(ItemInstance const &other) const;
-	bool operator==(ItemInstance const &other) const;
+	bool operator!=(const ItemInstance &other) const;
+	bool operator==(const ItemInstance &other) const;
 
-	ItemInstance &operator=(ItemInstance const &other);
+	static bool isItem(const ItemInstance *other);
+
+	ItemInstance &operator=(const ItemInstance &other);
 
 	void set(int count);
 	void add(int count);
@@ -47,5 +50,5 @@ public:
 
 	unsigned char getMaxStackSize() const;
 
-	string getName() const;
+	std::string getName() const;
 };

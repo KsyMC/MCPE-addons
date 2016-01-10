@@ -1,6 +1,6 @@
 #pragma once
 
-#include "shared.h"
+#include <raknet/RakNetTypes.h>
 
 class Packet;
 
@@ -8,7 +8,7 @@ class PacketSender
 {
 public:
 	virtual ~PacketSender();
-	virtual void send(Packet const &) = 0;
-	virtual void send(RakNet::RakNetGUID const &, Packet const &) = 0;
-	virtual void sendBroadcast(RakNet::RakNetGUID const &, Packet const &) = 0;
+	virtual void send(const Packet &) = 0;
+	virtual void send(const RakNet::RakNetGUID &, const Packet &) = 0;
+	virtual void sendBroadcast(const RakNet::RakNetGUID &, const Packet &) = 0;
 };

@@ -16,14 +16,14 @@ public:
 		TYPE_SYSTEM
 	};
 
-	char type;				// 13
-	string source;			// 16
-	string message;			// 20
-	vector<string> params;	// 24
+	char type;							// 13
+	std::string source;					// 16
+	std::string message;				// 20
+	std::vector<std::string> params;	// 24
 
 	virtual ~TextPacket();
 	virtual int getId() const;
 	virtual void write(RakNet::BitStream *) const;
 	virtual void read(RakNet::BitStream *);
-	virtual void handle(RakNet::RakNetGUID const &, NetEventCallback *) const;
+	virtual void handle(const RakNet::RakNetGUID &, NetEventCallback *) const;
 };

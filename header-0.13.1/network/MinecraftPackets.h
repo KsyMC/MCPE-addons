@@ -1,10 +1,11 @@
 #pragma once
 
-#include "shared.h"
+#include <memory>
+
 #include "minecraftpe/network/Packet.h"
 
 class MinecraftPackets
 {
 public:
-	static unique_ptr<Packet> createPacket(int);
+	static std::unique_ptr<Packet> createPacket(int);
 };

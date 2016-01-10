@@ -10,10 +10,10 @@ public:
 
 	ClientSkinInfoData(bool, bool);
 	virtual ~ClientSkinInfoData();
-	virtual void updateSkin(bool, string const &);
+	virtual void updateSkin(bool, const std::string &);
 	virtual TextureData *getTextureData();
-	virtual string getData();
+	virtual std::string getData();
 	virtual int getDataLength();
 	virtual bool hasValidTexture();
-	virtual void validataAndResizeSkinData(string &);
+	virtual void validataAndResizeSkinData(std::string &);
 };

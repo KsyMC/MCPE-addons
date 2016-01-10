@@ -11,6 +11,6 @@ public:
 	EntityDamageByBlockSource(FullBlock, EntityDamageCause);
 	virtual ~EntityDamageByBlockSource();
 	virtual bool isBlockSource() const;
-	virtual string getDeathMessage(string, Entity *) const;
+	virtual std::string getDeathMessage(std::string, Entity *) const;
 	FullBlock getBlock() const;
 };

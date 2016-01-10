@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "minecraftpe/client/App.h"
 #include "minecraftpe/client/resources/SkinInfoFactory.h"
 #include "minecraftpe/client/resources/SkinInfoData.h"
@@ -13,12 +15,12 @@ class Gui;
 class MinecraftClient : public App, /*public idk1, public idk2, */public SkinInfoFactory
 {
 public:
-	//void **vtable;	// 28
-	//void **vtable;	// 32
-	char vtable[4];		// 36
-	char filler2[24];	// 36
-	string worldDir;	// 60
-	string dataDir;		// 64
+	//void **vtable;		// 28
+	//void **vtable;		// 32
+	char vtable[4];			// 36
+	char filler2[24];		// 36
+	std::string worldDir;	// 60
+	std::string dataDir;	// 64
 
 	virtual ~MinecraftClient();
 	virtual void onLowMemory();
@@ -31,7 +33,7 @@ public:
 	virtual void muteAudio();
 	virtual void unMuteAudio();
 	virtual void useTouchscreen();
-	virtual void setTextboxText(string const &);
+	virtual void setTextboxText(const std::string &);
 	virtual void update();
 	virtual void setSize(int, int, float);
 	virtual void init();
@@ -40,7 +42,7 @@ public:
 	virtual void onInternetUpdate();
 	virtual void onLevelCorrupt();
 	virtual void onGameModeChanged();
-	virtual unique_ptr<SkinInfoData> createSkin(bool, bool);
+	virtual std::unique_ptr<SkinInfoData> createSkin(bool, bool);
 	virtual void onTick(int, int);
 	virtual void vibrate(int);
 	void initOptionObservers();
@@ -51,5 +53,5 @@ public:
 	LocalPlayer *getLocalPlayer();
 	Minecraft *getServer();
 	Gui *getGui() const;
-	void startLocalServer(string, string, LevelSettings);
+	void startLocalServer(std::string, std::string, LevelSettings);
 };

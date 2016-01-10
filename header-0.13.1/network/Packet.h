@@ -1,6 +1,7 @@
 #pragma once
 
-#include "shared.h"
+#include "raknet/BitStream.h"
+#include "raknet/RakNetTypes.h"
 
 class NetEventCallback;
 
@@ -17,5 +18,5 @@ public:
 	virtual int getId() const = 0;
 	virtual void write(RakNet::BitStream *) const = 0;
 	virtual void read(RakNet::BitStream *) = 0;
-	virtual void handle(RakNet::RakNetGUID const &, NetEventCallback *) const = 0;
+	virtual void handle(const RakNet::RakNetGUID &, NetEventCallback *) const = 0;
 };

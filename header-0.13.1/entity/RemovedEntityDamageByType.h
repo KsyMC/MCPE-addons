@@ -7,5 +7,5 @@ class RemovedEntityDamageByType : public EntityDamageSource
 public:
 	RemovedEntityDamageByType(EntityDamageCause, EntityType);
 	virtual ~RemovedEntityDamageByType();
-	virtual string getDeathMessage(string, Entity *) const;
+	virtual std::string getDeathMessage(std::string, Entity *) const;
 };

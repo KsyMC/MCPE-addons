@@ -6,7 +6,7 @@ class RakNetPacketSender : public PacketSender
 {
 public:
 	virtual ~RakNetPacketSender();
-	virtual void send(Packet const &);
-	virtual void send(RakNet::RakNetGUID const &, Packet const &);
-	virtual void sendBroadcast(RakNet::RakNetGUID const &, Packet const &);
+	virtual void send(const Packet &);
+	virtual void send(const RakNet::RakNetGUID &, const Packet &);
+	virtual void sendBroadcast(const RakNet::RakNetGUID &, const Packet &);
 };

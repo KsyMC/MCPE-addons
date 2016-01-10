@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "minecraftpe/client/gui/GuiComponent.h"
 #include "minecraftpe/StickDirection.h"
 
@@ -22,12 +24,12 @@ public:
 	virtual void focusedMouseReleased(MinecraftClient *, int, int);
 	virtual void handleButtonPress(MinecraftClient *, short);
 	virtual void handleButtonRelease(MinecraftClient *, short);
-	virtual void handleTextChar(MinecraftClient *, string const &, bool);
+	virtual void handleTextChar(MinecraftClient *, const std::string &, bool);
 	virtual void backPressed(MinecraftClient *, bool);
-	virtual void setKeyboardHeight(MinecraftClient *, float, Vec2 const &);
+	virtual void setKeyboardHeight(MinecraftClient *, float, const Vec2 &);
 	virtual void pointInside(int, int);
 	virtual void suppressOtherGUI();
-	virtual void setTextboxText(string const &);
+	virtual void setTextboxText(const std::string &);
 	virtual void hasFocus() const;
 	virtual void setFocus(bool);
 	virtual void handleControllerDirectionHeld(int, StickDirection);

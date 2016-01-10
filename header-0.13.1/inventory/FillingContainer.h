@@ -15,8 +15,10 @@ public:
 	virtual void startOpen(Player &);
 	virtual void stopOpen(Player &);
 	virtual void add(ItemInstance &);
-	virtual bool canAdd(ItemInstance const &) const;
+	virtual bool canAdd(const ItemInstance &) const;
 	virtual void clearSlot(int);
 	virtual void doDrop(ItemInstance &, bool);
 	virtual void getEmptySlotsCount() const;
+	int _getSlotWithRemainingSpace(const ItemInstance &) const;
+	int getLinkedSlot(int) const;
 };

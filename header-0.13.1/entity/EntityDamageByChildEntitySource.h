@@ -11,5 +11,5 @@ public:
 	virtual ~EntityDamageByChildEntitySource();
 	virtual bool isChildEntitySource() const;
 	virtual Entity *getChildEntity() const;
-	virtual string getDeathMessage(string, Entity *) const;
+	virtual std::string getDeathMessage(std::string, Entity *) const;
 };

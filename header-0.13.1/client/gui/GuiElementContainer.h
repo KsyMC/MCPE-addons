@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include <memory>
+
 #include "minecraftpe/client/gui/GuiElement.h"
 
 // Size : 68
@@ -18,14 +21,14 @@ public:
 	virtual void focusedMouseReleased(MinecraftClient *, int, int);
 	virtual void handleButtonPress(MinecraftClient *, short);
 	virtual void handleButtonRelease(MinecraftClient *, short);
-	virtual void handleTextChar(MinecraftClient *, string const &, bool);
+	virtual void handleTextChar(MinecraftClient *, const std::string &, bool);
 	virtual void backPressed(MinecraftClient *, bool);
-	virtual void setKeyboardHeight(MinecraftClient *, float, Vec2 const &);
+	virtual void setKeyboardHeight(MinecraftClient *, float, const Vec2 &);
 	virtual void suppressOtherGUI();
-	virtual void setTextboxText(string const &);
+	virtual void setTextboxText(const std::string &);
 	virtual void hasChildren() const;
-	virtual void addChild(shared_ptr<GuiElement>);
-	virtual void removeChild(shared_ptr<GuiElement>);
+	virtual void addChild(std::shared_ptr<GuiElement>);
+	virtual void removeChild(std::shared_ptr<GuiElement>);
 	virtual void clearAll();
-	const vector<shared_ptr<GuiElement>> &getChildren();
+	const std::vector<std::shared_ptr<GuiElement>> &getChildren();
 };

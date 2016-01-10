@@ -1,6 +1,7 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
+
 #include "minecraftpe/entity/EntityDamageCause.h"
 
 class Entity;
@@ -18,6 +19,6 @@ public:
 	virtual bool isChildEntitySource() const;
 	virtual Entity *getChildEntity() const;
 	virtual bool isBlockSource() const;
-	virtual string getDeathMessage(string, Entity *) const;
+	virtual std::string getDeathMessage(std::string, Entity *) const;
 	EntityDamageCause getCause() const;
 };

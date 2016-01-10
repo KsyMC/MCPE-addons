@@ -7,6 +7,7 @@
 #include "minecraftpe/network/Packet.h"
 #include "minecraftpe/item/ItemInstance.h"
 #include "minecraftpe/block/BlockPos.h"
+#include "raknet/RakNetTypes.h"
 
 class Level;
 class BaseContainerMenu;
@@ -35,11 +36,11 @@ public:
 	char filler1[8];					// 3280
 	int score;							// 3288
 	char filler2[12];					// 3292
-	string username;					// 3304
+	std::string username;				// 3304
 	Abilities abilities;				// 3308
 	BaseContainerMenu *activeContainer;	// 3324
 	RakNet::RakNetGUID guid;			// 3328
-	string what;						// 3344
+	std::string what;					// 3344
 	char filler4[4];					// 3348
 	long long clientId;					// 3352
 	mce::UUID uuid;						// 3360
@@ -47,7 +48,8 @@ public:
 	PlayerChunkSource *chunk1;			// 3396
 	PlayerChunkSource *chunk2;			// 3400
 	BlockSource *region;				// 3404
-	char filler6[40];					// 3408
+	BlockPos bedPos;					// 3408
+	char filler6[28];					// 3420
 	Inventory *inventory;				// 3448
 	SkinInfoData *skin;					// 3452
 	char filler7[4];					// 3456
@@ -65,10 +67,10 @@ public:
 	GameType gameType;					// 3556
 	char filler11[4];					// 3560
 
-	Player(Level &, PacketSender &, GameType, RakNet::RakNetGUID const &, unique_ptr<SkinInfoData>, mce::UUID);
+	Player(Level &, PacketSender &, GameType, const RakNet::RakNetGUID &, std::unique_ptr<SkinInfoData>, mce::UUID);
 	virtual ~Player();
 	virtual void remove();
-	virtual unique_ptr<Packet> getAddPacket();
+	virtual std::unique_ptr<Packet> getAddPacket();
 	virtual void normalTick();
 	virtual void rideTick();
 	virtual void getRidingHeight();
@@ -77,17 +79,17 @@ public:
 	virtual bool isPushable() const;
 	virtual bool isShootable();
 	virtual bool isCreativeModeAllowed();
-	virtual void hurt(EntityDamageSource const &, int);
+	virtual void hurt(const EntityDamageSource &, int);
 	virtual void handleEntityEvent(EntityEvent);
 	virtual void awardKillScore(Entity &, int);
-	virtual int getEntityTypeId() const;
+	virtual EntityType getEntityTypeId() const;
 	virtual void getPortalCooldown() const;
 	virtual void getPortalWaitTime() const;
 	virtual void sendMotionPacketIfNeeded();
 	virtual void lavaHurt();
-	virtual void readAdditionalSaveData(CompoundTag const &);
+	virtual void readAdditionalSaveData(const CompoundTag &);
 	virtual void addAdditionalSaveData(CompoundTag &);
-	virtual void die(EntityDamageSource const &);
+	virtual void die(const EntityDamageSource &);
 	virtual bool isSleeping() const;
 	virtual void getSpeed();
 	virtual void setSpeed(float);
@@ -96,7 +98,7 @@ public:
 	virtual ItemInstance *getCarriedItem();
 	virtual void getItemUseDuration();
 	virtual void dropAllGear(int);
-	virtual void drop(ItemInstance const *, bool);
+	virtual void drop(const ItemInstance *, bool);
 	virtual void sendInventory() const;
 	virtual void dropDeathLoot(int);
 	virtual void dropRareDeathLoot();
@@ -110,28 +112,28 @@ public:
 	virtual void suspendRegion();
 	virtual void onPrepChangeDimension();
 	virtual void onDimensionChanged();
-	virtual void tickWorld(Tick const &);
+	virtual void tickWorld(const Tick &);
 	virtual void moveView();
-	virtual void setName(string const &);
-	virtual void _checkMovementStatistiscs(Vec3 const &);
+	virtual void setName(const std::string &);
+	virtual void _checkMovementStatistiscs(const Vec3 &);
 	virtual void respawn();
 	virtual bool isInTrialMode();
 	virtual void hasResource(int);
 	virtual void completeUsingItem();
-	virtual void drop(ItemInstance const *);
-	virtual void startCrafting(int, BlockPos const &);
-	virtual void startStonecutting(BlockPos const &);
+	virtual void drop(const ItemInstance *);
+	virtual void startCrafting(int, const BlockPos &);
+	virtual void startStonecutting(const BlockPos &);
 	virtual void startDestroying();
 	virtual void stopDestroying();
-	virtual void openContainer(int, BlockPos const &);
-	virtual void openFurnace(int, BlockPos const &);
-	virtual void openEnchanter(int, BlockPos const &);
-	virtual void openAnvil(BlockPos const &);
-	virtual void openBrewingStand(int, BlockPos const &);
-	virtual void displayChatMessage(string const &, string const &);
-	virtual void displayClientMessage(string const &);
-	virtual void displayLocalizableMessage(string const &, vector<string> const &);
-	virtual void startSleepInBed(BlockPos const &);
+	virtual void openContainer(int, const BlockPos &);
+	virtual void openFurnace(int, const BlockPos &);
+	virtual void openEnchanter(int, const BlockPos &);
+	virtual void openAnvil(const BlockPos &);
+	virtual void openBrewingStand(int, const BlockPos &);
+	virtual void displayChatMessage(const std::string &, const std::string &);
+	virtual void displayClientMessage(const std::string &);
+	virtual void displayLocalizableMessage(const std::string &, const std::vector<std::string> &);
+	virtual void startSleepInBed(const BlockPos &);
 	virtual void stopSleepInBed(bool, bool);
 	virtual void getSleepTimer();
 	virtual void openTextEdit(BlockEntity *);
@@ -141,10 +143,10 @@ public:
 	virtual void setPlayerGameType(GameType);
 	virtual void _crit(Entity &);
 	virtual void getTelemetry() const;
-	virtual void sendTelemetryPacket(TelemetryEventPacket const &);
+	virtual void sendTelemetryPacket(const TelemetryEventPacket &);
 	virtual void closeContainer();
-	virtual void onMovePlayerPacketNormal(Vec3 const &, Vec2 const &);
-	static bool isValidUserName(string const &);
+	virtual void onMovePlayerPacketNormal(const Vec3 &, const Vec2 &);
+	static bool isValidUserName(const std::string &);
 	ItemInstance *getSelectedItem() const;
 	bool IsCreative() const;
 	bool IsSurvival() const;
@@ -152,6 +154,7 @@ public:
 	Dimension *getDimension() const;
 	bool hasRespawnPosition() const;
 	BlockPos getSpawnPosition();
-	void setRespawnPosition(BlockPos const &);
-	void setSkin(bool, bool, string const &);
+	void setRespawnPosition(const BlockPos &);
+	void setSkin(bool, bool, const std::string &);
+	void take(Entity &, int);
 };

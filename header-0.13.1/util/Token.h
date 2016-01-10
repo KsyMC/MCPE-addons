@@ -1,6 +1,6 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
 
 // Size : 16
 class Token
@@ -15,14 +15,14 @@ public:
 	char filler1[4];			// 0
 	int value;					// 4
 	Token::Type _type;			// 8
-	string stringValue;			// 12
+	std::string stringValue;	// 12
 
 public:
-	Token(string const &);
+	Token(const std::string &);
 	bool compatibleWith(Token::Type) const;
 	bool getBool(bool) const;
-	const string &getText(string const &) const;
+	const std::string &getText(const std::string &) const;
 	int getValue(int) const;
 	void _parseRandom();
-	static Token tokenize(string const &);
+	static Token tokenize(const std::string &);
 };

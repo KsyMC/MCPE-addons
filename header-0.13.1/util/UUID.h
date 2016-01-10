@@ -1,15 +1,15 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
 
 namespace mce
 {
-class UUID
-{
-public:
-	int part[4];
+	class UUID
+	{
+	public:
+		int part[4];
 
-	void fromString(string const &);
-	string toString() const;
-};
+		void fromString(const std::string &);
+		std::string toString() const;
+	};
 };

@@ -11,5 +11,5 @@ public:
 	virtual ~EntityDamageByEntitySource();
 	virtual bool isEntitySource() const;
 	virtual Entity *getEntity() const;
-	virtual string getDeathMessage(string, Entity *) const;
+	virtual std::string getDeathMessage(std::string, Entity *) const;
 };

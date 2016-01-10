@@ -1,11 +1,11 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
 
 class OptionsGroup;
 
 class OptionsPane
 {
 public:
-	OptionsGroup *createOptionsGroup(string const &, bool);
+	OptionsGroup *createOptionsGroup(const std::string &, bool);
 };

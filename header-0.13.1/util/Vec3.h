@@ -1,7 +1,5 @@
 #pragma once
 
-#include "shared.h"
-
 class BlockPos;
 
 // Size : 12

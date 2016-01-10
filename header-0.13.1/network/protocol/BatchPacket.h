@@ -10,7 +10,7 @@ public:
 	virtual int getId() const;
 	virtual void write(RakNet::BitStream *) const;
 	virtual void read(RakNet::BitStream *);
-	virtual void handle(RakNet::RakNetGUID const &, NetEventCallback *) const;
-	void add(Packet const *);
+	virtual void handle(const RakNet::RakNetGUID &, NetEventCallback *) const;
+	void add(const Packet *);
 	void compress();
 };

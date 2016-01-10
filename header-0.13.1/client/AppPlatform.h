@@ -1,6 +1,7 @@
 #pragma once
 
-#include "shared.h"
+#include <string>
+
 #include "minecraftpe/ValidCharacterFlag.h"
 
 class ImageData;
@@ -17,12 +18,12 @@ public:
 	AppPlatform();
 	virtual ~AppPlatform();
 	virtual void getDataUrl() const = 0;
-	virtual void getImagePath(string const &, bool) = 0;
-	virtual void loadPNG(ImageData &, string const &, bool) = 0;
-	virtual void loadTGA(ImageData &, string const &);
-	virtual void savePNG(ImageData const &, string const &);
+	virtual void getImagePath(const std::string &, bool) = 0;
+	virtual void loadPNG(ImageData &, const std::string &, bool) = 0;
+	virtual void loadTGA(ImageData &, const std::string &);
+	virtual void savePNG(ImageData const &, const std::string &);
 	virtual void getKeyFromKeyCode(int, int, int);
-	virtual void showKeyboard(string const &, int, bool, UI::ValidCharacterFlag, Vec2 const &);
+	virtual void showKeyboard(const std::string &, int, bool, UI::ValidCharacterFlag, const Vec2 &);
 	virtual void hideKeyboard();
 	virtual void getKeyboardHeight() const;
 	virtual void hideMousePointer();
@@ -41,7 +42,7 @@ public:
 	virtual void setSleepEnabled(bool);
 	virtual void getExternalStoragePath() = 0;
 	virtual void getInternalStoragePath() = 0;
-	virtual void getUserdataPath() = 0;
+	virtual std::string &getUserdataPath() = 0;
 	virtual void showDialog(int);
 	virtual void createUserInput();
 	virtual void getUserInputStatus();
@@ -50,13 +51,13 @@ public:
 	virtual void getScreenWidth();
 	virtual void getScreenHeight();
 	virtual void getPixelsPerMillimeter();
-	virtual void updateTextBoxText(string const &);
+	virtual void updateTextBoxText(const std::string &);
 	virtual bool isKeyboardVisible();
 	virtual void supportsVibration();
 	virtual void vibrate(int);
-	virtual void getAssetFileFullPath(string const &);
-	virtual void readAssetFile(string const &);
-	virtual void listAssetFilesIn(string const &, string const &) const;
+	virtual void getAssetFileFullPath(const std::string &);
+	virtual void readAssetFile(const std::string &);
+	virtual void listAssetFilesIn(const std::string &, const std::string &) const;
 	virtual void getDateString(int);
 	virtual void checkLicense();
 	virtual void hasBuyButtonWhenInvalidLicense();
@@ -65,7 +66,7 @@ public:
 	virtual void isPowerVR();
 	virtual void buyGame();
 	virtual void finish();
-	virtual void launchUri(std::basic_string<wchar_t> const &);
+	virtual void launchUri(const std::basic_string<wchar_t> &);
 	virtual void useMetadataDrivenScreens() const;
 	virtual void useXboxControlHelpers() const;
 	virtual void useCenteredGUI() const;
