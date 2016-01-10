@@ -15,11 +15,8 @@ src/
 .cproject
 .project
 ant.properties
-minecraftpe/
 
 *.bat
 
-raknet/
-nbt/
 json/
 curl/
