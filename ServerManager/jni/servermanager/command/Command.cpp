@@ -120,7 +120,7 @@ void Command::broadcastCommandMessage(SMPlayer *source, const std::string &messa
 	std::string newMessage = message;
 	newMessage = "§7§o[" + source->getName() + ": " + (I18n::get(message).compare(message) ? "%" : "") + message + "]";
 
-	for(SMPlayer *player : ServerManager::getLevel()->getPlayers())
+	for(SMPlayer *player : ServerManager::getOnlinePlayers())
 	{
 		if(player == source && !sendToSource)
 			continue;
@@ -134,7 +134,7 @@ void Command::broadcastCommandTranslation(SMPlayer *source, const std::string &m
 	std::string newMessage = message;
 	newMessage = "§7§o[" + source->getName() + ": " + (I18n::get(message).compare(message) ? "%" : "") + message + "]";
 
-	for(SMPlayer *player : ServerManager::getLevel()->getPlayers())
+	for(SMPlayer *player : ServerManager::getOnlinePlayers())
 	{
 		if(player == source && !sendToSource)
 			continue;

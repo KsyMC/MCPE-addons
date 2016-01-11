@@ -1,9 +1,11 @@
 #include "servermanager/entity/SMPlayer.h"
 #include "servermanager/Server.h"
-#include "servermanager/client/resources/BanList.h"
-#include "servermanager/client/resources/BanEntry.h"
+#include "servermanager/BanList.h"
+#include "servermanager/BanEntry.h"
 #include "servermanager/level/SMLevel.h"
 #include "servermanager/level/SMBlockSource.h"
+#include "servermanager/event/player/PlayerGameModeChangeEvent.h"
+#include "servermanager/plugin/PluginManager.h"
 #include "servermanager/util/SMUtil.h"
 #include "minecraftpe/client/resources/I18n.h"
 #include "minecraftpe/entity/player/Player.h"
@@ -11,40 +13,58 @@
 #include "minecraftpe/network/protocol/TextPacket.h"
 #include "minecraftpe/network/protocol/MovePlayerPacket.h"
 #include "minecraftpe/level/Level.h"
+#include "minecraftpe/level/BlockSource.h"
 #include "minecraftpe/level/LevelStorage.h"
 
-SMPlayer::SMPlayer(Player *entity, const std::string &ipAddress)
-	: SMMob(entity)
+SMPlayer::SMPlayer(Server *server, Player *entity)
+	: SMMob(server, entity)
 {
-	region = new SMBlockSource(this);
+	joined = false;
+
+	lastPacket = 0;
+	lastBlock = 0;
 
 	displayName = entity->username;
 	listName = entity->username;
-
-	this->ipAddress = ipAddress;
 }
 
 SMPlayer::~SMPlayer()
 {
-	delete region;
+}
+
+void SMPlayer::sendRawMessage(const std::string &message)
+{
+	if(!joined)
+		return;
+
+	for(std::string m : SMUtil::split(message, '\n'))
+	{
+		if(!m.empty())
+		{
+			TextPacket pk;
+			pk.type = TextPacket::TYPE_RAW;
+			pk.message = m;
+			getPacketSender()->send(getHandle()->guid, pk);
+		}
+	}
 }
 
 void SMPlayer::sendMessage(const std::string &message)
 {
-	for(std::string m : SMUtil::split(message, '\n'))
-	{
-		if(m.empty())
-			continue;
+	sendRawMessage(message);
+}
 
-		TextPacket pk;
-		pk.type = TextPacket::TYPE_RAW;
-		pk.message = m;
-		getPacketSender()->send(getHandle()->guid, pk);
-	}
+void SMPlayer::sendMessage(const std::vector<std::string> messages)
+{
+	for(std::string message : messages)
+		sendMessage(message);
 }
 
 void SMPlayer::sendTranslation(const std::string &message, const std::vector<std::string> &params)
 {
+	if(!joined)
+		return;
+
 	TextPacket pk;
 	pk.type = TextPacket::TYPE_TRANSLATION;
 	pk.message = message;
@@ -54,6 +74,9 @@ void SMPlayer::sendTranslation(const std::string &message, const std::vector<std
 
 void SMPlayer::sendPopup(const std::string &message, const std::string &subtitle)
 {
+	if(!joined)
+		return;
+
 	TextPacket pk;
 	pk.type = TextPacket::TYPE_POPUP;
 	pk.source = message;
@@ -63,6 +86,9 @@ void SMPlayer::sendPopup(const std::string &message, const std::string &subtitle
 
 void SMPlayer::sendTip(const std::string &message)
 {
+	if(!joined)
+		return;
+
 	TextPacket pk;
 	pk.type = TextPacket::TYPE_TIP;
 	pk.message = message;
@@ -72,6 +98,60 @@ void SMPlayer::sendTip(const std::string &message)
 bool SMPlayer::isLocalPlayer() const
 {
 	return false;
+}
+
+bool SMPlayer::isOp() const
+{
+	return server->isOp(getName());
+}
+
+void SMPlayer::setOp(bool value)
+{
+	if(value == isOp())
+		return;
+
+	if(value)
+		server->addOp(getName());
+	else
+		server->removeOp(getName());
+}
+
+float SMPlayer::getEyeHeight() const
+{
+	return getEyeHeight(false);
+}
+
+float SMPlayer::getEyeHeight(bool ignoreSneaking) const
+{
+	if(ignoreSneaking)
+		return 1.62f;
+	else
+	{
+		if(isSneaking())
+			return 1.54f;
+		else
+			return 1.62;
+	}
+}
+
+void SMPlayer::setSneaking(bool sneak)
+{
+	getHandle()->setSneaking(sneak);
+}
+
+bool SMPlayer::isSneaking() const
+{
+	return getHandle()->isSneaking();
+}
+
+void SMPlayer::setSprinting(bool sprinting)
+{
+	getHandle()->setSprinting(sprinting);
+}
+
+bool SMPlayer::isSprinting() const
+{
+	return getHandle()->isSprinting();
 }
 
 PacketSender *SMPlayer::getPacketSender() const
@@ -84,6 +164,11 @@ const std::string &SMPlayer::getAddress() const
 	return ipAddress;
 }
 
+void SMPlayer::setAddress(const char *ipAddress)
+{
+	this->ipAddress = ipAddress;
+}
+
 std::string SMPlayer::getDisplayName() const
 {
 	return displayName;
@@ -94,31 +179,70 @@ void SMPlayer::setDisplayName(const std::string &name)
 	displayName = name;
 }
 
-void SMPlayer::teleport(SMPlayer *target)
+bool SMPlayer::teleport(const Location &location, PlayerTeleportEvent::TeleportCause cause)
 {
-	teleport(target->getHandle()->getPos(), target->getHandle()->getRotation());
-}
+	if(getHealth() <= 0 || isDead())
+		return false;
 
-void SMPlayer::teleport(const Vec3 &pos, const Vec2 &rot)
-{
-	getHandle()->moveTo(pos, rot);
+	Location from = getLocation();
+	Location to = location;
 
-	MovePlayerPacket pk;
-	pk.id = getHandle()->getUniqueID();
-	pk.pos = pos;
-	pk.rot = rot;
-	pk.bodyYaw = rot.y;
-	pk.mode = MovePlayerPacket::MODE_RESET;
-	pk.onGround = false;
-	getPacketSender()->send(getHandle()->guid, pk);
+	PlayerTeleportEvent event(this, from, to, cause);
+	server->getPluginManager()->callEvent(event);
+
+	if(event.isCancelled())
+		return false;
+
+	if(getHandle()->isRiding())
+		getHandle()->stopRiding(false);
+
+	from = event.getFrom();
+	to = event.getTo();
+
+	DimensionId fromId = from.getRegion()->getHandle()->getDimensionId();
+	DimensionId toId = to.getRegion()->getHandle()->getDimensionId();
+
+	if(getHandle()->activeContainer)
+		getHandle()->closeContainer();
+
+	if(fromId == toId)
+		getHandle()->moveTo(to.getPos(), to.getRotation());
+	else
+	{
+		getHandle()->changeDimension(toId);
+		getHandle()->moveTo(to.getPos(), to.getRotation());
+	}
+
+	if(!isLocalPlayer())
+	{
+		MovePlayerPacket pk;
+		pk.id = getHandle()->getUniqueID();
+		pk.pos = to.getPos();
+		pk.rot = to.getRotation();
+		pk.bodyYaw = to.getRotation().y;
+		pk.mode = MovePlayerPacket::MODE_RESET;
+		pk.onGround = false;
+		getPacketSender()->send(getHandle()->guid, pk);
+	}
+	return true;
 }
 
 void SMPlayer::setGameType(GameType gametype)
 {
-	getHandle()->setPlayerGameType(gametype);
+	if(gametype != getGameType())
+	{
+		PlayerGameModeChangeEvent event(this, gametype);
+		server->getPluginManager()->callEvent(event);
+
+		if(event.isCancelled())
+			return;
+
+		getHandle()->setPlayerGameType(gametype);
+		getHandle()->fallDistance = 0;
+	}
 }
 
-int SMPlayer::getGameType() const
+GameType SMPlayer::getGameType() const
 {
 	return getHandle()->gameType;
 }
@@ -126,6 +250,11 @@ int SMPlayer::getGameType() const
 Player *SMPlayer::getHandle() const
 {
 	return (Player *)entity;
+}
+
+void SMPlayer::setHandle(Player *player)
+{
+	entity = player;
 }
 
 std::string SMPlayer::getName() const
@@ -141,9 +270,4 @@ Inventory *SMPlayer::getInventory() const
 ItemInstance *SMPlayer::getSelectedItem() const
 {
 	return getHandle()->getSelectedItem();
-}
-
-SMBlockSource *SMPlayer::getRegion() const
-{
-	return region;
 }

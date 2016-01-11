@@ -2,9 +2,26 @@
 
 #include <string>
 
+#include "minecraftpe/util/AABB.h"
+#include "minecraftpe/level/Brightness.h"
+
+class Random;
+class BlockSource;
+class BlockPos;
+class Vec3;
+class Entity;
+class Mob;
+class Player;
+
 class Block
 {
 public:
+	class SoundType
+	{
+	public:
+
+	};
+
 	static Block *mAcaciaFenceGate;
 	static Block *mAcaciaStairs;
 	static Block *mActivatorRail;
@@ -182,5 +199,94 @@ public:
 	char filler[4];		// 0
 	unsigned char id;	// 4
 
+	virtual ~Block();
+	virtual void tick(BlockSource &, const BlockPos &, Random &);
+	virtual void animateTick(BlockSource &, const BlockPos &, Random &);
+	virtual void getVisualShape(BlockSource &, const BlockPos &, AABB &, bool);
+	virtual void getVisualShape(unsigned char, AABB &, bool);
+	virtual void getCollisionShape(AABB &, BlockSource &, const BlockPos &, Entity *);
+	virtual void isObstructingChests(BlockSource &, const BlockPos &);
+	virtual void shouldRenderFace(BlockSource &, const BlockPos &, signed char, const AABB &) const;
+	virtual void getTexture(signed char);
+	virtual void getTexture(signed char, int);
+	virtual void getTexture(BlockSource &, const BlockPos &, signed char);
+	virtual void getTessellatedUVs();
+	virtual void getCarriedTexture(signed char, int);
+	virtual void addAABBs(BlockSource &, const BlockPos &, const AABB *, std::vector<AABB> &);
+	virtual void getAABB(BlockSource &, const BlockPos &, AABB &, int, bool, int);
+	virtual void addCollisionShapes(BlockSource &, const BlockPos &, const AABB *, std::vector<AABB> &, Entity *);
+	virtual void isCropBlock() const;
+	virtual void isContainerBlock() const;
+	virtual void isCraftingBlock() const;
+	virtual void isInteractiveBlock() const;
+	virtual void isWaterBlocking() const;
+	virtual void isDoorBlock() const;
+	virtual void isRedstoneBlock() const;
+	virtual void isRedstoneAttachable() const;
+	virtual void waterSpreadCausesSpawn() const;
+	virtual void getRenderLayer(BlockSource &, const BlockPos &) const;
+	virtual void getThickness() const;
+	virtual void checkIsPathable(Entity &, const BlockPos &, const BlockPos &);
+	virtual void onPlace(BlockSource &, const BlockPos &);
+	virtual void onRemove(BlockSource &, const BlockPos &);
+	virtual void onExploded(BlockSource &, const BlockPos &, Entity *);
+	virtual void onStepOn(Entity &, const BlockPos &);
+	virtual void onFallOn(BlockSource &, const BlockPos &, Entity *, float);
+	virtual void onRedstoneUpdate(BlockSource &, const BlockPos &, int, bool);
+	virtual void onLoaded(BlockSource &, const BlockPos &);
+	virtual void onFertilized(BlockSource &, const BlockPos &, Player *);
+	virtual void mayConsumeFertilizer(BlockSource &);
+	virtual void mayPick();
+	virtual void mayPick(BlockSource &, int, bool);
+	virtual void mayPlace(BlockSource &, const BlockPos &, signed char);
+	virtual void mayPlace(BlockSource &, const BlockPos &);
+	virtual void tryToPlace(BlockSource &, const BlockPos &, unsigned char);
+	virtual void destroy(BlockSource &, const BlockPos &, int, Entity *);
+	virtual void playerWillDestroy(Player &, const BlockPos &, int);
+	virtual void neighborChanged(BlockSource &, const BlockPos &, const BlockPos &);
+	virtual void getSecondPart(BlockSource &, const BlockPos &, BlockPos &);
+	virtual void onGraphicsModeChanged(bool, bool);
+	virtual void getResource(Random &, int, int);
+	virtual void getResourceCount(Random &, int, int);
+	virtual void asItemInstance(BlockSource &, const BlockPos &, int) const;
+	virtual void getDestroyProgress(Player &);
+	virtual void spawnResources(BlockSource &, const BlockPos &, int, float, int);
+	virtual void spawnBurnResources(BlockSource &, float, float, float);
+	virtual void getExplosionResistance(Entity *);
+	virtual void clip(BlockSource &, const BlockPos &, const Vec3 &, const Vec3 &, bool, int);
+	virtual bool use(Player &, const BlockPos &);
+	virtual void getPlacementDataValue(Mob &, const BlockPos &, signed char, const Vec3 &, int);
+	virtual void prepareRender(BlockSource &, const BlockPos &);
+	virtual void attack(Player *, const BlockPos &);
+	virtual void handleEntityInside(BlockSource &, const BlockPos &, Entity *, Vec3 &);
+	virtual void getColor(int);
+	virtual void getColor(BlockSource &, const BlockPos &);
+	virtual void isSeasonTinted(BlockSource &, const BlockPos &) const;
+	virtual void entityInside(BlockSource &, const BlockPos &, Entity &);
+	virtual void playerDestroy(Player *, const BlockPos &, int);
+	virtual void canSurvive(BlockSource &, const BlockPos &);
+	virtual void getExperienceDrop(Random &) const;
+	virtual void canBeBuiltOver(BlockSource &, const BlockPos &) const;
+	virtual void buildDescriptionName(const ItemInstance &) const;
+	virtual void triggerEvent(BlockSource &, const BlockPos &, int, int);
+	virtual void getTextureNum(int);
+	virtual void getMobToSpawn(BlockSource &, const BlockPos &) const;
+	virtual void getIconYOffset() const;
+	virtual void shouldStopFalling(Entity &);
+	virtual void calcGroundFriction(Mob &, const BlockPos &) const;
+	virtual void canHaveExtraData() const;
+	virtual void init();
+	virtual void canBeSilkTouched() const;
+	virtual void getSilkTouchItemInstance(unsigned char);
+	virtual void setVisualShape(const Vec3 &, const Vec3 &);
+	virtual void setSoundType(const SoundType &);
+	virtual void setLightBlock(Brightness);
+	virtual void setLightEmission(float);
+	virtual void setExplodeable(float);
+	virtual void setDestroyTime(float);
+	virtual void setFriction(float);
+	virtual void setTicking(bool);
+	virtual void getSpawnResourcesAuxValue(unsigned char);
+	bool isType(const Block *) const;
 	static Block *lookupByName(const std::string &, bool);
 };

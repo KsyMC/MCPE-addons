@@ -195,6 +195,7 @@ public:
 	virtual void doWaterSplashEffect();
 	virtual void updateInsideBlock();
 	virtual void onBlockCollision(int);
+	float distanceTo(const Vec3 &);
 	bool isRiding() const;
 	BlockSource *getRegion() const;
 	void moveTo(const Vec3 &, const Vec2 &);

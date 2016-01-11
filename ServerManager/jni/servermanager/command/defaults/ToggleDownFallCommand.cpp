@@ -1,7 +1,7 @@
 #include "servermanager/command/defaults/ToogleDownFallCommand.h"
 
 ToogleDownFallCommand::ToogleDownFallCommand()
-	: Command("toggledownfall")
+	: VanillaCommand("toggledownfall")
 {
 
 }

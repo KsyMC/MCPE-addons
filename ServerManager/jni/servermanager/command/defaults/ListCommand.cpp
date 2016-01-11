@@ -1,6 +1,5 @@
 #include "servermanager/command/defaults/ListCommand.h"
 #include "servermanager/ServerManager.h"
-#include "servermanager/level/SMLevel.h"
 #include "servermanager/entity/SMPlayer.h"
 #include "servermanager/util/SMUtil.h"
 
@@ -15,7 +14,7 @@ bool ListCommand::execute(SMPlayer *sender, std::string &label, std::vector<std:
 {
 	std::string online;
 
-	std::vector<SMPlayer *> players = ServerManager::getLevel()->getPlayers();
+	std::vector<SMPlayer *> players = ServerManager::getOnlinePlayers();
 	for(size_t i = 0; i < players.size(); i++)
 	{
 		if(i > 0)

@@ -1,6 +1,5 @@
 #include "servermanager/command/defaults/OpCommand.h"
 #include "servermanager/ServerManager.h"
-#include "servermanager/level/SMLevel.h"
 #include "servermanager/entity/SMPlayer.h"
 
 OpCommand::OpCommand()
@@ -20,7 +19,7 @@ bool OpCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::s
 
 	ServerManager::getServer()->addOp(args[0]);
 
-	SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
+	SMPlayer *player = ServerManager::getPlayerExact(args[0]);
 	if(player)
 		player->sendMessage("§7You are now op!");
 

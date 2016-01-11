@@ -1,6 +1,5 @@
 #include "servermanager/command/defaults/TellCommand.h"
 #include "servermanager/ServerManager.h"
-#include "servermanager/level/SMLevel.h"
 #include "servermanager/entity/SMPlayer.h"
 #include "servermanager/util/SMUtil.h"
 
@@ -20,7 +19,7 @@ bool TellCommand::execute(SMPlayer *sender, std::string &label, std::vector<std:
 		return false;
 	}
 
-	SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
+	SMPlayer *player = ServerManager::getPlayer(args[0]);
 	if(sender == player)
 	{
 		sender->sendTranslation("§c%commands.message.sameTarget", {});

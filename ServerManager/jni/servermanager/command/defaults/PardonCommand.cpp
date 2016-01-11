@@ -1,7 +1,7 @@
 #include "servermanager/command/defaults/PardonCommand.h"
 #include "servermanager/ServerManager.h"
+#include "servermanager/BanList.h"
 #include "servermanager/entity/SMPlayer.h"
-#include "servermanager/client/resources/BanList.h"
 
 PardonCommand::PardonCommand()
 	: VanillaCommand("pardon")

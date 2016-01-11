@@ -1,6 +1,5 @@
 #include "servermanager/command/defaults/GiveCommand.h"
 #include "servermanager/ServerManager.h"
-#include "servermanager/level/SMLevel.h"
 #include "servermanager/entity/SMPlayer.h"
 #include "servermanager/level/SMBlockSource.h"
 #include "servermanager/util/SMUtil.h"
@@ -25,7 +24,7 @@ bool GiveCommand::execute(SMPlayer *sender, std::string &label, std::vector<std:
 		return false;
 	}
 
-	SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
+	SMPlayer *player = ServerManager::getPlayer(args[0]);
 	if(!player)
 	{
 		sender->sendTranslation("§c%commands.generic.player.notFound", {});

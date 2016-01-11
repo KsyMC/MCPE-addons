@@ -77,10 +77,9 @@ bool HelpCommand::execute(SMPlayer *sender, std::string &commandLabel, std::vect
 		if(cmd)
 		{
 			std::string message;
-			message += "§e--------- §fHelp: #" + cmd->getName() + " §e---------\n";
-			message += "§6Description: §f" + cmd->getDescription() + "\n";
-			message += "§6Usage: §f" + SMUtil::join(SMUtil::split(cmd->getUsage(), '\n'), "\n§f") + "\n";
-			sender->sendMessage(message);
+			sender->sendTranslation("§e--------- §fHelp: #" + cmd->getName() + " §e---------\n", {});
+			sender->sendTranslation("§6Description: §f" + cmd->getDescription() + "\n", {});
+			sender->sendTranslation("§6Usage: §f" + SMUtil::join(SMUtil::split(cmd->getUsage(), '\n'), "\n§f") + "\n", {});
 		}
 		else
 			sender->sendMessage("§cNo help for " + SMUtil::toLower(command));

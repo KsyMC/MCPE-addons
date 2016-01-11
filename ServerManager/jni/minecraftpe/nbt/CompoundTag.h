@@ -18,7 +18,7 @@ public:
 	virtual ~CompoundTag();
 	virtual void write(IDataOutput &) const;
 	virtual void load(IDataInput &);
-	virtual string toString() const;
+	virtual std::string toString() const;
 	virtual char getId() const;
 	virtual bool equals(const Tag &) const;
 	virtual void print(const std::string &, PrintStream &) const;
@@ -39,7 +39,7 @@ public:
 	int *getIntArray(const std::string &) const;
 	ListTag *getList(const std::string &) const;
 	short getShort(const std::string &) const;
-	std::string getString(const std::string &) const;
+	const std::string &getString(const std::string &) const;
 	bool isEmpty() const;
 	bool operator=(CompoundTag &&);
 	void put(const std::string &, std::unique_ptr<Tag>);

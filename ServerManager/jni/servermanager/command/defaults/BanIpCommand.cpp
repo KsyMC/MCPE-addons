@@ -2,8 +2,7 @@
 
 #include "servermanager/command/defaults/BanIpCommand.h"
 #include "servermanager/ServerManager.h"
-#include "servermanager/level/SMLevel.h"
-#include "servermanager/client/resources/BanList.h"
+#include "servermanager/BanList.h"
 #include "servermanager/entity/SMPlayer.h"
 #include "servermanager/util/SMUtil.h"
 
@@ -35,7 +34,7 @@ bool BanIpCommand::execute(SMPlayer *sender, std::string &label, std::vector<std
 	}
 	else
 	{
-		SMPlayer *player = ServerManager::getLevel()->getPlayer(nameOrIP);
+		SMPlayer *player = ServerManager::getPlayer(nameOrIP);
 		if(!player)
 		{
 			sender->sendTranslation("§c%commands.banip.invalid", {});
@@ -54,7 +53,7 @@ void BanIpCommand::processIPBan(const std::string &ip, SMPlayer *source, const s
 {
 	ServerManager::getBanList(BanList::IP)->addBan(ip, reason, source->getName());
 
-	for(SMPlayer *p : ServerManager::getLevel()->getPlayers())
+	for(SMPlayer *p : ServerManager::getOnlinePlayers())
 		if(!ip.compare(p->getAddress()))
 			ServerManager::kickPlayer(p, "You have been IP banned.");
 }

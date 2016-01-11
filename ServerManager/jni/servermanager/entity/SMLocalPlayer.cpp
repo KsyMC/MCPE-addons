@@ -4,23 +4,19 @@
 #include "minecraftpe/client/gui/Gui.h"
 #include "minecraftpe/entity/player/LocalPlayer.h"
 
-SMLocalPlayer::SMLocalPlayer(LocalPlayer *entity)
-	: SMPlayer(entity, "127.0.0.1")
+SMLocalPlayer::SMLocalPlayer(Server *server, LocalPlayer *entity)
+	: SMPlayer(server, entity)
 {
-	displayName = entity->username;
-	listName = entity->username;
+	setAddress("127.0.0.1");
 }
 
-void SMLocalPlayer::sendMessage(const std::string &message)
+void SMLocalPlayer::sendRawMessage(const std::string &message)
 {
 	Gui *gui = getHandle()->client->getGui();
-	for(std::string m : SMUtil::split(message, '\n'))
-	{
-		if(m.empty())
-			continue;
 
-		gui->displayClientMessage(m);
-	}
+	for(std::string m : SMUtil::split(message, '\n'))
+		if(!m.empty())
+			gui->displayClientMessage(m);
 }
 
 void SMLocalPlayer::sendTranslation(const std::string &message, const std::vector<std::string> &params)

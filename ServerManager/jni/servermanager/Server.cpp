@@ -1,12 +1,14 @@
+#include <limits>
+#include <algorithm>
 #include <curl/curl.h>
 #include <json/json.h>
 
 #include "servermanager/Server.h"
 #include "servermanager/ServerManager.h"
+#include "servermanager/SMList.h"
+#include "servermanager/BanList.h"
+#include "servermanager/BanEntry.h"
 #include "servermanager/client/settings/SMOptions.h"
-#include "servermanager/client/resources/SMList.h"
-#include "servermanager/client/resources/BanList.h"
-#include "servermanager/client/resources/BanEntry.h"
 #include "servermanager/command/CommandMap.h"
 #include "servermanager/command/Command.h"
 #include "servermanager/level/SMLevel.h"
@@ -19,6 +21,7 @@
 #include "servermanager/version.h"
 #include "minecraftpe/client/Minecraft.h"
 #include "minecraftpe/entity/player/LocalPlayer.h"
+#include "minecraftpe/entity/EntityClassTree.h"
 #include "minecraftpe/network/PacketSender.h"
 #include "minecraftpe/network/protocol/TextPacket.h"
 #include "minecraftpe/network/ServerNetworkHandler.h"
@@ -42,6 +45,8 @@ Server::Server()
 	pluginManager = new PluginManager(this, commandMap);
 
 	localPlayer = NULL;
+
+	newVersionCode = 0;
 }
 
 Server::~Server()
@@ -67,6 +72,8 @@ void Server::init(Minecraft *server, const std::string &path)
 
 	loadPlugins();
 	enablePlugins(PluginLoadOrder::STARTUP);
+
+	updateCheck();
 }
 
 void Server::load(const std::string &path)
@@ -80,7 +87,7 @@ void Server::load(const std::string &path)
 	whitelist->load(path);
 }
 
-bool Server::updateCheck(std::string &version, int &versionCode, std::vector<std::string> &changelog)
+bool Server::updateCheck()
 {
 	std::string data;
 	CURL *curl = curl_easy_init();
@@ -116,10 +123,10 @@ bool Server::updateCheck(std::string &version, int &versionCode, std::vector<std
 		if(!reader.parse(data, root))
 			return false;
 
-		version = root.get("version", "").asString("");
-		versionCode = root.get("version-code", 0).asInt(0);
+		newVersion = root.get("version", "").asString("");
+		newVersionCode = root.get("version-code", 0).asInt(0);
 		for(Json::Value log : root["changelog"])
-			changelog.push_back(log.asString(""));
+			newChangelog.push_back(log.asString(""));
 	}
 	return true;
 }
@@ -129,32 +136,26 @@ void Server::start(LocalPlayer *localPlayer, Level *level)
 	if(started)
 		return;
 
-	this->level = new SMLevel(level);
-	this->localPlayer = new SMLocalPlayer(localPlayer);
+	this->level = new SMLevel(this, level);
+	this->localPlayer = new SMLocalPlayer(this, localPlayer);
 
-	this->level->addPlayer(this->localPlayer);
+	players.push_back(this->localPlayer);
+	entityList[localPlayer] = this->localPlayer;
 
 	started = true;
 
 	enablePlugins(PluginLoadOrder::POSTWORLD);
 
-	std::string version;
-	int versionCode;
-	std::vector<std::string> changelog;
-
-	if(updateCheck(version, versionCode, changelog))
+	if(newVersionCode != 0 && newVersionCode != VERSION_CODE)
 	{
-		if(versionCode != VERSION_CODE)
+		if(newVersionCode > VERSION_CODE)
 		{
-			if(versionCode > VERSION_CODE)
-			{
-				this->localPlayer->sendMessage("[SM] 새로운 버전이 있습니다 : v" + version + " Changelog:");
-				for(int i = 0; i < changelog.size(); i++)
-					this->localPlayer->sendMessage(" " + SMUtil::toString(i + 1) + ". " + changelog[i]);
-			}
-			else
-				this->localPlayer->sendMessage("[SM] 현재 개발 버전을 사용중입니다.");
+			this->localPlayer->sendMessage("[SM] 새로운 버전이 있습니다 : v" + newVersion + " Changelog:");
+			for(int i = 0; i < newChangelog.size(); i++)
+				this->localPlayer->sendMessage(" " + SMUtil::toString(i + 1) + ". " + newChangelog[i]);
 		}
+		else
+			this->localPlayer->sendMessage("[SM] 현재 개발 버전을 사용중입니다.");
 	}
 }
 
@@ -166,6 +167,11 @@ void Server::stop()
 	started = false;
 
 	disablePlugins();
+
+	for(SMPlayer *player : players)
+		delete player;
+
+	players.clear();
 
 	delete level;
 	level = NULL;
@@ -234,9 +240,114 @@ void Server::loadPlugin(Plugin *plugin)
 	pluginManager->enablePlugin(plugin);
 }
 
+const std::vector<SMPlayer *> &Server::getOnlinePlayers() const
+{
+	return players;
+}
+
+SMPlayer *Server::getPlayer(const std::string &name) const
+{
+	SMPlayer *found = NULL;
+	std::string lowerName = SMUtil::toLower(name);
+	int delta = std::numeric_limits<int>::max();
+
+	for(SMPlayer *player : players)
+	{
+		std::string n = SMUtil::toLower(player->getName());
+		if(n.find(lowerName) != std::string::npos)
+		{
+			int curDelta = n.length() - lowerName.length();
+			if(curDelta < delta)
+			{
+				found = player;
+				delta = curDelta;
+			}
+
+			if(curDelta == 0)
+				break;
+		}
+	}
+	return found;
+}
+
+std::vector<SMPlayer *> Server::matchPlayer(const std::string &partialName) const
+{
+	std::string lname = SMUtil::toLower(partialName);
+	std::vector<SMPlayer *> matchedPlayers;
+
+	for(auto iterPlayer : players)
+	{
+		std::string iterPlayerName = iterPlayer->getName();
+		if(!iterPlayerName.compare(lname))
+		{
+			matchedPlayers.clear();
+			matchedPlayers.push_back(iterPlayer);
+
+			break;
+		}
+		else if(iterPlayerName.find(lname))
+			matchedPlayers.push_back(iterPlayer);
+	}
+	return matchedPlayers;
+}
+
+SMPlayer *Server::getPlayerExact(const std::string &name) const
+{
+	std::string lname = SMUtil::toLower(name);
+
+	for(SMPlayer *player : players)
+	{
+		if(!SMUtil::toLower(player->getName()).compare(lname))
+			return player;
+	}
+	return NULL;
+}
+
 SMLocalPlayer *Server::getLocalPlayer() const
 {
 	return localPlayer;
+}
+
+void Server::removePlayer(Player *player)
+{
+	players.erase(std::find(players.begin(), players.end(), (SMPlayer *)entityList[player]));
+	removeEntity(player);
+}
+
+SMPlayer *Server::getPlayer(Player *player) const
+{
+	for(SMPlayer *p : players)
+		if(p->getHandle() == player)
+			return p;
+
+	return NULL;
+}
+
+void Server::removeEntity(Entity *entity)
+{
+	delete entityList[entity];
+	entityList.erase(entity);
+}
+
+SMEntity *Server::getEntity(Entity *entity)
+{
+	if(EntityClassTree::isPlayer(*entity))
+	{
+		Player *player = (Player *)entity;
+		if(player->isLocalPlayer())
+			return localPlayer;
+	}
+
+	if(entityList.find(entity) == entityList.end())
+	{
+		SMEntity *smEntity = SMEntity::getEntity(this, entity);
+		if(EntityClassTree::isPlayer(*entity))
+			players.push_back((SMPlayer *)smEntity);
+		entityList[entity] = smEntity;
+
+		return smEntity;
+	}
+	return entityList[entity];
 }
 
 void Server::kickPlayer(SMPlayer *player, const std::string &reason)
@@ -290,7 +401,12 @@ void Server::broadcastPopup(const std::string &message, const std::string &subti
 
 int Server::getMaxPlayers() const
 {
-	return options->getServerPlayers();
+	int count = options->getServerPlayers();
+	if(count > 0)
+		count--;
+	if(count == 0)
+		count = 1;
+	return count;
 }
 
 int Server::getPort() const

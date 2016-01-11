@@ -12,7 +12,7 @@ HandlerList::HandlerList()
 	handlerslots[EventPriority::NORMAL] = {};
 	handlerslots[EventPriority::HIGH] = {};
 	handlerslots[EventPriority::HIGHEST] = {};
-	handlerslots[EventPriority::HIGHEST] = {};
+	handlerslots[EventPriority::MONITOR] = {};
 	needBake = true;
 
 	allLists.push_back(this);
@@ -124,18 +124,18 @@ void HandlerList::bake()
 		return;
 
 	handlers.clear();
+	needBake = false;
 
 	for(auto &it : handlerslots)
 		for(RegisteredListener *listener : it.second)
 			handlers.push_back(listener);
-
-	needBake = false;
 }
 
 const std::vector<RegisteredListener *> &HandlerList::getRegisteredListeners()
 {
-	if(needBake)
+	while(needBake)
 		bake();
+
 	return handlers;
 }
 

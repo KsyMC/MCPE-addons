@@ -1,6 +1,5 @@
 #include "servermanager/command/defaults/DeopCommand.h"
 #include "servermanager/ServerManager.h"
-#include "servermanager/level/SMLevel.h"
 #include "servermanager/entity/SMPlayer.h"
 
 DeopCommand::DeopCommand()
@@ -20,7 +19,7 @@ bool DeopCommand::execute(SMPlayer *sender, std::string &label, std::vector<std:
 
 	ServerManager::getServer()->removeOp(args[0]);
 
-	SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
+	SMPlayer *player = ServerManager::getPlayerExact(args[0]);
 	if(player)
 		player->sendMessage("§7You are no longer op!");
 

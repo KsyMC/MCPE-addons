@@ -1,6 +1,5 @@
 #include "servermanager/command/defaults/KickCommand.h"
 #include "servermanager/ServerManager.h"
-#include "servermanager/level/SMLevel.h"
 #include "servermanager/entity/SMPlayer.h"
 #include "servermanager/util/SMUtil.h"
 
@@ -19,7 +18,7 @@ bool KickCommand::execute(SMPlayer *sender, std::string &label, std::vector<std:
 		return false;
 	}
 
-	SMPlayer *player = ServerManager::getLevel()->getPlayer(args[0]);
+	SMPlayer *player = ServerManager::getPlayer(args[0]);
 	std::string reason;
 
 	args.erase(args.begin());

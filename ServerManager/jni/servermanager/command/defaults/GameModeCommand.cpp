@@ -1,6 +1,5 @@
 #include "servermanager/command/defaults/GameModeCommand.h"
 #include "servermanager/ServerManager.h"
-#include "servermanager/level/SMLevel.h"
 #include "servermanager/entity/SMPlayer.h"
 #include "servermanager/util/SMUtil.h"
 
@@ -25,7 +24,7 @@ bool GameModeCommand::execute(SMPlayer *sender, std::string &label, std::vector<
 	if((int)args.size() >= 2)
 		playerArg = args[1];
 
-	SMPlayer *player = ServerManager::getLevel()->getPlayer(playerArg);
+	SMPlayer *player = ServerManager::getPlayer(playerArg);
 	if(!player)
 	{
 		sender->sendTranslation("commands.generic.player.notFound", {});

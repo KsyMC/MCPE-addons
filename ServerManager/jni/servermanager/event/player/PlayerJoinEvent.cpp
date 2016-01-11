@@ -14,6 +14,7 @@ const std::string &PlayerJoinEvent::getJoinMessage() const
 	return joinMessage;
 }
 
+// 작동 안함
 void PlayerJoinEvent::setJoinMessage(const std::string &joinMessage)
 {
 	this->joinMessage = joinMessage;

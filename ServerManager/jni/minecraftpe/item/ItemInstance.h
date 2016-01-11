@@ -36,6 +36,7 @@ public:
 	bool operator!=(const ItemInstance &other) const;
 	bool operator==(const ItemInstance &other) const;
 
+	bool isNull() const;
 	static bool isItem(const ItemInstance *other);
 
 	ItemInstance &operator=(const ItemInstance &other);

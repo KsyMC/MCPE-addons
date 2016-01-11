@@ -1,6 +1,6 @@
 #include "servermanager/command/defaults/WhitelistCommand.h"
 #include "servermanager/ServerManager.h"
-#include "servermanager/client/resources/SMList.h"
+#include "servermanager/SMList.h"
 #include "servermanager/entity/SMPlayer.h"
 #include "servermanager/util/SMUtil.h"
 

@@ -10,6 +10,8 @@ private:
 public:
 	static Server *getServer();
 	static void setServer(Server *server);
+	static void deleteServer();
+
 	static int getMaxPlayers();
 	static int getPort();
 	static int getViewDistance();
@@ -30,7 +32,12 @@ public:
 	static void reloadWhitelist();
 	static SMLevel *getLevel();
 	static PluginManager *getPluginManager();
+	static const std::vector<SMPlayer *> &getOnlinePlayers();
+	static SMPlayer *getPlayer(const std::string &name);
+	static std::vector<SMPlayer *> matchPlayer(const std::string &partialName);
+	static SMPlayer *getPlayerExact(const std::string &name);
 	static SMLocalPlayer *getLocalPlayer();
+	static SMEntity *getEntity(Entity *entity);
 	static void kickPlayer(SMPlayer *player, const std::string &reason);
 	static void registerPlugin(Plugin *plugin);
 };

@@ -3,26 +3,20 @@
 #include <vector>
 #include <string>
 
+class Server;
 class Level;
-class SMPlayer;
 
 class SMLevel
 {
 private:
+	Server *server;
 	Level *level;
-	std::vector<SMPlayer *> players;
 
 public:
-	SMLevel(Level *level);
+	SMLevel(Server *server, Level *level);
 	~SMLevel();
 
-	std::vector<SMPlayer *> &getPlayers();
-	SMPlayer *getPlayer(const std::string &name) const;
-	std::vector<SMPlayer *> matchPlayer(const std::string &partialName) const;
-	SMPlayer *getPlayerExact(const std::string &name) const;
-
-	void addPlayer(SMPlayer *player);
-	void removePlayer(SMPlayer *player);
+	Server *getServer() const;
 
 	Level *getHandle() const;
 };

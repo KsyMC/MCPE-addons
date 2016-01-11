@@ -11,8 +11,6 @@
 #include "servermanager/event/HandlerList.h"
 #include "servermanager/event/server/PluginEnableEvent.h"
 #include "servermanager/event/server/PluginDisableEvent.h"
-#include "servermanager/event/player/PlayerJoinEvent.h"
-#include "servermanager/event/player/PlayerQuitEvent.h"
 #include "servermanager/util/SMUtil.h"
 #include "servermanager/version.h"
 
@@ -352,21 +350,59 @@ void PluginManager::registerEvent(EventType type, Listener *listener, std::funct
 	{
 		func(listener, event);
 	};
-	getEventListeners(type)->registerListener(new RegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
+
+	HandlerList *handlerList = getEventListeners(type);
+	if(handlerList)
+		handlerList->registerListener(new RegisteredListener(listener, executor, priority, plugin, ignoreCancelled));
 }
+
+#include "servermanager/event/player/PlayerJoinEvent.h"
+#include "servermanager/event/player/PlayerQuitEvent.h"
+#include "servermanager/event/player/PlayerPreLoginEvent.h"
+#include "servermanager/event/player/PlayerLoginEvent.h"
+#include "servermanager/event/player/PlayerDropItemEvent.h"
+#include "servermanager/event/player/PlayerPickupItemEvent.h"
+#include "servermanager/event/player/PlayerGameModeChangeEvent.h"
+#include "servermanager/event/player/PlayerBedEnterEvent.h"
+#include "servermanager/event/player/PlayerBedLeaveEvent.h"
+#include "servermanager/event/player/PlayerMoveEvent.h"
+#include "servermanager/event/player/PlayerTeleportEvent.h"
+#include "servermanager/event/player/PlayerChatEvent.h"
+#include "servermanager/event/player/PlayerCommandPreprocessEvent.h"
+#include "servermanager/event/player/PlayerInteractEvent.h"
+#include "servermanager/event/player/PlayerAnimationEvent.h"
+#include "servermanager/event/block/SignChangeEvent.h"
+#include "servermanager/event/block/BlockBreakEvent.h"
+#include "servermanager/event/block/BlockPlaceEvent.h"
+#include "servermanager/event/block/BlockExpEvent.h"
+#include "servermanager/event/entity/CreeperPowerEvent.h"
 
 HandlerList *PluginManager::getEventListeners(EventType type)
 {
 	switch(type)
 	{
-	case EventType::PLUGIN_ENABLE:
-		return PluginEnableEvent::getHandlerList();
-	case EventType::PLUGIN_DISABLE:
-		return PluginDisableEvent::getHandlerList();
-	case EventType::PLAYER_JOIN:
-		return PlayerJoinEvent::getHandlerList();
-	case EventType::PLAYER_QUIT:
-		return PlayerQuitEvent::getHandlerList();
+		case EventType::PLUGIN_ENABLE: return PluginEnableEvent::getHandlerList();
+		case EventType::PLUGIN_DISABLE: return PluginDisableEvent::getHandlerList();
+		case EventType::PLAYER_PRE_LOGIN: return PlayerPreLoginEvent::getHandlerList();
+		case EventType::PLAYER_LOGIN: return PlayerLoginEvent::getHandlerList();
+		case EventType::PLAYER_JOIN: return PlayerJoinEvent::getHandlerList();
+		case EventType::PLAYER_QUIT: return PlayerQuitEvent::getHandlerList();
+		case EventType::PLAYER_DROP_ITEM: return PlayerDropItemEvent::getHandlerList();
+		case EventType::PLAYER_PICKUP_ITEM: return PlayerPickupItemEvent::getHandlerList();
+		case EventType::PLAYER_GAMEMODE_CHANGE: return PlayerGameModeChangeEvent::getHandlerList();
+		case EventType::PLAYER_BED_ENTER: return PlayerBedEnterEvent::getHandlerList();
+		case EventType::PLAYER_BED_LEAVE: return PlayerBedLeaveEvent::getHandlerList();
+		case EventType::PLAYER_MOVE: return PlayerMoveEvent::getHandlerList();
+		case EventType::PLAYER_TELEPORT: return PlayerTeleportEvent::getHandlerList();
+		case EventType::PLAYER_CHAT: return PlayerChatEvent::getHandlerList();
+		case EventType::PLAYER_COMMAND_PREPROCESS: return PlayerCommandPreprocessEvent::getHandlerList();
+		case EventType::PLAYER_INTERACT: return PlayerInteractEvent::getHandlerList();
+		case EventType::PLAYER_ANIMATION: return PlayerAnimationEvent::getHandlerList();
+		case EventType::SIGN_CHANGE: return SignChangeEvent::getHandlerList();
+		case EventType::BLOCK_BREAK: return BlockBreakEvent::getHandlerList();
+		case EventType::BLOCK_EXP: return BlockExpEvent::getHandlerList();
+		case EventType::BLOCK_PLACE: return BlockExpEvent::getHandlerList();
+		case EventType::CREEPER_POWER: return CreeperPowerEvent::getHandlerList();
+		default: return NULL;
 	}
-	return NULL;
 }

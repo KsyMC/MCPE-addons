@@ -2,8 +2,9 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
-#include "servermanager/client/resources/BanList.h"
+#include "servermanager/BanList.h"
 #include "servermanager/plugin/PluginLoadOrder.h"
 #include "minecraftpe/gamemode/GameType.h"
 
@@ -17,9 +18,12 @@ class Level;
 class PluginManager;
 class Minecraft;
 class LocalPlayer;
+class SMEntity;
 class SMLocalPlayer;
 class Plugin;
 class PluginCommand;
+class Player;
+class Entity;
 
 class Server
 {
@@ -43,13 +47,20 @@ private:
 
 	SMLocalPlayer *localPlayer;
 
+	std::string newVersion;
+	int newVersionCode;
+	std::vector<std::string> newChangelog;
+
+	std::map<Entity *, SMEntity *> entityList;
+	std::vector<SMPlayer *> players;
+
 public:
 	Server();
 	~Server();
 
 	void init(Minecraft *server, const std::string &path);
 	void load(const std::string &path);
-	bool updateCheck(std::string &version, int &versionCode, std::vector<std::string> &changelog);
+	bool updateCheck();
 
 	void start(LocalPlayer *localPlayer, Level *level);
 	void stop();
@@ -61,14 +72,22 @@ public:
 	void loadPlugins();
 	void enablePlugins(PluginLoadOrder type);
 	void disablePlugins();
-
 private:
 	void setVanillaCommands();
 
 	void loadPlugin(Plugin *plugin);
-
 public:
+	const std::vector<SMPlayer *> &getOnlinePlayers() const;
+	SMPlayer *getPlayer(const std::string &name) const;
+	std::vector<SMPlayer *> matchPlayer(const std::string &partialName) const;
+	SMPlayer *getPlayerExact(const std::string &name) const;
 	SMLocalPlayer *getLocalPlayer() const;
+
+	void removePlayer(Player *player);
+	SMPlayer *getPlayer(Player *player) const;
+
+	void removeEntity(Entity *entity);
+	SMEntity *getEntity(Entity *entity);
 
 	void kickPlayer(SMPlayer *player, const std::string &reason);
 

@@ -1,6 +1,6 @@
 #include "servermanager/ServerManager.h"
 
-Server *ServerManager::server;
+Server *ServerManager::server = NULL;
 
 Server *ServerManager::getServer()
 {
@@ -11,6 +11,11 @@ void ServerManager::setServer(Server *server)
 {
 	if(!ServerManager::server)
 		ServerManager::server = server;
+}
+
+void ServerManager::deleteServer()
+{
+	delete server;
 }
 
 int ServerManager::getMaxPlayers()
@@ -113,9 +118,34 @@ PluginManager *ServerManager::getPluginManager()
 	return server->getPluginManager();
 }
 
+const std::vector<SMPlayer *> &ServerManager::getOnlinePlayers()
+{
+	return server->getOnlinePlayers();
+}
+
+SMPlayer *ServerManager::getPlayer(const std::string &name)
+{
+	return server->getPlayer(name);
+}
+
+std::vector<SMPlayer *> ServerManager::matchPlayer(const std::string &partialName)
+{
+	return server->matchPlayer(partialName);
+}
+
+SMPlayer *ServerManager::getPlayerExact(const std::string &name)
+{
+	return server->getPlayerExact(name);
+}
+
 SMLocalPlayer *ServerManager::getLocalPlayer()
 {
 	return server->getLocalPlayer();
+}
+
+SMEntity *ServerManager::getEntity(Entity *entity)
+{
+	return server->getEntity(entity);
 }
 
 void ServerManager::kickPlayer(SMPlayer *player, const std::string &reason)

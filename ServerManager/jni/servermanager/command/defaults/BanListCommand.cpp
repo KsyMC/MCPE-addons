@@ -1,7 +1,7 @@
 #include "servermanager/command/defaults/BanListCommand.h"
 #include "servermanager/ServerManager.h"
-#include "servermanager/client/resources/BanList.h"
-#include "servermanager/client/resources/BanEntry.h"
+#include "servermanager/BanList.h"
+#include "servermanager/BanEntry.h"
 #include "servermanager/entity/SMPlayer.h"
 #include "servermanager/util/SMUtil.h"
 

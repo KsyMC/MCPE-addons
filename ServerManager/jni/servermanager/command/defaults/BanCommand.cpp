@@ -1,6 +1,6 @@
 #include "servermanager/command/defaults/BanCommand.h"
 #include "servermanager/ServerManager.h"
-#include "servermanager/client/resources/BanList.h"
+#include "servermanager/BanList.h"
 #include "servermanager/entity/SMPlayer.h"
 #include "servermanager/util/SMUtil.h"
 #include "servermanager/level/SMLevel.h"
@@ -29,7 +29,7 @@ bool BanCommand::execute(SMPlayer *sender, std::string &label, std::vector<std::
 
 	Command::broadcastCommandTranslation(sender, "commands.ban.success", {name});
 
-	SMPlayer *player = ServerManager::getLevel()->getPlayer(name);
+	SMPlayer *player = ServerManager::getPlayer(name);
 	if(player)
 		ServerManager::kickPlayer(player, "Banned by admin.");
 

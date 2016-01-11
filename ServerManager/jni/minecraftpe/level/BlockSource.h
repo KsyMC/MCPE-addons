@@ -11,6 +11,7 @@ class Block;
 class Dimension;
 class AABB;
 class Entity;
+class BlockEntity;
 
 // Size : 68
 class BlockSource
@@ -22,8 +23,8 @@ public:
 
 	Block *getBlock(int, int, int);
 	Block *getBlock(const BlockPos &);
-
 	BlockID getBlockID(const BlockPos &);
+	BlockEntity *getBlockEntity(const BlockPos &);
 
 	Dimension *getDimension();
 	Dimension *getDimension() const;

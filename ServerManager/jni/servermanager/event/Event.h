@@ -6,6 +6,14 @@ class HandlerList;
 
 class Event
 {
+public:
+	enum EventResult
+	{
+		DENY,
+		DEFAULT,
+		ALLOW
+	};
+
 private:
 	std::string name;
 

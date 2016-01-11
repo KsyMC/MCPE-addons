@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "minecraftpe/block/FullBlock.h"
-#include "minecraftpe/entity/BlockEntity.h"
+#include "minecraftpe/blockentity/BlockEntity.h"
 
 class BlockSource;
 class BlockPos;
