@@ -20,7 +20,7 @@ enum class EventType
 	PLAYER_BED_ENTER,
 	PLAYER_BED_LEAVE,
 
-	PLAYER_MOVE, // don't work
+	PLAYER_MOVE,
 	PLAYER_TELEPORT,
 
 	PLAYER_CHAT,

@@ -23,11 +23,13 @@ class Player;
 class Mob : public Entity
 {
 public:
-	char filler1[2604];						// 340
+	char filler1[8];						// 340
+	float yaw;								// 348
+	char filler2[2592];						// 352
 	ItemInstance armors[4];					// 2944
 	BaseAttributeMap *attributeMap;			// 3024
 	std::vector<MobEffectInstance> effects;	// 3028
-	char filler2[240];						// 3040
+	char filler3[240];						// 3040
 
 	Mob(Level &);
 	Mob(BlockSource &);

@@ -57,17 +57,17 @@ const Vec3 &Location::getPos() const
 	return position;
 }
 
-float Location::getX()
+float Location::getX() const
 {
 	return position.x;
 }
 
-float Location::getY()
+float Location::getY() const
 {
 	return position.y;
 }
 
-float Location::getZ()
+float Location::getZ() const
 {
 	return position.z;
 }
@@ -77,7 +77,37 @@ void Location::setRotation(const Vec2 &rotation)
 	this->rotation = rotation;
 }
 
+void Location::setYaw(float yaw)
+{
+	rotation.x = yaw;
+}
+
+void Location::setPitch(float pitch)
+{
+	rotation.y = pitch;
+}
+
 const Vec2 &Location::getRotation() const
 {
 	return rotation;
+}
+
+float Location::getYaw() const
+{
+	return rotation.x;
+}
+
+float Location::getPitch() const
+{
+	return rotation.y;
+}
+
+bool Location::equals(const Location &other) const
+{
+	return getRegion() == other.getRegion() &&
+			getX() == other.getX() &&
+			getY() == other.getY() &&
+			getZ() == other.getZ() &&
+			getYaw() == other.getYaw()&&
+			getPitch() == other.getPitch();
 }

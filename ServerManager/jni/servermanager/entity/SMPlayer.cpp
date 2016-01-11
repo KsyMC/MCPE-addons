@@ -21,6 +21,13 @@ SMPlayer::SMPlayer(Server *server, Player *entity)
 {
 	joined = false;
 
+	lastPosX = 0;
+	lastPosY = 0;
+	lastPosZ = 0;
+	lastYaw = 0;
+	lastPitch = 0;
+	justTeleported = false;
+
 	lastPacket = 0;
 	lastBlock = 0;
 
@@ -216,14 +223,22 @@ bool SMPlayer::teleport(const Location &location, PlayerTeleportEvent::TeleportC
 	if(!isLocalPlayer())
 	{
 		MovePlayerPacket pk;
-		pk.id = getHandle()->getUniqueID();
+		pk.uniqueID = getHandle()->getUniqueID();
 		pk.pos = to.getPos();
 		pk.rot = to.getRotation();
-		pk.bodyYaw = to.getRotation().y;
-		pk.mode = MovePlayerPacket::MODE_RESET;
+		pk.yaw = to.getRotation().y;
+		pk.mode = MovePlayerPacket::RESET;
 		pk.onGround = false;
 		getPacketSender()->send(getHandle()->guid, pk);
 	}
+
+	lastPosX = to.getX();
+	lastPosY = to.getY();
+	lastPosZ = to.getZ();
+	lastYaw = to.getYaw();
+	lastPitch = to.getPitch();
+	justTeleported = true;
+
 	return true;
 }
 

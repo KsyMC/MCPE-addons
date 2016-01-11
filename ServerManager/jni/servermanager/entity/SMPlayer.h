@@ -17,6 +17,13 @@ class SMPlayer : public SMMob
 public:
 	bool joined;
 
+	float lastPosX;
+	float lastPosY;
+	float lastPosZ;
+	float lastYaw;
+	float lastPitch;
+	bool justTeleported;
+
 	int lastPacket;
 	int lastBlock;
 

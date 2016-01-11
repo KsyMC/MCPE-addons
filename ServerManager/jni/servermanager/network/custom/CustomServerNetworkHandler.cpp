@@ -36,6 +36,7 @@
 #include "minecraftpe/network/protocol/ContainerSetSlotPacket.h"
 #include "minecraftpe/network/protocol/BlockEntityDataPacket.h"
 #include "minecraftpe/network/protocol/AnimatePacket.h"
+#include "minecraftpe/network/protocol/MovePlayerPacket.h"
 #include "minecraftpe/SharedConstants.h"
 #include "hook/hook.h"
 #include "hook/Substrate.h"
@@ -248,7 +249,84 @@ FUNCTION_HOOK_CPP(void, CustomServerNetworkHandler, handleMoveEntity, ServerNetw
 
 FUNCTION_HOOK_CPP(void, CustomServerNetworkHandler, handleMovePlayer, ServerNetworkHandler *real, const RakNet::RakNetGUID &guid, MovePlayerPacket *packet)
 {
-	handleMovePlayer_real(real, guid, packet);
+	Player *player = real->_getPlayer(guid, packet->uniqueID);
+	if(!player || player->i1 != 0 || player->b4)
+		return;
+
+	SMPlayer *smPlayer = (SMPlayer *)ServerManager::getEntity(player);
+
+	Location from(smPlayer->getRegion(), player->lastPos, player->lastRotation);
+	Location to = smPlayer->getLocation();
+
+	to.setPos(packet->pos);
+	to.setRotation(packet->rot);
+
+	PlayerMoveEvent event(smPlayer, from, to);
+	ServerManager::getPluginManager()->callEvent(event);
+
+	if(event.isCancelled())
+	{
+		from.setY(from.getY() + 1.62f);
+
+		MovePlayerPacket pk;
+		pk.uniqueID = player->getUniqueID();
+		pk.pos = from.getPos();
+		pk.rot = from.getRotation();
+		pk.yaw = from.getRotation().y;
+		pk.mode = MovePlayerPacket::RESET;
+		pk.onGround = false;
+		real->sender->send(player->guid, pk);
+		return;
+	}
+
+	if(!to.equals(event.getTo()) && !event.isCancelled())
+	{
+		smPlayer->teleport(event.getTo(), PlayerTeleportEvent::UNKNOWN);
+		return;
+	}
+
+	if(!from.equals(smPlayer->getLocation()) && smPlayer->justTeleported)
+	{
+		smPlayer->justTeleported = false;
+		return;
+	}
+
+	if(!player->vehicle)
+	{
+		if(packet->pos.y < -128.0f)
+			packet->pos.y = -128.0f;
+		else if(packet->pos.y > 512)
+			packet->pos.y = 512.0f;
+
+		player->motion.x = 0;
+		player->motion.y = 0;
+		player->motion.z = 0;
+
+		if(packet->mode != MovePlayerPacket::RESET || (packet->mode == MovePlayerPacket::RESET && player->isAlive()))
+		{
+			player->_checkMovementStatistiscs(packet->pos - player->pos);
+			if(player->b3 || !player->onGround)
+				player->lerpTo(packet->pos, packet->rot, 3);
+			else
+				player->lerpTo(packet->pos, packet->rot, 1);
+		}
+		player->checkBlockCollisions();
+		player->yaw = packet->yaw;
+	}
+	else
+	{
+		player->vehicle->positionRider(*player);
+		player->normalTick();
+		player->pos4.y = 0;
+		player->moveTo(player->pos, packet->rot);
+		player->yaw = packet->yaw;
+
+		if(player->vehicle)
+			player->vehicle->positionRider(*player);
+
+		player->tick(*player->getRegion());
+	}
+	player->getRegion()->getDimension()->sendBroadcast(*packet, player);
 }
 
 FUNCTION_HOOK_CPP(void, CustomServerNetworkHandler, handleRemoveBlock, ServerNetworkHandler *real, const RakNet::RakNetGUID &guid, RemoveBlockPacket *packet)

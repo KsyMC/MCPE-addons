@@ -11,18 +11,18 @@ class MovePlayerPacket : public Packet
 public:
 	enum Mode
 	{
-		MODE_NORMAL,
-		MODE_RESET,
-		MODE_ROTATION
+		NORMAL,
+		RESET,
+		ROTATION
 	};
 
-	EntityUniqueID id;	// 16
-	Vec3 pos;			// 24
-	Vec2 rot;			// 36
-	float bodyYaw;		// 44
-	char mode;			// 48
-	bool onGround;		// 49
-	char filler[4];		// 52
+	EntityUniqueID uniqueID;// 16
+	Vec3 pos;				// 24
+	Vec2 rot;				// 36
+	float yaw;				// 44
+	char mode;				// 48
+	bool onGround;			// 49
+	char filler[4];			// 52
 
 	virtual ~MovePlayerPacket();
 	virtual int getId() const;

@@ -33,7 +33,8 @@ public:
 	static Attribute LEVEL;
 	static Attribute SATURATION;
 
-	char filler1[8];					// 3280
+	int i1;								// 3280
+	bool b4;							// 3284
 	int score;							// 3288
 	char filler2[12];					// 3292
 	std::string username;				// 3304
@@ -54,7 +55,7 @@ public:
 	SkinInfoData *skin;					// 3452
 	char filler7[4];					// 3456
 	DimensionId respawnDimensionId;		// 3460
-	bool b1;							// 3464
+	bool b2;							// 3464
 	ItemInstance usingItem;				// 3468
 	char filler8[8];					// 3488
 	int viewDistance;					// 3496

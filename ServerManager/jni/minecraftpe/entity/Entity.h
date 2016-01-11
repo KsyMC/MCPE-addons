@@ -67,6 +67,7 @@ public:
 	float fallDistance;			// 276
 	bool b2;					// 280
 	bool onGround;				// 281
+	bool b3;					// 282
 	char filler11[12];			// 284
 	EntityUniqueID uniqueID;	// 296
 	char filler12[4];			// 304
@@ -195,6 +196,7 @@ public:
 	virtual void doWaterSplashEffect();
 	virtual void updateInsideBlock();
 	virtual void onBlockCollision(int);
+	void tick(BlockSource &);
 	float distanceTo(const Vec3 &);
 	bool isRiding() const;
 	BlockSource *getRegion() const;

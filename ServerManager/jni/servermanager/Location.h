@@ -27,10 +27,17 @@ public:
 	void setZ(float z);
 
 	const Vec3 &getPos() const;
-	float getX();
-	float getY();
-	float getZ();
+	float getX() const;
+	float getY() const;
+	float getZ() const;
 
 	void setRotation(const Vec2 &rotation);
+	void setYaw(float yaw);
+	void setPitch(float pitch);
+
 	const Vec2 &getRotation() const;
+	float getYaw() const;
+	float getPitch() const;
+
+	bool equals(const Location &other) const;
 };
