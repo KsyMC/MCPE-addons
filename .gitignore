@@ -18,5 +18,4 @@ ant.properties
 
 *.bat
 
-json/
 curl/
