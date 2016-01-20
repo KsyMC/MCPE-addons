@@ -83,8 +83,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <AntPackage>
       <AndroidAppLibName>$(RootNamespace)</AndroidAppLibName>
-      <AntTarget>debug</AntTarget>
-      <AdditionalOptions>-Dkey.store=C:/workspace/Android/keystore.jks -Dkey.alias=androidapk -Dkey.store.password=star2580 -Dkey.alias.password=star2580</AdditionalOptions>
+      <AntTarget>release</AntTarget>
+      <AdditionalOptions>
+      </AdditionalOptions>
     </AntPackage>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -116,6 +117,7 @@
     <Content Include="res\values\strings.xml" />
     <AntBuildXml Include="build.xml" />
     <AndroidManifest Include="AndroidManifest.xml" />
+    <AntProjectPropertiesFile Include="ant.properties" />
     <AntProjectPropertiesFile Include="project.properties" />
   </ItemGroup>
   <ItemGroup>
