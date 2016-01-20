@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="AdvancedHud" default="help">
-
-    <!-- The local.properties file is created and updated by the 'android' tool.
-         It contains the path to the SDK. It should *NOT* be checked into
-         Version Control Systems. -->
-    <property file="local.properties" />
+<project name="$(projectname)" default="help">
 
     <!-- The ant.properties file can be created by you. It is only edited by the
          'android' tool to add properties to it.
@@ -29,20 +24,15 @@
     <property file="ant.properties" />
 
     <!-- if sdk.dir was not set from one of the property file, then
-         get it from the ANDROID_HOME env var.
-         This must be done before we load project.properties since
-         the proguard config can use sdk.dir -->
+         get it from the ANDROID_HOME env var. -->
     <property environment="env" />
     <condition property="sdk.dir" value="${env.ANDROID_HOME}">
         <isset property="env.ANDROID_HOME" />
     </condition>
 
-    <!-- The project.properties file is created and updated by the 'android'
-         tool, as well as ADT.
-
-         This contains project specific properties such as project target, and library
-         dependencies. Lower level build properties are stored in ant.properties
-         (or in .classpath for Eclipse projects).
+    <!-- The project.properties file contains project specific properties such as 
+         project target, and library dependencies. Lower level build properties are 
+         stored in ant.properties
 
          This file is an integral part of the build system for your
          application and should be checked into Version Control Systems. -->
@@ -50,7 +40,7 @@
 
     <!-- quick check on sdk.dir -->
     <fail
-            message="sdk.dir is missing. Make sure to generate local.properties using 'android update project' or to inject it through the ANDROID_HOME environment variable."
+            message="sdk.dir is missing. Make sure ANDROID_HOME environment variable is correctly set."
             unless="sdk.dir"
     />
 
@@ -89,4 +79,12 @@
     <!-- version-tag: 1 -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
 
+    <target name="-pre-compile">
+      <path id="project.all.jars.path">
+        <path path="${toString:project.all.jars.path}"/>
+        <fileset dir="${jar.libs.dir}">
+          <include name="*.jar"/>
+        </fileset>
+      </path>
+    </target>
 </project>
