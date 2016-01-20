@@ -6,7 +6,7 @@
 #include "minecraftpe/item/Item.h"
 #include "minecraftpe/item/ItemInstance.h"
 
-class ArmorItem {
+class ArmorItem : public Item {
 public:
 	
 	class ArmorMaterial {
