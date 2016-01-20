@@ -5,5 +5,8 @@
 class Skeleton : public Monster
 {
 public:
-
+	enum class SkeletonType {
+		NORMAL,
+		WITHER
+	};
 };
