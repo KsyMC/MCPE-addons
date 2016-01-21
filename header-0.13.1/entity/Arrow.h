@@ -6,7 +6,9 @@
 class Arrow : public Entity
 {
 public:
-	char filler1[12];	// 340
+	short xTile;		// 340
+	short yTile;		// 344
+	short zTile;		// 348
 	bool onGround;		// 352
 	char filler2[11];	// 353
 	int shakeTime;		// 364
