@@ -15,9 +15,12 @@ class ItemEntity : public Entity
 {
 public:
 	ItemInstance item;	// 340
-	char filler2[8];	// 360
+	int age;		// 360
+	int filler2;		// 364
 	int pickupDelay;	// 368
-	char filler3[12];	// 372
+	int filler3;		// 372
+	int health;		// 376
+	int filler4;		// 380
 
 	ItemEntity(BlockSource &);
 	ItemEntity(BlockSource &, const Vec3 &, const ItemInstance &, int);
