@@ -6,13 +6,18 @@
 class Arrow : public Entity
 {
 public:
-	short xTile;		// 340
-	short yTile;		// 344
-	short zTile;		// 348
+	int xTile;		// 340
+	int yTile;		// 344
+	int zTile;		// 348
 	bool onGround;		// 352
 	char filler2[11];	// 353
 	int shakeTime;		// 364
 	bool fromPlayer;	// 368
+	float baseDamage;	// 372
+	int enchantPower;	// 376
+	int enchantPunch;	// 380
+	int enchantFlame;	// 384
+	int enchantInfinity;	// 388
 
 	virtual ~Arrow();
 	virtual void lerpMotion(const Vec3 &);
