@@ -15,6 +15,7 @@ struct BlockID;
 class IDataInput;
 class IDataOutput;
 class Entity;
+enum ArmorSlot;
 
 class Item {
 public:
