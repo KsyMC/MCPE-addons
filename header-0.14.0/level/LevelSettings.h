@@ -4,7 +4,6 @@
 
 enum GameType;
 
-// Size: 40
 class LevelSettings {
 public:
 	unsigned int seed;	// 0
