@@ -2,9 +2,9 @@
 
 #include <string>
 
-class TextureUVCoordinateSet;
-enum CreativeItemCategory;
-enum UseAnimation;
+class TextureUVCoordinateSet {};
+enum CreativeItemCategory {};
+enum UseAnimation {};
 class Block;
 class ItemInstance;
 class Player;
@@ -18,6 +18,25 @@ class Entity;
 enum ArmorSlot;
 
 class Item {
+public:
+	unsigned char maxStackSize; // 4
+	int filler; // 8
+	int filler1; // 12
+	short filler2; // 16
+	short id;	// 18
+	int filler3;	// 20
+	short maxDamage;	// 24
+	short properties; // 26
+	int maxUseDuration; // 28
+	UseAnimation useAnimation; // 32
+	CreativeItemCategory category; // 36
+	int filler4; // 40
+	int colorFormat; // 44; ??
+	TextureUVCoordinateSet icon; // 48
+	int filler5; // 52
+	int filler6; // 56
+	int filler7; // 60
+	int filler8; // 64
 public:
 	Item(const std::string&, short);
 	
